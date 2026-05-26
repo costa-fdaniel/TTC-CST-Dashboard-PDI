@@ -747,6 +747,31 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       const found = text.match(/(INOV|NRD)0*(\\d{1,7})/g) || [];
       return !!target && found.some(item => codeKey(item) === target);
     }
+    function rowProjectText(row) {
+      return String(cell(row, ['Projeto', 'Attach', 'Projeto e eventual info de rateio', 'Projeto vinculado', 'Código', 'Codigo']) || '').trim();
+    }
+    function projectUid(row, index) {
+      const title = String(cell(row, ['Projeto']) || '').trim();
+      const attach = String(cell(row, ['Attach']) || '').trim();
+      const code = codeFrom(title) || codeFrom(attach);
+      const token = code || attach || title || ('projeto-' + index);
+      return 'p' + index + '-' + norm(token).replace(/[^a-z0-9]+/g, '-').slice(0, 80);
+    }
+    function matchProject(row, project) {
+      if (!project || state.project === 'all') return true;
+      const projectCode = codeKey(project.code || project.attach || project.title);
+      if (projectCode && matchCode(row, project.code || project.attach || project.title)) return true;
+      const rowProject = rowProjectText(row);
+      const rowNorm = norm(rowProject);
+      const attachNorm = norm(project.attach);
+      const titleNorm = norm(project.title);
+      if (attachNorm && rowNorm && rowNorm === attachNorm) return true;
+      if (titleNorm && rowNorm && (rowNorm === titleNorm || rowNorm.includes(titleNorm) || titleNorm.includes(rowNorm))) return true;
+      const textNorm = norm(Object.values(row || {}).join(' '));
+      if (attachNorm && attachNorm.length >= 3 && textNorm.includes(attachNorm)) return true;
+      if (titleNorm && titleNorm.length >= 12 && textNorm.includes(titleNorm.slice(0, 80))) return true;
+      return false;
+    }
     function matchSearch(row) {
       return !state.q || norm(Object.values(row || {}).join(' ')).includes(norm(state.q));
     }
@@ -798,18 +823,23 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
         const attach = String(cell(row, ['Attach']) || '').trim();
         const code = codeKey(title) || codeKey(attach);
         return (code && refs.has(code)) || refs.has(norm(title)) || refs.has(norm(attach));
-      }).map(row => {
-        const code = codeFrom(cell(row, ['Projeto'])) || codeFrom(cell(row, ['Attach'])) || String(cell(row, ['Projeto']) || '').split(' ')[0];
-        const work = cleanRows(DATA.tables?.trabalho || []).filter(r => matchCode(r, code));
-        const people = cleanRows(DATA.tables?.pessoal || []).filter(r => matchCode(r, code)).filter(matchDepartment);
-        const inv = cleanRows(DATA.tables?.investimentos || []).filter(r => matchCode(r, code));
+      }).map((row, index) => {
+        const title = String(cell(row, ['Projeto']) || '').trim();
+        const attach = String(cell(row, ['Attach']) || '').trim();
+        const code = codeFrom(title) || codeFrom(attach) || attach || title.split(' ')[0];
+        const project = { uid: projectUid(row, index), code, attach, title: title || code || 'Projeto' };
+        const work = cleanRows(DATA.tables?.trabalho || []).filter(r => matchProject(r, project));
+        const people = cleanRows(DATA.tables?.pessoal || []).filter(r => matchProject(r, project)).filter(matchDepartment);
+        const inv = cleanRows(DATA.tables?.investimentos || []).filter(r => matchProject(r, project));
         const accepted = work.filter(r => boolCell(r, ['Projeto incentivado?']) && boolCell(r, ['Atividade incentivada?']));
         const rejected = work.filter(r => !boolCell(r, ['Projeto incentivado?']) || !boolCell(r, ['Atividade incentivada?']));
         const rh = numCell(row, ['Total Help Desk']) || sum(people, ['Total PD&I', 'Total PDI']);
         const investment = numCell(row, ['Total investido']) || sumInvestments(inv, code);
         const ok = boolCell(row, ['Incentivado?', 'Lei do Bem?', 'Projeto incentivado?']);
         return {
+          uid: project.uid,
           code,
+          attach,
           row,
           work,
           people,
@@ -821,18 +851,18 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
           investment,
           base: rh + investment,
           hours: sum(accepted, ['Horas decimais', 'Horas']),
-          title: cell(row, ['Projeto']) || code || 'Projeto',
+          title: title || code || 'Projeto',
           nature: cell(row, ['Natureza']) || 'Não informada',
           desc: cell(row, ['Descrição']) || ''
         };
-      }).filter(p => p.code || p.title);
+      }).filter(p => p.uid || p.code || p.title);
     }
     function visibleProjects() {
       return allProjects().filter(p => {
-        if (state.project !== 'all' && p.code !== state.project) return false;
+        if (state.project !== 'all' && p.uid !== state.project) return false;
         if (state.status === 'ok' && !p.ok) return false;
         if (state.status === 'no' && p.ok) return false;
-        if (state.q && !norm([p.code, p.title, p.nature, p.desc].join(' ')).includes(norm(state.q))) return false;
+        if (state.q && !norm([p.code, p.attach, p.title, p.nature, p.desc].join(' ')).includes(norm(state.q))) return false;
         return true;
       });
     }
@@ -841,7 +871,8 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       return state.project !== 'all' ? list[0] : list.sort((a, b) => b.base - a.base)[0];
     }
     function activeRows(key) {
-      let rows = cleanRows(DATA.tables?.[key] || []).filter(row => matchCode(row, state.project)).filter(matchSearch);
+      const selected = state.project === 'all' ? null : allProjects().find(p => p.uid === state.project);
+      let rows = cleanRows(DATA.tables?.[key] || []).filter(row => matchProject(row, selected)).filter(matchSearch);
       if (key === 'pessoal') rows = rows.filter(matchDepartment);
       return rows;
     }
@@ -961,8 +992,8 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       '</div></div></section>';
     }
     function projectCard(p) {
-      const selected = state.project === p.code || (state.project === 'all' && activeProject()?.code === p.code);
-      return '<div class="project-card ' + (selected ? 'selected' : '') + '"><button type="button" onclick="setProject(\\'' + esc(p.code) + '\\')"><div class="project-top"><div><strong>' + esc(short(p.title, 88)) + '</strong><span class="hint">' + esc(p.code || p.nature) + '</span></div><span class="pill ' + (p.ok ? 'ok' : 'no') + '">' + (p.ok ? 'Incentivado' : 'Fora') + '</span></div><div class="project-desc">' + esc(p.desc || p.nature) + '</div><div class="mini-grid"><div class="mini"><span>Base</span><b>' + money(p.base) + '</b></div><div class="mini"><span>Horas</span><b>' + num(p.hours) + '</b></div><div class="mini"><span>Natureza</span><b>' + esc(short(p.nature, 18)) + '</b></div></div></button></div>';
+      const selected = state.project === p.uid || (state.project === 'all' && activeProject()?.uid === p.uid);
+      return '<div class="project-card ' + (selected ? 'selected' : '') + '"><button type="button" onclick="setProject(\\'' + esc(p.uid) + '\\')"><div class="project-top"><div><strong>' + esc(short(p.title, 88)) + '</strong><span class="hint">' + esc(p.code || p.attach || p.nature) + '</span></div><span class="pill ' + (p.ok ? 'ok' : 'no') + '">' + (p.ok ? 'Incentivado' : 'Fora') + '</span></div><div class="project-desc">' + esc(p.desc || p.nature) + '</div><div class="mini-grid"><div class="mini"><span>Base</span><b>' + money(p.base) + '</b></div><div class="mini"><span>Horas</span><b>' + num(p.hours) + '</b></div><div class="mini"><span>Natureza</span><b>' + esc(short(p.nature, 18)) + '</b></div></div></button></div>';
     }
     function projectDetail(p) {
       if (!p) return '<div class="panel"><h2>Projeto em foco</h2><div class="empty">Nenhum projeto encontrado para os filtros atuais.</div></div>';
@@ -982,10 +1013,12 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     }
     function finance() {
       const inv = activeRows('investimentos');
-      const totalInv = sumInvestments(inv, state.project);
+      const selected = activeProject();
+      const token = state.project === 'all' ? 'all' : (selected?.code || selected?.attach || 'all');
+      const totalInv = sumInvestments(inv, token);
       const people = activeRows('pessoal');
       const totalRh = sum(people, ['Total PD&I', 'Total PDI']);
-      return '<section id="finance">' + hero() + '<div class="grid-3">' + kpi('Investimentos filtrados', money(totalInv), 'Após filtros') + kpi('RH filtrado', money(totalRh), 'Após filtros') + kpi('Fornecedores', num(groupInvestments(inv, ['Fornecedor'], state.project, 500).length), 'Com lançamentos') + '</div><div class="grid-2" style="margin-top:16px"><div>' + chart('Investimentos por fornecedor', groupInvestments(inv, ['Fornecedor'], state.project, 12), 'money') + chart('Investimentos por natureza', groupInvestments(inv, ['Natureza'], state.project, 12), 'money', 'amber') + '</div><div><div class="panel"><div class="panel-head"><h2>Composição filtrada</h2></div>' + composition([{ label: 'RH filtrado', value: totalRh, color: 'var(--teal)' }, { label: 'Investimentos filtrados', value: totalInv, color: 'var(--amber)' }]) + '</div>' + chart('RH por colaborador', group(people, ['Funcionário', 'Funcionario'], ['Total PD&I', 'Total PDI'], 8), 'money', 'blue') + '</div></div>' + tablePanel('Investimentos detalhados', inv, ['Fornecedor', 'CNPJ', 'Descrição', 'NF/ND', 'Valor', 'Valor Incentivado', 'Data', 'Natureza', 'Objetivo do gasto', 'Projeto e eventual info de rateio', 'Inovação?']) + '</section>';
+      return '<section id="finance">' + hero() + '<div class="grid-3">' + kpi('Investimentos filtrados', money(totalInv), 'Após filtros') + kpi('RH filtrado', money(totalRh), 'Após filtros') + kpi('Fornecedores', num(groupInvestments(inv, ['Fornecedor'], token, 500).length), 'Com lançamentos') + '</div><div class="grid-2" style="margin-top:16px"><div>' + chart('Investimentos por fornecedor', groupInvestments(inv, ['Fornecedor'], token, 12), 'money') + chart('Investimentos por natureza', groupInvestments(inv, ['Natureza'], token, 12), 'money', 'amber') + '</div><div><div class="panel"><div class="panel-head"><h2>Composição filtrada</h2></div>' + composition([{ label: 'RH filtrado', value: totalRh, color: 'var(--teal)' }, { label: 'Investimentos filtrados', value: totalInv, color: 'var(--amber)' }]) + '</div>' + chart('RH por colaborador', group(people, ['Funcionário', 'Funcionario'], ['Total PD&I', 'Total PDI'], 8), 'money', 'blue') + '</div></div>' + tablePanel('Investimentos detalhados', inv, ['Fornecedor', 'CNPJ', 'Descrição', 'NF/ND', 'Valor', 'Valor Incentivado', 'Data', 'Natureza', 'Objetivo do gasto', 'Projeto e eventual info de rateio', 'Inovação?']) + '</section>';
     }
     function people() {
       const rows = activeRows('pessoal');
@@ -1074,9 +1107,11 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     }
     function investmentAnswer() {
       const inv = activeRows('investimentos');
-      const bySupplier = groupInvestments(inv, ['Fornecedor'], state.project, 6);
-      const byNature = groupInvestments(inv, ['Natureza'], state.project, 6);
-      const total = sumInvestments(inv, state.project);
+      const selected = activeProject();
+      const token = state.project === 'all' ? 'all' : (selected?.code || selected?.attach || 'all');
+      const bySupplier = groupInvestments(inv, ['Fornecedor'], token, 6);
+      const byNature = groupInvestments(inv, ['Natureza'], token, 6);
+      const total = sumInvestments(inv, token);
       return '<strong>Investimentos filtrados</strong><ul><li>Total: ' + money(total) + '</li><li>Principais fornecedores: ' + (bySupplier.map(r => esc(short(r.name, 42)) + ' (' + money(r.value) + ')').join('; ') || 'sem dados') + '</li><li>Naturezas: ' + (byNature.map(r => esc(short(r.name, 42)) + ' (' + money(r.value) + ')').join('; ') || 'sem dados') + '</li></ul>';
     }
     function peopleAnswer() {
@@ -1117,7 +1152,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       return { score, stage, next, history };
     }
     function riskRowsForProject(p) {
-      const explicit = cleanRows(DATA.tables?.riscos || []).filter(row => !p?.code || matchCode(row, p.code));
+      const explicit = cleanRows(DATA.tables?.riscos || []).filter(row => matchProject(row, p));
       const profile = maturityProfile(p);
       const rows = explicit.map(row => ({
         Risco: cell(row, ['Risco', 'Descrição', 'Descricao']) || 'Risco informado',
@@ -1391,8 +1426,8 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       $('departmentSelect').innerHTML = '<option value="all">Todos os departamentos</option>' + departments.map(item => '<option value="' + esc(item) + '">' + esc(item) + '</option>').join('');
       $('departmentSelect').value = state.department;
       const projects = allProjects().sort((a, b) => a.code.localeCompare(b.code));
-      $('projectSelect').innerHTML = '<option value="all">Todos os projetos</option>' + projects.map(p => '<option value="' + esc(p.code) + '">' + esc((p.code || 'Projeto') + ' · ' + short(p.title, 70)) + '</option>').join('');
-      $('projectSelect').value = projects.some(p => p.code === state.project) ? state.project : 'all';
+      $('projectSelect').innerHTML = '<option value="all">Todos os projetos</option>' + projects.map(p => '<option value="' + esc(p.uid) + '">' + esc((p.code || p.attach || 'Projeto') + ' · ' + short(p.title, 70)) + '</option>').join('');
+      $('projectSelect').value = projects.some(p => p.uid === state.project) ? state.project : 'all';
       state.project = $('projectSelect').value;
       $('statusSelect').value = state.status;
       $('searchInput').value = state.q;
@@ -1412,8 +1447,8 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
       if (tab === 'chat') renderChat();
     }
-    function setProject(code) {
-      state.project = code || 'all';
+    function setProject(uid) {
+      state.project = uid || 'all';
       render();
     }
     function setCompany(value) {
