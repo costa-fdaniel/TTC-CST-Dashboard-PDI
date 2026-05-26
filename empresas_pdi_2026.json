@@ -1,0 +1,26 @@
+{
+  "title": "Painel Executivo PD&I 2026",
+  "year": 2026,
+  "output": "dist/painel_pdi_2026.html",
+  "csv_root": "exports/csv",
+  "companies": [
+    {
+      "name": "PRODIET",
+      "slug": "PRODIET_PD&I_2026",
+      "year": 2026,
+      "input": "G:\\.shortcut-targets-by-id\\0Bz8y8Tdm2lKWcEp2RHVaTXRXYkE\\∑ Projetos\\P\\PRODIET NUTRIÇÃO\\PRODIET - Benefício fiscal de PD&I\\2026\\2. Workpapers\\PRODIET - PD&I (2026).xlsx"
+    },
+    {
+      "name": "NETZSCH NDB",
+      "slug": "NDB_PD&I_2026",
+      "year": 2026,
+      "input": "G:\\.shortcut-targets-by-id\\0Bz8y8Tdm2lKWcEp2RHVaTXRXYkE\\∑ Projetos\\N-O\\NETZSCH (NDB)\\2016-032 - NETZSCH - INOVAÇÃO 2016 em diante\\2016-032 - NETZSCH - INOVAÇÃO 2026\\1. Workpapers\\NDB - PD&I 2026.xlsx"
+    },
+    {
+      "name": "NETZSCH NEM",
+      "slug": "NEM_PD&I_2026",
+      "year": 2026,
+      "input": "G:\\.shortcut-targets-by-id\\0Bz8y8Tdm2lKWcEp2RHVaTXRXYkE\\∑ Projetos\\N-O\\NETZSCH (NEM)\\2023-000 MCB - CPL NETZSCH (NEM) - PD&I\\2026\\2. Workpapers\\NEM - PD&I (2026).xlsx"
+    }
+  ]
+}

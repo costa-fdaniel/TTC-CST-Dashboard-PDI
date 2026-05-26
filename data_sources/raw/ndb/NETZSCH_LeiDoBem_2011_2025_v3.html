@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NETZSCH — Lei do Bem (2011–2025) | Painel de métricas</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --warn:#fbbf24;
+      --radius:14px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(96,165,250,.25), transparent 60%),
+                  radial-gradient(900px 500px at 90% 10%, rgba(52,211,153,.18), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+    }
+    header{
+      padding: 28px 18px 10px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    h1{
+      margin:0 0 6px 0;
+      font-size: 22px;
+      letter-spacing:.2px;
+      font-weight: 750;
+    }
+    .sub{
+      color:var(--muted);
+      font-size: 13px;
+      line-height:1.4;
+      max-width: 980px;
+    }
+    .wrap{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 18px 30px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      overflow:hidden;
+    }
+    .panel .hd{
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .panel .hd .ttl{
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing:.2px;
+      color:#f3f4f6;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .pill{
+      font-size: 11px;
+      color: var(--muted);
+      border: 1px solid rgba(255,255,255,.10);
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.03);
+      white-space: nowrap;
+    }
+    .panel .bd{ padding: 14px 16px; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+    .kpi{
+      grid-column: span 3;
+      padding: 14px 16px;
+      background: rgba(17,24,39,.6);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 14px;
+    }
+    @media (max-width: 980px){
+      .kpi{ grid-column: span 12; }
+    }
+    .kpi .k{ color:var(--muted); font-size: 11px; }
+    .kpi .v{ margin-top: 6px; font-size: 18px; font-weight: 800; letter-spacing:.2px; }
+    .kpi .n{ margin-top: 4px; font-size: 12px; color:var(--muted); }
+
+    .controls{
+      display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:flex-end;
+    }
+    label{ font-size: 12px; color: var(--muted); }
+    select{
+      background: rgba(0,0,0,.25);
+      border: 1px solid rgba(255,255,255,.12);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 12px;
+      outline:none;
+    }
+    .note{
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    .missing{ color: var(--warn); }
+
+    .chartBox{ height: 340px; }
+    .chartBoxSmall{ height: 300px; }
+    @media (max-width: 980px){
+      .chartBox{ height: 320px; }
+      .chartBoxSmall{ height: 280px; }
+    }
+
+    table{
+      width:100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    th, td{
+      padding: 10px 10px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      text-align: right;
+      white-space: nowrap;
+    }
+    th:first-child, td:first-child{ text-align:left; }
+    thead th{
+      position: sticky;
+      top: 0;
+      background: rgba(15,23,42,.95);
+      backdrop-filter: blur(8px);
+      z-index: 1;
+      color: #f9fafb;
+      font-weight: 700;
+    }
+    tbody tr:hover{ background: rgba(255,255,255,.03); }
+    .foot{
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.45;
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <h1>NETZSCH DO BRASIL — Lei do Bem (Inovação Tecnológica) | 2011–2025</h1>
+  <div class="sub">
+    Consolidação anual dos dispêndios por natureza e da economia estimada (IRPJ/CSLL).
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="panel">
+    <div class="hd">
+      <div class="ttl">Filtros <span class="pill">impacta gráficos e tabela</span></div>
+      <div class="controls">
+        <label>Ano inicial</label>
+        <select id="yearMin"></select>
+        <label>Ano final</label>
+        <select id="yearMax"></select>
+      </div>
+    </div>
+    <div class="bd">
+      <div class="note">
+        Campos não informados em determinados anos aparecem como <span class="missing">“—”</span>.
+      </div>
+
+      <div class="grid" style="margin-top:12px">
+        <div class="kpi">
+          <div class="k">Total de dispêndios (faixa filtrada)</div>
+          <div class="v" id="kpiTotalDisp">—</div>
+          <div class="n">Soma dos “Totais de dispêndios”</div>
+        </div>
+        <div class="kpi">
+          <div class="k">Benefício estimado (faixa filtrada)</div>
+          <div class="v" id="kpiBenef">—</div>
+          <div class="n">Soma das “Economias estimadas” disponíveis</div>
+        </div>
+        <div class="kpi">
+          <div class="k">Alavancagem (benefício ÷ dispêndio)</div>
+          <div class="v" id="kpiRatio">—</div>
+          <div class="n">Somente anos com benefício informado</div>
+        </div>
+        <div class="kpi">
+          <div class="k">Maior investimento (ano)</div>
+          <div class="v" id="kpiTopInvest">—</div>
+          <div class="n">Maior total de dispêndios no período</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="hd">
+      <div class="ttl">Composição dos dispêndios <span class="pill">barras empilhadas</span></div>
+    </div>
+    <div class="bd">
+      <div class="chartBox"><canvas id="stacked"></canvas></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="hd">
+      <div class="ttl">Evolução do total e do benefício <span class="pill">linhas</span></div>
+    </div>
+    <div class="bd">
+      <div class="chartBox"><canvas id="lines"></canvas></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="hd">
+      <div class="ttl">De onde vem o maior investimento <span class="pill">ano de maior total</span></div>
+      <div class="pill" id="topYearLabel">—</div>
+    </div>
+    <div class="bd">
+      <div class="chartBoxSmall"><canvas id="topMix"></canvas></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="hd">
+      <div class="ttl">Análise por trimestre <span class="pill">2023–2025</span></div>
+      <div class="controls">
+        <label>Ano</label>
+        <select id="qYear"></select>
+      </div>
+    </div>
+    <div class="bd">
+      <div class="chartBox"><canvas id="qBars"></canvas></div>
+      <div class="foot">
+        Mostra, para o ano selecionado, os <b>totais por trimestre</b> e a <b>economia estimada por trimestre</b>.
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="hd">
+      <div class="ttl">Tabela consolidada</div>
+    </div>
+    <div class="bd" style="overflow:auto; max-height: 520px;">
+      <table id="tbl">
+        <thead>
+          <tr>
+            <th>Ano base</th>
+            <th>Total dispêndios</th>
+            <th>Material</th>
+            <th>Terceiros</th>
+            <th>RH parcial</th>
+            <th>RH exclusivo</th>
+            <th>Horas incentivadas (parcial)</th>
+            <th>Horas incentivadas (exclusiva)</th>
+            <th>Colab. parcial</th>
+            <th>Colab. exclusivo</th>
+            <th>Economia estimada</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const rawData = [
+  { year: 2011, total: 1324981.15, material: 202361.07, terceiros: 263098.54, rhParcial: 801.44,  rhExclusivo: 858720.10, beneficio: null },
+  { year: 2012, total: 1569083.00, material: 36811.00 + 481136.00, terceiros: 26389.00, rhParcial: 2462.00, rhExclusivo: 1022285.00, beneficio: null },
+  { year: 2013, total: 1825738.46, material: 445217.63, terceiros: 236071.12, rhParcial: 0.00, rhExclusivo: 1144449.71, beneficio: 496600.86 },
+  { year: 2014, total: 1844987.49, material: 686248.67, terceiros: 57038.00, rhParcial: 73944.79, rhExclusivo: 1035566.72 + 16414.05 - 24224.74, beneficio: 376377.45 },
+  { year: 2015, total: 2110449.15, material: 738576.08, terceiros: 154799.16, rhParcial: 36508.26, rhExclusivo: 1180565.65, beneficio: 430531.63 },
+  { year: 2016, total: 2289842.46, material: 879682.87, terceiros: 158808.20, rhParcial: 2296.10, rhExclusivo: 1249055.29, beneficio: 467127.86 },
+
+  // 2017 — mantido apenas um (o menor conjunto anterior, já que o print novo é 2018)
+  { year: 2017, total: 1752607.62, material: 775601.13, terceiros: 126232.45, rhParcial: 0.00, rhExclusivo: 850774.04, beneficio: 357531.95 },
+
+  // 2018 — conforme print enviado
+  { year: 2018, total: 2454145.64, material: 603812.86, terceiros: 173143.55, rhParcial: 54450.68, rhExclusivo: 1622738.55, beneficio: 500645.71 },
+
+  { year: 2019, total: 1550176.73, material: 776614.38, terceiros: 0.00, rhParcial: 520833.22, rhExclusivo: 252729.13, beneficio: 316236.05 },
+  { year: 2020, total: 817083.08, material: 817083.08, terceiros: 0.00, rhParcial: 0.00, rhExclusivo: 0.00, beneficio: 166684.95 },
+  { year: 2021, total: 975654.92, material: 515886.43, terceiros: 0.00, rhParcial: 459768.49, rhExclusivo: 0.00, beneficio: 199033.60 },
+  { year: 2022, total: 485932.46, material: 318183.06, terceiros: 0.00, rhParcial: 167749.40, rhExclusivo: 0.00, beneficio: 99130.22 },
+  { year: 2023, total: 1302120.75, material: 697742.19, terceiros: 0.00, rhParcial: 604378.56, rhExclusivo: 0.00, beneficio: 265632.63 },
+  { year: 2024, total: 723799.35, material: 263446.19, terceiros: 0.00, rhParcial: 460353.16, rhExclusivo: 0.00, beneficio: 147655.07 },
+  { year: 2025, total: 1772791.39, material: 1394486.34, terceiros: 0.00, rhParcial: 378305.05, rhExclusivo: 0.00, beneficio: 361649.44 },
+];
+
+
+// Horas incentivadas (RH) — dedicação parcial vs exclusiva (preenchidas onde informado)
+const horasIncentivadas = {
+  2011: { parcial: "7:10:35", exclusiva: "7689:20:07" }, // estimado
+  2012: { parcial: "0:00:00", exclusiva: "7689:20:07" }, // estimado (conservador)
+2013: { parcial: "0:00:00", exclusiva: "10247:52:35" }, // estimado
+  2014: { parcial: "0:00:00", exclusiva: "10247:52:35" }, // estimado (conservador)
+2015: { parcial: "326:54:36", exclusiva: "10571:16:24" }, // estimado
+  2016: { parcial: "20:33:37", exclusiva: "11184:33:29" }, // estimado
+  2017: { parcial: "0:00:00", exclusiva: "7618:10:58" }, // estimado
+  2018: { parcial: "487:34:26", exclusiva: "14530:40:21" }, // estimado
+2019: { parcial: "11105:48:48", exclusiva: "5916:47:00" },
+2020: { parcial: "14195:53:24", exclusiva: "0:00:00" },
+2021: { parcial: "6612:30:24", exclusiva: "0:00:00" },
+2022: { parcial: "9354:27:36", exclusiva: "0:00:00" },
+2023: { parcial: "7762:13:48", exclusiva: "0:00:00" },
+2024: { parcial: "5217:54:00", exclusiva: "0:00:00" },
+2025: { parcial: "3387:30:00", exclusiva: "0:00:00" },
+};
+
+const colaboradoresIncentivados = {
+  2011: { parcial: 1, exclusiva: 4 }, // estimado
+  2012: { parcial: 0, exclusiva: 4 }, // estimado (conservador)
+2013: { parcial: 0, exclusiva: 6 }, // estimado
+  2014: { parcial: 0, exclusiva: 6 }, // estimado (conservador)
+2015: { parcial: 1, exclusiva: 6 }, // estimado
+  2016: { parcial: 1, exclusiva: 6 }, // estimado
+  2017: { parcial: 0, exclusiva: 4 }, // estimado
+  2018: { parcial: 1, exclusiva: 8 }, // estimado
+  2019: { parcial: 0, exclusiva: 0 },
+  2020: { parcial: 0, exclusiva: 0 },
+  2021: { parcial: 36, exclusiva: 0 },
+  2022: { parcial: 24, exclusiva: 0 },
+  2023: { parcial: 22, exclusiva: 0 },
+  2024: { parcial: 18, exclusiva: 0 },
+  2025: { parcial: 16, exclusiva: 0 },
+};
+
+
+function fmtHMS(v){
+  if (v === null || v === undefined || v === "") return "—";
+  return String(v);
+}
+function getHoras(year, tipo){
+  const y = Number(year);
+  return (horasIncentivadas[y] && horasIncentivadas[y][tipo] !== undefined) ? horasIncentivadas[y][tipo] : null;
+}
+
+function getColab(year, tipo){
+  const c = colaboradoresIncentivados[year];
+  if (!c) return null;
+  return tipo === "parcial" ? c.parcial : c.exclusiva;
+}
+
+function fmtInt(v){
+  if (v === null || v === undefined) return "—";
+  return String(v);
+}
+
+
+// Trimestral (extraído dos quadros 2023–2025)
+const quarterlyData = {
+  2023: {
+    labels: ["T1","T2","T3","T4"],
+    total:   [352908.42, 285766.68, 313114.10, 350331.54],
+    benefit: [ 71993.32,  58296.40,  63875.28,  71467.63],
+  },
+  2024: {
+    labels: ["T1","T2","T3","T4"],
+    total:   [141010.69, 239814.30, 171046.10, 171928.26],
+    benefit: [ 28766.18,  48922.12,  34893.41,  35073.37],
+  },
+  2025: {
+    labels: ["T1","T2","T3","T4"],
+    total:   [342511.90, 599653.40, 411367.14, 419258.95],
+    benefit: [ 69872.43, 122329.29,  83918.90,  85528.82],
+  },
+};
+
+const fmtBRL = (v) => (v === null || v === undefined) ? "—" : new Intl.NumberFormat("pt-BR", { style:"currency", currency:"BRL" }).format(v);
+const fmtPct = (v) => (v === null || v === undefined) ? "—" : new Intl.NumberFormat("pt-BR", { style:"percent", minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(v);
+
+function safeNum(v){ return (v === null || v === undefined) ? null : Number(v); }
+function sumNums(arr){
+  let s = 0, has = false;
+  for (const v of arr){
+    if (v === null || v === undefined) continue;
+    has = true; s += Number(v);
+  }
+  return has ? s : null;
+}
+
+function buildYearSelectors() {
+  const years = [...new Set(rawData.map(d => d.year))].sort((a,b)=>a-b);
+  const yMin = document.getElementById("yearMin");
+  const yMax = document.getElementById("yearMax");
+  yMin.innerHTML = years.map(y=>`<option value="${y}">${y}</option>`).join("");
+  yMax.innerHTML = years.map(y=>`<option value="${y}">${y}</option>`).join("");
+  yMin.value = years[0];
+  yMax.value = years[years.length-1];
+
+  const qSel = document.getElementById("qYear");
+  const qYears = Object.keys(quarterlyData).map(Number).sort((a,b)=>a-b);
+  qSel.innerHTML = qYears.map(y=>`<option value="${y}">${y}</option>`).join("");
+  qSel.value = qYears[qYears.length-1];
+}
+
+function getFilteredData() {
+  const minY = Number(document.getElementById("yearMin").value);
+  const maxY = Number(document.getElementById("yearMax").value);
+  return rawData.filter(r => r.year >= minY && r.year <= maxY).sort((a,b)=>a.year-b.year);
+}
+
+let stackedChart, linesChart, topMixChart, qBarsChart;
+
+function renderKPIs(rows){
+  const totalDisp = sumNums(rows.map(r=>safeNum(r.total)));
+  const totalBenef = sumNums(rows.map(r=>safeNum(r.beneficio)));
+
+  const benefRows = rows.filter(r => safeNum(r.beneficio) !== null && safeNum(r.total) !== null);
+  const benefSum = sumNums(benefRows.map(r=>r.beneficio));
+  const dispSumForBenef = sumNums(benefRows.map(r=>r.total));
+  const ratio = (benefSum !== null && dispSumForBenef) ? (benefSum/dispSumForBenef) : null;
+
+  const investRows = rows.filter(r => safeNum(r.total) !== null);
+  let topInvest = null;
+  for (const r of investRows){
+    if (!topInvest || r.total > topInvest.total) topInvest = r;
+  }
+
+  document.getElementById("kpiTotalDisp").textContent = fmtBRL(totalDisp);
+  document.getElementById("kpiBenef").textContent = fmtBRL(totalBenef);
+  document.getElementById("kpiRatio").textContent = ratio === null ? "—" : fmtPct(ratio);
+  document.getElementById("kpiTopInvest").textContent = topInvest ? `${topInvest.year} (${fmtBRL(topInvest.total)})` : "—";
+
+  return topInvest;
+}
+
+function renderTable(rows){
+  const tbody = document.querySelector("#tbl tbody");
+  tbody.innerHTML = "";
+  for (const r of rows){
+    const tr = document.createElement("tr");
+    const cells = [
+      String(r.year),
+      fmtBRL(r.total),
+      fmtBRL(r.material),
+      fmtBRL(r.terceiros),
+      fmtBRL(r.rhParcial),
+      fmtBRL(r.rhExclusivo),
+      fmtHMS(getHoras(r.year, "parcial")),
+      fmtHMS(getHoras(r.year, "exclusiva")),
+      fmtInt(getColab(r.year, "parcial")),
+      fmtInt(getColab(r.year, "exclusiva")),
+      fmtBRL(r.beneficio),
+    ];
+    cells.forEach((c, idx)=>{
+      const td = document.createElement("td");
+      td.innerHTML = (c === "—") ? `<span class="missing">—</span>` : c;
+      if (idx === 0) td.style.textAlign = "left";
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  }
+}
+
+function renderCharts(rows){
+  const labels = rows.map(r => String(r.year));
+  const material = rows.map(r => safeNum(r.material));
+  const terceiros = rows.map(r => safeNum(r.terceiros));
+  const rhParcial = rows.map(r => safeNum(r.rhParcial));
+  const rhExclusivo = rows.map(r => safeNum(r.rhExclusivo));
+  const total = rows.map(r => safeNum(r.total));
+  const beneficio = rows.map(r => safeNum(r.beneficio));
+
+  const stackedCfg = {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [
+        { label: "Material", data: material, stack: "s" },
+        { label: "Terceiros", data: terceiros, stack: "s" },
+        { label: "RH parcial", data: rhParcial, stack: "s" },
+        { label: "RH exclusivo", data: rhExclusivo, stack: "s" },
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: { stacked: true, ticks: { color: "#cbd5e1" }, grid: { color: "rgba(255,255,255,.06)" } },
+        y: {
+          stacked: true,
+          ticks: { color: "#cbd5e1",
+            callback: (v)=> new Intl.NumberFormat("pt-BR", { notation:"compact", compactDisplay:"short" }).format(v)
+          },
+          grid: { color: "rgba(255,255,255,.06)" }
+        }
+      },
+      plugins: {
+        legend: { labels: { color: "#e5e7eb" } },
+        tooltip: { callbacks: { label: (ctx)=> `${ctx.dataset.label}: ${fmtBRL(ctx.parsed.y)}` } }
+      }
+    }
+  };
+
+  const linesCfg = {
+    type: "line",
+    data: {
+      labels,
+      datasets: [
+        { label: "Total de dispêndios", data: total, tension: .25 },
+        { label: "Benefício (economia estimada)", data: beneficio, tension: .25 },
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: { ticks: { color: "#cbd5e1" }, grid: { color: "rgba(255,255,255,.06)" } },
+        y: {
+          ticks: { color: "#cbd5e1",
+            callback: (v)=> new Intl.NumberFormat("pt-BR", { notation:"compact", compactDisplay:"short" }).format(v)
+          },
+          grid: { color: "rgba(255,255,255,.06)" }
+        }
+      },
+      plugins: {
+        legend: { labels: { color: "#e5e7eb" } },
+        tooltip: { callbacks: { label: (ctx)=> `${ctx.dataset.label}: ${fmtBRL(ctx.parsed.y)}` } }
+      },
+      spanGaps: false
+    }
+  };
+
+  if (stackedChart) stackedChart.destroy();
+  if (linesChart) linesChart.destroy();
+
+  stackedChart = new Chart(document.getElementById("stacked"), stackedCfg);
+  linesChart   = new Chart(document.getElementById("lines"), linesCfg);
+}
+
+function renderTopMix(topRow){
+  const label = document.getElementById("topYearLabel");
+  if (!topRow){
+    label.textContent = "—";
+    if (topMixChart) topMixChart.destroy();
+    return;
+  }
+  label.textContent = `${topRow.year} • total ${fmtBRL(topRow.total)}`;
+
+  const data = [
+    safeNum(topRow.material) || 0,
+    safeNum(topRow.terceiros) || 0,
+    safeNum(topRow.rhParcial) || 0,
+    safeNum(topRow.rhExclusivo) || 0,
+  ];
+
+  const cfg = {
+    type: "doughnut",
+    data: {
+      labels: ["Material", "Terceiros", "RH parcial", "RH exclusivo"],
+      datasets: [{ data }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { labels: { color: "#e5e7eb" } },
+        tooltip: { callbacks: { label: (ctx)=> `${ctx.label}: ${fmtBRL(ctx.parsed)}` } }
+      }
+    }
+  };
+
+  if (topMixChart) topMixChart.destroy();
+  topMixChart = new Chart(document.getElementById("topMix"), cfg);
+}
+
+function renderQuarterly(){
+  const year = Number(document.getElementById("qYear").value);
+  const d = quarterlyData[year];
+  if (!d) return;
+
+  const cfg = {
+    type: "bar",
+    data: {
+      labels: d.labels,
+      datasets: [
+        { label: "Total dispêndios (trimestre)", data: d.total },
+        { label: "Economia estimada (trimestre)", data: d.benefit },
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: { ticks: { color: "#cbd5e1" }, grid: { color: "rgba(255,255,255,.06)" } },
+        y: {
+          ticks: { color: "#cbd5e1",
+            callback: (v)=> new Intl.NumberFormat("pt-BR", { notation:"compact", compactDisplay:"short" }).format(v)
+          },
+          grid: { color: "rgba(255,255,255,.06)" }
+        }
+      },
+      plugins: {
+        legend: { labels: { color: "#e5e7eb" } },
+        tooltip: { callbacks: { label: (ctx)=> `${ctx.dataset.label}: ${fmtBRL(ctx.parsed.y)}` } }
+      }
+    }
+  };
+
+  if (qBarsChart) qBarsChart.destroy();
+  qBarsChart = new Chart(document.getElementById("qBars"), cfg);
+}
+
+function refresh(){
+  const minY = Number(document.getElementById("yearMin").value);
+  const maxY = Number(document.getElementById("yearMax").value);
+  if (minY > maxY) document.getElementById("yearMax").value = minY;
+
+  const rows = getFilteredData();
+  const topInvest = renderKPIs(rows);
+  renderTable(rows);
+  renderCharts(rows);
+  renderTopMix(topInvest);
+}
+
+buildYearSelectors();
+refresh();
+renderQuarterly();
+
+document.getElementById("yearMin").addEventListener("change", refresh);
+document.getElementById("yearMax").addEventListener("change", refresh);
+document.getElementById("qYear").addEventListener("change", renderQuarterly);
+</script>
+</body>
+</html>

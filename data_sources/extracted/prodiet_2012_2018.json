@@ -1,0 +1,467 @@
+{
+  "company": "PRODIET",
+  "slug": "PRODIET_PD&I_2026",
+  "source_type": "mixed",
+  "source_files": [
+    "data_sources\\raw\\prodiet\\01_0B-64TPM3GrzmMFBfYkVzOGUtTXM_file.bin",
+    "data_sources\\raw\\prodiet\\01_0B-64TPM3GrzmMFBfYkVzOGUtTXM_file.txt",
+    "data_sources\\raw\\prodiet\\01_1lv_w4BqBWpf-3Y0vHm3v294Sih8dsCXX2ItrvgVn-mA_xlsx.xlsx",
+    "data_sources\\raw\\prodiet\\02_0Bz8y8Tdm2lKWU21RSWZVdVM1ZFk_xlsx.xlsx",
+    "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx",
+    "data_sources\\raw\\prodiet\\03_0B4mf2gfGuZ-RZzR1ckp5SlN2TEU_xlsx.xlsx",
+    "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx",
+    "data_sources\\raw\\prodiet\\04_0B3oib_uuVTusemxWVGJzLVdJTk0_docx.docx",
+    "data_sources\\raw\\prodiet\\04_0B3oib_uuVTusemxWVGJzLVdJTk0_txt.txt",
+    "data_sources\\raw\\prodiet\\05_0B8bElc9dEJq0Qm9XM0xZTE5GZ1k_docx.docx",
+    "data_sources\\raw\\prodiet\\05_0B8bElc9dEJq0Qm9XM0xZTE5GZ1k_txt.txt",
+    "data_sources\\raw\\prodiet\\05_1ZvGnQ-g2Au2Q3y8Qq93x4y0z3rLQidzzfdNX6ypD_fQ_xlsx.xlsx",
+    "data_sources\\raw\\prodiet\\06_0B8bElc9dEJq0d1VBVXdQaWNPMXc_xlsx.xlsx",
+    "data_sources\\raw\\prodiet\\06_1AgMQv_FuFn6oJRpr_9mN9Lpi5mMzU3Kzkbkwa6EWXNQ_xlsx.xlsx",
+    "data_sources\\raw\\prodiet\\07_1RKMHH4lcvxvPiJ5cD78T3cdDjXW-APatPZ9lySAxVGY_xlsx.xlsx",
+    "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx",
+    "data_sources\\raw\\prodiet\\08_0B8bElc9dEJq0Y2xUaFNLVnNJa1E_docx.docx",
+    "data_sources\\raw\\prodiet\\08_0B8bElc9dEJq0Y2xUaFNLVnNJa1E_txt.txt",
+    "data_sources\\raw\\prodiet\\09_0B8bElc9dEJq0UFd1YURMMW1NTHM_xlsx.xlsx",
+    "data_sources\\raw\\prodiet\\10_1HnbFm7TcgicKkPpUFnfFaSBp28r2ty5u_docx.docx",
+    "data_sources\\raw\\prodiet\\10_1HnbFm7TcgicKkPpUFnfFaSBp28r2ty5u_txt.txt",
+    "data_sources\\raw\\prodiet\\11_1Gxyy89zA70DxHjUd9-RR9HrOy5aGLCcj_docx.docx",
+    "data_sources\\raw\\prodiet\\11_1Gxyy89zA70DxHjUd9-RR9HrOy5aGLCcj_txt.txt",
+    "data_sources\\raw\\prodiet\\12_1xoYBB79FMQ9UUKxAaY20yDblwjOyorUg_file.bin",
+    "data_sources\\raw\\prodiet\\12_1xoYBB79FMQ9UUKxAaY20yDblwjOyorUg_file.txt",
+    "data_sources\\raw\\prodiet\\13_1FBF2bfmWWDAyMhm4dVraA6PreX7akCidfF2Syc6auTI_xlsx.xlsx",
+    "data_sources\\raw\\prodiet\\_download_manifest.json"
+  ],
+  "years": [
+    {
+      "year": 2012,
+      "base_total": 181438.6,
+      "investment_total": 174742.09,
+      "material_total": 3246.28,
+      "third_party_total": 171495.81,
+      "rh_partial_total": 6696.51,
+      "rh_exclusive_total": 0,
+      "rh_total": 6696.51,
+      "exclusion_total": 108863.16,
+      "estimated_savings": 37013.47,
+      "method": "text_report",
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\01_0B-64TPM3GrzmMFBfYkVzOGUtTXM_file.txt"
+      ]
+    },
+    {
+      "year": 2013,
+      "base_total": 184500.45,
+      "investment_total": 122481.52,
+      "material_total": 14822.17,
+      "third_party_total": 107659.35,
+      "rh_partial_total": 1908.36,
+      "rh_exclusive_total": 60110.57,
+      "rh_total": 62018.93,
+      "exclusion_total": 110700.27,
+      "estimated_savings": 18865.39,
+      "method": "xlsx_summary",
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_0Bz8y8Tdm2lKWU21RSWZVdVM1ZFk_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2014,
+      "base_total": 152070.98,
+      "investment_total": 83168.08,
+      "material_total": 75830.59,
+      "third_party_total": 7337.49,
+      "rh_partial_total": 2853.4,
+      "rh_exclusive_total": 66049.5,
+      "rh_total": 68902.9,
+      "exclusion_total": 91242.59,
+      "estimated_savings": 31022.48,
+      "method": "xlsx_summary",
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_0B4mf2gfGuZ-RZzR1ckp5SlN2TEU_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2015,
+      "base_total": 235086.56,
+      "investment_total": 182597.85,
+      "material_total": 4139.11,
+      "third_party_total": 178458.74,
+      "rh_partial_total": 694.85,
+      "rh_exclusive_total": 51793.85,
+      "rh_total": 52488.71,
+      "exclusion_total": 141051.94,
+      "estimated_savings": 47957.66,
+      "method": "xlsx_summary",
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\06_0B8bElc9dEJq0d1VBVXdQaWNPMXc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2016,
+      "base_total": 435321.76,
+      "investment_total": 273346.19,
+      "material_total": 16180.07,
+      "third_party_total": 257166.12,
+      "rh_partial_total": 6980.25,
+      "rh_exclusive_total": 154995.32,
+      "rh_total": 161975.57,
+      "exclusion_total": 261193.06,
+      "estimated_savings": 88805.64,
+      "method": "xlsx_summary",
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\09_0B8bElc9dEJq0UFd1YURMMW1NTHM_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2017,
+      "base_total": 492619.94,
+      "investment_total": 0.0,
+      "material_total": 0.0,
+      "third_party_total": 0.0,
+      "rh_partial_total": 0.0,
+      "rh_exclusive_total": 0,
+      "rh_total": 0.0,
+      "exclusion_total": 295571.96,
+      "estimated_savings": 100494.47,
+      "method": "text_report",
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\10_1HnbFm7TcgicKkPpUFnfFaSBp28r2ty5u_txt.txt"
+      ]
+    },
+    {
+      "year": 2018,
+      "base_total": 708167.46,
+      "investment_total": 463137.93,
+      "material_total": 12722.0,
+      "third_party_total": 450415.93,
+      "rh_partial_total": 245029.53,
+      "rh_exclusive_total": 0,
+      "rh_total": 245029.53,
+      "exclusion_total": 424900.48,
+      "estimated_savings": 144466.16,
+      "method": "xlsx_computed",
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\13_1FBF2bfmWWDAyMhm4dVraA6PreX7akCidfF2Syc6auTI_xlsx.xlsx"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "year": 2013,
+      "name": "Projeto Descrição RH (parcial inovação) Propoção Érica RH (exclusivo) Total RH M",
+      "status": "incentivado",
+      "summary": "Projeto Descrição RH (parcial inovação) Propoção Érica RH (exclusivo) Total RH Material Terceiros Total",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_0Bz8y8Tdm2lKWU21RSWZVdVM1ZFk_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2013,
+      "name": "Melhoria de produto Foram feitas melhorias significativas em diversos produtos d",
+      "status": "incentivado",
+      "summary": "Melhoria de produto Foram feitas melhorias significativas em diversos produtos da empresa. As melhorias estão voltadas para aumentar a fluidez para sonda (administração por sonda); estabilidade de pH; embalagem; e melhoria sensorial (sabores e aromas, por exemplo) . Para uma gama de produtos foi testado trocar componente da fórmula atual, o que levou a uma série de testes de estabilidade do novo componente na fórmula, característica final do produto e teste de administração do produto. No desenvolvimento de embalagens devem ser analisados e testados diversos fatores por se tratarem de produtos alimentícios e hospitalares, como: conservação do produto, enviolabilidade, manuseio seguro, reaçõe",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_0Bz8y8Tdm2lKWU21RSWZVdVM1ZFk_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2013,
+      "name": "Novo Copack Desenvolvimento de produto junto aos parceiros de produção.... 101.0",
+      "status": "incentivado",
+      "summary": "Novo Copack Desenvolvimento de produto junto aos parceiros de produção.... 101.01351765484968 0.1 6011.057275666668 6112.070793321517 2304.5699999999997 9084.578399999997 17501.219193321514",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_0Bz8y8Tdm2lKWU21RSWZVdVM1ZFk_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2013,
+      "name": "Novos produtos Estudo, pesquisa e desenvolvimento de novos produtos para agregar",
+      "status": "incentivado",
+      "summary": "Novos produtos Estudo, pesquisa e desenvolvimento de novos produtos para agregar a gama de produtos da empresa. A equipe desenvolveu quatro produtos durante o ano de 2013: Obesidade Bariátrica, Suplemento em pó, Energyzip 1.0, Trophic Soya. O produto Obesidade Bariátrica é um suplemento para auxiliar na dieta de pessoas com obesidade mórbida no pré e no pós-operatório e é completamente novo para a empresa e ainda está em fase de testes da fórmula. O Suplemento em pó ainda está em fase de testes da formulação. É um produto que deve ter os nutrientes necessários a uma dieta de (...) e deve ser facilmente misturado a meio líquido e tornar-se homogêneo, sem decantar. O Energezyp 1.0 e o Trophic ",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_0Bz8y8Tdm2lKWU21RSWZVdVM1ZFk_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2013,
+      "name": "Novas matérias prima Pesquisa de novos insumos para substituição dos existentes",
+      "status": "incentivado",
+      "summary": "Novas matérias prima Pesquisa de novos insumos para substituição dos existentes ou para inclusão de nova matéria-prima a produtos existentes, aumentando ou alterando nutrientes da formulação do produto. Diversos testes são necessários na troca ou inclusão de nova matéria-prima. Não é uma simples troca de fornecedor. São feitos análises em laboratório para testar como a nova matéria-prima se adapta a formulação e se não traz algum ponto negativo em relação à antiga formulação. Após análises em laboratório, é rodado teste piloto para teste de validade, composição final, sensorial e de administração do produto. Foram testatos os seguintes nutrientes no ano de 2013 em produtos diversos: Carboidr",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_0Bz8y8Tdm2lKWU21RSWZVdVM1ZFk_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2013,
+      "name": "(b) Soma de \"Material\" da coluna \"Natureza\" da planilha Investimentos",
+      "status": "incentivado",
+      "summary": "(b) Soma de \"Material\" da coluna \"Natureza\" da planilha Investimentos",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_0Bz8y8Tdm2lKWU21RSWZVdVM1ZFk_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2014,
+      "name": "Novos Produtos",
+      "status": "incentivado",
+      "summary": "Em 2014, existem seis projetos de novos produtos: dois deles foram iniciados em 2014 e quatro novos produtos iniciaram em 2013 e continuaram em 2014. Os novos produtos em desenvolvimento em 2014 são grandes inovações para a Prodiet e também para o mercado: Energyzip Master pó - especialmente formulado para recuperação nutricional de idosos frágeis e que necessitam ainda de apoio ao sistema imunológico com o ingrediente inovador beta-glucana de levedura. Diamax - é um suplemento em pó especifico para auxiliar no controle glicêmico, especialmente para diabéticos, com perfil nutricional atendendo as mais recentes recomendações de médicos e cientistas. BemMax - contém nutrientes essenciais a recuperação rápida de pacientes obesos submetidos a cirurgia bariátrica, ideal para via oral, com densidade calórica de 1.0 Kcal/ml. Esse é uma inovação para a Prodiet e para o mercado, pois será um gran",
+      "activities": [
+        "Para cada produto em desenvolvimento é feita pesquisa para montar uma composição para testes. Existindo produto concorrente no mercado, compra-se um como amostra para testes e estudo de composição. Ao desenvolver um produto novo, é utilizada uma composição-base para o tipo do produto a ser desenvolvido. Então, são adicionados novos componentes e essa nova composição é levada para testes. São feitos testes para testar a eficiência e eficácia da fórmula, testes comparativos com produtos concorrent"
+      ],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\04_0B3oib_uuVTusemxWVGJzLVdJTk0_txt.txt"
+      ]
+    },
+    {
+      "year": 2014,
+      "name": "Matéria-Prima",
+      "status": "incentivado",
+      "summary": "O projeto consiste em pesquisa e desenvolvimento de novas matérias-primas que serão introduzidas ou substituirão outras em produtos existentes na empresa, gerando ganho para o produto e modificando sua composição química. É um grande desafio introduzir um novo componente em uma fórmula que já está equilibrada, pois é necessário buscar novamente esse equilíbrio. Pode-se deixar a composição instável, com sua solubilidade prejudicada ou com o sabor ruim. Cada matéria-prima que está sendo estudada tem características específicas que trariam ganhos no objetivo de cada produto final. Em 2014 foram estudas e estão sendo testados 31 componentes. Alguns dos itens tiveram testes bem-sucedidos e podem passar para etapa de produção piloto.",
+      "activities": [
+        "Para alcançar o objetivo do projeto, foram pesquisadas novas matérias-primas dentre macro e micronutrientes em fornecedores nacionais e internacionais, sendo selecionadas 31 para testes, que começam pela avaliação da ficha técnica da matéria-prima que ao ser aprovada, é analisada quanto à performance em teste de bancada simples (solubilidade/ pH/ formação de espuma ou grumos/ instantaneidade) e aplicada em produto. Sendo aprovada, a etapa seguinte é a realização de teste piloto industrial e acom"
+      ],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\04_0B3oib_uuVTusemxWVGJzLVdJTk0_txt.txt"
+      ]
+    },
+    {
+      "year": 2014,
+      "name": "Melhoria de Processos",
+      "status": "incentivado",
+      "summary": "Para alcançar o objetivo do projeto foram pesquisados tipos de processo de fabricação para produto pó e possíveis parceiros para aplicação. A opção aprovada para teste foi \"moinho martelo\", diferente do processo aplicado atualmente. Este processo de fabricação selecionado pode reduzir o tamanho das partículas presentes no produto pó e assim melhorar a funcionalidade e aspecto do produto. Este processo não alcançou o objetivo, sendo um ponto de partida para aplicar outras melhorias.",
+      "activities": [
+        "Para atingir a melhoria nos processos envolvidos, decidiu-se alterar o tamanho dos grãos.... Foram contratados dois laboratórios que testaram os produtos pós a serem colocados no mercado, e concluiu-se que o produto não passa mais através da peneira do moinho de martelo - um dos equipamentos utilizados para a industrialização. Isto aconteceu devido ao acúmulo de produto nos componentes do moinho, pela compactação da gordura do produto, que representa 20% de sua composição."
+      ],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\04_0B3oib_uuVTusemxWVGJzLVdJTk0_txt.txt"
+      ]
+    },
+    {
+      "year": 2014,
+      "name": "Novo Copacker 2014 (retirado do formulário 2013)",
+      "status": "incentivado",
+      "summary": "Estamos buscando alterações no processo fabril para aumentar a qualidade dos produtos, mantendo ou aumentando a segurança na fabricação contra contaminações e também para se adaptar a alterações nas formulações dos novos produtos que estão sendo desenvolvidos pela empresa. Uma das alterações que está sendo testada é o processo de fabricação de produtos líquidos em embalagem final laminada TETRAPAK de 100ml com uso de moinho coloidal em substituição ao pré-homogeneizador por pressão. O acompanhamento do lote de teste deverá ser feito por 18 meses. Estão sendo feitos diversos testes para validar o produto. Em seguida ao envase, foi realizado teste de administração do produto em sonda com duas amostras e o teste foi bem-sucedido. Data de início e término Jun/2013 – Jan/2015",
+      "activities": [
+        "Realização de análises e testes com protótipos e estudo dos resultados; reunião para avaliação dos resultados; produção de lote piloto; estudo de viabilidade; reunião com parceiros para viabilidade de alteração do processo de fabricação."
+      ],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\04_0B3oib_uuVTusemxWVGJzLVdJTk0_txt.txt"
+      ]
+    },
+    {
+      "year": 2014,
+      "name": "Melhoria do Produto 2014 (retirado do formulário 2013)",
+      "status": "incentivado",
+      "summary": "Foram feitas melhorias significativas em diversos produtos da empresa. As melhorias estão voltadas para aumentar a fluidez para sonda (administração por sonda); estabilidade de pH; embalagem; e melhoria sensorial (sabores e aromas, por exemplo). Para uma gama de produtos foi testado trocar componente da fórmula atual, o que levou a uma série de testes de estabilidade do novo componente na fórmula, característica final do produto e teste de administração do produto. No desenvolvimento de embalagens devem ser analisados e testados diversos fatores por se tratarem de produtos alimentícios e hospitalares, como: conservação do produto, inviolabilidade, manuseio seguro, reações de oxidação, contaminação, microbiológica, entre outros. Melhoria com inserção de nitrogênio na embalagem para desacelerar as reações oxidativas e possivelmente aumentar o prazo de validade. Melhoria sensorial visando m",
+      "activities": [
+        "Produção de lote piloto; testes microbiológicos e análise da característica final do produto. A aplicação de novos ensaios em ingredientes, os ajustes de processos através de teste de interação de ingredientes, assim como as interferências de processos (mistura, hidratação, homogeneização, esterilização, textura) e análises (físico-química, microbiológica, administração e sensorial). Foram realizados teste de validade do produto na nova embalagem."
+      ],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\04_0B3oib_uuVTusemxWVGJzLVdJTk0_txt.txt"
+      ]
+    },
+    {
+      "year": 2015,
+      "name": "Projeto RH (parcial inovação) RH (exclusivo) Total RH Material Terceiros Total",
+      "status": "incentivado",
+      "summary": "Projeto RH (parcial inovação) RH (exclusivo) Total RH Material Terceiros Total",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\06_0B8bElc9dEJq0d1VBVXdQaWNPMXc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2015,
+      "name": "Novos produtos 0 0",
+      "status": "incentivado",
+      "summary": "Novos produtos 0 0",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\06_0B8bElc9dEJq0d1VBVXdQaWNPMXc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2015,
+      "name": "Melhoria de processo 0 0",
+      "status": "incentivado",
+      "summary": "Melhoria de processo 0 0",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\06_0B8bElc9dEJq0d1VBVXdQaWNPMXc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2015,
+      "name": "Novo Copacker 0 0",
+      "status": "incentivado",
+      "summary": "Novo Copacker 0 0",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\06_0B8bElc9dEJq0d1VBVXdQaWNPMXc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2015,
+      "name": "Melhoria de produto 0 0",
+      "status": "incentivado",
+      "summary": "Melhoria de produto 0 0",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\06_0B8bElc9dEJq0d1VBVXdQaWNPMXc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2015,
+      "name": "Soma de \"Material\" da coluna \"Natureza\" da planilha Investimentos",
+      "status": "incentivado",
+      "summary": "Soma de \"Material\" da coluna \"Natureza\" da planilha Investimentos",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\06_0B8bElc9dEJq0d1VBVXdQaWNPMXc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2017,
+      "name": "Novos Produtos",
+      "status": "incentivado",
+      "summary": "Seguem abaixo as descrições dos projetos que foram desenvolvidos até o fim o momento: Immax ((2016)): é um produto [b]em pó que contém nutrientes essenciais à saúde de indivíduos com comprometimento imunológico. Sua densidade calórica varia de 1.0 a 1.5 kcal/mL, atendendo as mais diversas necessidades nutricionais. A inovação desse produto é ser voltado para pacientes com câncer e caquexia, sendo enriquecido com L-leucina, um aminoácido bastante importante em período de terapia nutricional de quem é portador desse tipo de enfermidade.",
+      "activities": [
+        "Para cada produto em desenvolvimento é feita pesquisa para montar uma composição para testes. Existindo produto concorrente no mercado, compra-se um como amostra para testes e estudo de composição. Ao desenvolver um produto novo, é utilizada uma composição-base para o tipo do produto a ser desenvolvido. Então, são adicionados novos componentes e essa nova composição é levada para testes. São feitos testes para testar a eficiência e eficácia da fórmula, testes comparativos com produtos concorrent"
+      ],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\11_1Gxyy89zA70DxHjUd9-RR9HrOy5aGLCcj_txt.txt"
+      ]
+    },
+    {
+      "year": 2017,
+      "name": "Matéria-Prima",
+      "status": "incentivado",
+      "summary": "O projeto consiste em pesquisa e desenvolvimento de novas matérias-primas que serão introduzidas ou que substituirão outras em produtos existentes na empresa, gerando ganho para o produto e modificando sua composição química. É um grande desafio introduzir um novo componente em uma fórmula que já está equilibrada, pois é necessário buscar novamente esse equilíbrio. Pode-se deixar a composição instável, com sua solubilidade prejudicada ou com o sabor ruim. Cada matéria-prima que está sendo estudada tem características específicas que trariam ganhos no objetivo de cada produto final. Em 2017 foram testados 15 componentes.[o] As etapas de aprovação de uma nova matéria-prima são: aprovação de especificação técnica, comprovação de parâmetros físico-químico, comprovação de comportamento em produto acabado em planta piloto, aprovação microbiológico e comprovação de comportamento em produto acab",
+      "activities": [
+        "No primeiro trimestre de 2017, para alcançar o objetivo do projeto, foram pesquisadas novas matérias-primas dentre macro e micronutrientes em fornecedores nacionais e internacionais, sendo selecionadas algumas para testes, que começam pela avaliação da ficha técnica da matéria-prima que ao ser aprovada, é analisada quanto à performance em teste de bancada simples (solubilidade/ pH/ formação de espuma ou grumos/ instantaneidade) e aplicada em produto. Sendo aprovada, a etapa seguinte é a realizaç"
+      ],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\11_1Gxyy89zA70DxHjUd9-RR9HrOy5aGLCcj_txt.txt"
+      ]
+    },
+    {
+      "year": 2017,
+      "name": "Melhoria de Processos",
+      "status": "incentivado",
+      "summary": "Para se alcançar o objetivo do projeto, contatou-se os Copackers para se avaliar a possibilidade de alteração do parâmetro anteriormente citado no processo de produção aplicado nos produtos Prodiet. Para o aumento da pressão de homogeneização, a efetividade do processo foi avaliada por meio de protocolos de vida de prateleira. Em 2017, essas alterações foram avaliadas em 3 produtos da Prodiet na Castrolanda (Diamax, Trophic Basic Líquido e HDmax). Na Codap, foi testada a pressão de 450 + 50 bar no produto Trophic EP. Uma eventual separação de fases foi estudada visualmente e por meio da administração gravitacional do produto in vitro. Após as avaliações devidas, percebeu-se que pressão de pré-homogeneização maior conferiu uma maior estabilidade ao produto líquido. Por meio de protocolos de vida de prateleira dos produtos, os testes de maior tempo de retardo e de primeira produção na Prod",
+      "activities": [
+        "Para se atingir a melhoria nos procedimentos envolvidos, decidiu-se testar outros parâmetros no processo produtivo UHT. Como a estabilidade do produto, em termos de distribuição de partículas, depende da etapa de pré-homogeneização, avaliou-se a necessidade de se aumentar a pressão que era normalmente aplicada nessa etapa. O mesmo foi feito para os outros testes realizados."
+      ],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\11_1Gxyy89zA70DxHjUd9-RR9HrOy5aGLCcj_txt.txt"
+      ]
+    },
+    {
+      "year": 2017,
+      "name": "Melhoria do Produto",
+      "status": "incentivado",
+      "summary": "As análises de melhoria de produto decorrentes da aplicação de altas pressões de pré-homogeneização no processo UHT foram feitas nos produtos líquidos da Prodiet, que possuem as seguintes densidades calóricas: 1.0, 1.2 e 1.5 kcal/mL. Como foi citado anteriormente, cada produto foi monitorado por meio de um protocolo de shelf life, e os ensaios principais que comprovaram a eficácia do processo foram os seguintes: teste de viscosidade, detecção da distribuição do tamanho de partículas e o acompanhamento da fluidez por meio de testes gravitacionais de administração de produto. Em relação à alteração de fórmula do HDmax, os primeiros passos dados foram testes de estabilidade com o produto. Ele foi incubado em 5 temperaturas diferentes (37oC, 40 oC, 45 oC, 50 oC e 55 oC), por um período de 5 dias. Após incubação, 2 análises principais foram feitas: pH e viscosidade. Em comparação, diversas un",
+      "activities": [
+        "* Monitoramento de produtos por meio de protocolos de vida de prateleira. * Estudo comparativo de produtos concorrentes e contato com fornecedores para a prospecção de novas matérias-primas que visam a garantir uma maior estabilidade no produto final. * Avaliar o rendimento encontrado versus o rendimento anterior e os aumentos de custo de industrialização e novo SKU."
+      ],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\11_1Gxyy89zA70DxHjUd9-RR9HrOy5aGLCcj_txt.txt"
+      ]
+    },
+    {
+      "year": 2018,
+      "name": "Novos Produtos",
+      "status": "incentivado",
+      "summary": "Immax é um produto em pó que contém nutrientes essenciais à saúde de indivíduos com comprometimento imunológico. Sua densidade calórica varia de 1.0 a 1.5 kcal/mL, atendendo as mais diversas necessidades nutricionais. A inovação de sse produto é ser voltado para pacientes com câncer e caquexia, sendo enriquecido com L -leucina, um aminoácido bastante importante em período de terapia nutricional de quem é portador desse tipo de enfermidade. O elemento inovador é ser um produto em pó se m sabor para ser adicionado a diferentes preparos de receitas caseiras doces e principalmente salgadas, facilitando o seu consumo devido ao sensorial. O paciente oncológico tem perda de apetite devido ao tratamento. O alimento normalmente tem melhor aceitação quando está relacionado a refeições com os familiares. O Immax foi lançado junto com um caderno de receitas caseiras; os familiares podem consumir a m",
+      "activities": [
+        "Estudo Immax seguiu o seguinte protocolo: Proposta de um estudo fase II randomizado, aberto, multicêntrico para avaliar a segurança e eficácia do suplemento alimentar Imunitax (Produto Investigacional) + aconselhamento nutricional padrão versus aconselhamento nutricional padrão em pacientes portadores de neoplasia em quimioterapia. Para o desenvolvimento do estudo, as seguintes etapas foram desencadeadas: 1. Elaboração do Protocolo do Estudo 1.1 Revisão da Literatura pertinente; 1.2 Desenvolvime"
+      ],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\12_1xoYBB79FMQ9UUKxAaY20yDblwjOyorUg_file.txt"
+      ]
+    },
+    {
+      "year": 2018,
+      "name": "Melhoria do Produto",
+      "status": "incentivado",
+      "summary": "Tendo-se pesquisado sobre os principais corantes utilizados em dietas enterais, optou- se por utilizar o corante carmin na formulação do Energyzip morango. O teste de bancada proveu resultados dentro do esperado. O teste piloto foi conduzido na planta da Dupont realizado em abril de 2018, porém , durante o envase dos produtos o equipamento de UHT apresentou uma falha, impossibilitando a finalização do teste. Com isso, teve-se que enviar as matérias-primas para que o próprio time da Dupont realizasse o reteste, o qual ocorreu adequadamente. Os pro dutos foram enviados para um cliente na Turquia para avaliação sensorial. O retorno foi positivo. O restante dos produtos do teste foram alocados em estufa de estudo de estabilidade (40°C), com a finalidade de se avaliar a retenção da cor durante 6 meses. Em T3 observou-se que a coloração se manteve estável, não havendo perda da cor. A desestabi",
+      "activities": [
+        "Para o Energyzip Moran go, foi realizada uma pesquisa sobre os principais corantes utilizados em dietas enterais, além de testes de bancadas e teste piloto na Dupont utilizando o corante carmin."
+      ],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\12_1xoYBB79FMQ9UUKxAaY20yDblwjOyorUg_file.txt"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "company": "PRODIET",
+      "year": 2012,
+      "source": "data_sources\\raw\\prodiet\\01_0B-64TPM3GrzmMFBfYkVzOGUtTXM_file.txt",
+      "kind": "txt",
+      "extracted_from": "Resumo/relatorio historico",
+      "confidence": "alta",
+      "notes": "Metricas historicas normalizadas a partir da melhor fonte disponivel."
+    },
+    {
+      "company": "PRODIET",
+      "year": 2013,
+      "source": "data_sources\\raw\\prodiet\\02_0Bz8y8Tdm2lKWU21RSWZVdVM1ZFk_xlsx.xlsx",
+      "kind": "xlsx",
+      "extracted_from": "Resumo/relatorio historico",
+      "confidence": "alta",
+      "notes": "Metricas historicas normalizadas a partir da melhor fonte disponivel."
+    },
+    {
+      "company": "PRODIET",
+      "year": 2014,
+      "source": "data_sources\\raw\\prodiet\\03_0B4mf2gfGuZ-RZzR1ckp5SlN2TEU_xlsx.xlsx",
+      "kind": "xlsx",
+      "extracted_from": "Resumo/relatorio historico",
+      "confidence": "alta",
+      "notes": "Metricas historicas normalizadas a partir da melhor fonte disponivel."
+    },
+    {
+      "company": "PRODIET",
+      "year": 2015,
+      "source": "data_sources\\raw\\prodiet\\06_0B8bElc9dEJq0d1VBVXdQaWNPMXc_xlsx.xlsx",
+      "kind": "xlsx",
+      "extracted_from": "Resumo/relatorio historico",
+      "confidence": "alta",
+      "notes": "Metricas historicas normalizadas a partir da melhor fonte disponivel."
+    },
+    {
+      "company": "PRODIET",
+      "year": 2016,
+      "source": "data_sources\\raw\\prodiet\\09_0B8bElc9dEJq0UFd1YURMMW1NTHM_xlsx.xlsx",
+      "kind": "xlsx",
+      "extracted_from": "Resumo/relatorio historico",
+      "confidence": "alta",
+      "notes": "Metricas historicas normalizadas a partir da melhor fonte disponivel."
+    },
+    {
+      "company": "PRODIET",
+      "year": 2017,
+      "source": "data_sources\\raw\\prodiet\\10_1HnbFm7TcgicKkPpUFnfFaSBp28r2ty5u_txt.txt",
+      "kind": "txt",
+      "extracted_from": "Resumo/relatorio historico",
+      "confidence": "alta",
+      "notes": "Metricas historicas normalizadas a partir da melhor fonte disponivel."
+    },
+    {
+      "company": "PRODIET",
+      "year": 2018,
+      "source": "data_sources\\raw\\prodiet\\13_1FBF2bfmWWDAyMhm4dVraA6PreX7akCidfF2Syc6auTI_xlsx.xlsx",
+      "kind": "xlsx",
+      "extracted_from": "Resumo/relatorio historico",
+      "confidence": "media",
+      "notes": "Metricas historicas normalizadas a partir da melhor fonte disponivel."
+    }
+  ]
+}

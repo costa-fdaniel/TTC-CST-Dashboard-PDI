@@ -1,0 +1,4 @@
+Projeto;Funcionario;Mes;Atividade realizada;Descricao da atividade;Data;Horas;Horas decimais;Projeto incentivado?;Atividade incentivada?;Dedicacao
+INOV00001;Ana Silva;1;Pesquisa;Analise de resultados;10/01/2026;02:30:00;2,50;TRUE;TRUE;Parcial
+INOV00001;Ana Silva;1;Gestao e outros;Reuniao administrativa;11/01/2026;01:00:00;1,00;TRUE;FALSE;Parcial
+INOV00002;Bruno Lima;2;Pesquisa;Teste de bancada;05/02/2026;03:00:00;3,00;FALSE;TRUE;Parcial

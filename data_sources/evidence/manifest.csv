@@ -1,0 +1,33 @@
+﻿company;year;source;kind;field;confidence;notes
+NETZSCH NDB;2011;data_sources\raw\ndb\NETZSCH_LeiDoBem_2011_2025_v3.html;html;historical_metrics;alta;Historico anual ja estava estruturado no HTML enviado.
+NETZSCH NDB;2012;data_sources\raw\ndb\NETZSCH_LeiDoBem_2011_2025_v3.html;html;historical_metrics;alta;Historico anual ja estava estruturado no HTML enviado.
+NETZSCH NDB;2013;data_sources\raw\ndb\NETZSCH_LeiDoBem_2011_2025_v3.html;html;historical_metrics;alta;Historico anual ja estava estruturado no HTML enviado.
+NETZSCH NDB;2014;data_sources\raw\ndb\NETZSCH_LeiDoBem_2011_2025_v3.html;html;historical_metrics;alta;Historico anual ja estava estruturado no HTML enviado.
+NETZSCH NDB;2015;data_sources\raw\ndb\NETZSCH_LeiDoBem_2011_2025_v3.html;html;historical_metrics;alta;Historico anual ja estava estruturado no HTML enviado.
+NETZSCH NDB;2016;data_sources\raw\ndb\NETZSCH_LeiDoBem_2011_2025_v3.html;html;historical_metrics;alta;Historico anual ja estava estruturado no HTML enviado.
+NETZSCH NDB;2017;data_sources\raw\ndb\NETZSCH_LeiDoBem_2011_2025_v3.html;html;historical_metrics;alta;Historico anual ja estava estruturado no HTML enviado.
+NETZSCH NDB;2018;data_sources\raw\ndb\NETZSCH_LeiDoBem_2011_2025_v3.html;html;historical_metrics;alta;Historico anual ja estava estruturado no HTML enviado.
+NETZSCH NDB;2019;data_sources\raw\ndb\NETZSCH_LeiDoBem_2011_2025_v3.html;html;historical_metrics;alta;Historico anual ja estava estruturado no HTML enviado.
+NETZSCH NDB;2020;data_sources\raw\ndb\NETZSCH_LeiDoBem_2011_2025_v3.html;html;historical_metrics;alta;Historico anual ja estava estruturado no HTML enviado.
+NETZSCH NDB;2021;data_sources\raw\ndb\NETZSCH_LeiDoBem_2011_2025_v3.html;html;historical_metrics;alta;Historico anual ja estava estruturado no HTML enviado.
+NETZSCH NDB;2022;data_sources\raw\ndb\NETZSCH_LeiDoBem_2011_2025_v3.html;html;historical_metrics;alta;Historico anual ja estava estruturado no HTML enviado.
+NETZSCH NDB;2023;data_sources\raw\ndb\NETZSCH_LeiDoBem_2011_2025_v3.html;html;historical_metrics;alta;Historico anual ja estava estruturado no HTML enviado.
+NETZSCH NDB;2024;data_sources\raw\ndb\NETZSCH_LeiDoBem_2011_2025_v3.html;html;historical_metrics;alta;Historico anual ja estava estruturado no HTML enviado.
+NETZSCH NDB;2025;data_sources\raw\ndb\NETZSCH_LeiDoBem_2011_2025_v3.html;html;historical_metrics;alta;Historico anual ja estava estruturado no HTML enviado.
+PRODIET;2012;data_sources\raw\prodiet\01_0B-64TPM3GrzmMFBfYkVzOGUtTXM_file.txt;txt;historical_metrics;alta;Metricas historicas normalizadas a partir da melhor fonte disponivel.
+PRODIET;2013;data_sources\raw\prodiet\02_0Bz8y8Tdm2lKWU21RSWZVdVM1ZFk_xlsx.xlsx;xlsx;historical_metrics;alta;Metricas historicas normalizadas a partir da melhor fonte disponivel.
+PRODIET;2014;data_sources\raw\prodiet\03_0B4mf2gfGuZ-RZzR1ckp5SlN2TEU_xlsx.xlsx;xlsx;historical_metrics;alta;Metricas historicas normalizadas a partir da melhor fonte disponivel.
+PRODIET;2015;data_sources\raw\prodiet\06_0B8bElc9dEJq0d1VBVXdQaWNPMXc_xlsx.xlsx;xlsx;historical_metrics;alta;Metricas historicas normalizadas a partir da melhor fonte disponivel.
+PRODIET;2016;data_sources\raw\prodiet\09_0B8bElc9dEJq0UFd1YURMMW1NTHM_xlsx.xlsx;xlsx;historical_metrics;alta;Metricas historicas normalizadas a partir da melhor fonte disponivel.
+PRODIET;2017;data_sources\raw\prodiet\10_1HnbFm7TcgicKkPpUFnfFaSBp28r2ty5u_txt.txt;txt;historical_metrics;alta;Metricas historicas normalizadas a partir da melhor fonte disponivel.
+PRODIET;2018;data_sources\raw\prodiet\13_1FBF2bfmWWDAyMhm4dVraA6PreX7akCidfF2Syc6auTI_xlsx.xlsx;xlsx;historical_metrics;media;Metricas historicas normalizadas a partir da melhor fonte disponivel.
+PRODIET;2020;data_sources\raw\prodiet\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx;xlsx;historical_metrics;alta;RESUMO moderno lido diretamente por linha fiscal.
+PRODIET;2021;data_sources\raw\prodiet\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx;xlsx;historical_metrics;alta;RESUMO moderno lido diretamente por linha fiscal.
+PRODIET;2023;data_sources\raw\prodiet\05_1ZvGnQ-g2Au2Q3y8Qq93x4y0z3rLQidzzfdNX6ypD_fQ_xlsx.xlsx;xlsx;historical_metrics;alta;RESUMO moderno lido diretamente por linha fiscal.
+PRODIET;2024;data_sources\raw\prodiet\06_1AgMQv_FuFn6oJRpr_9mN9Lpi5mMzU3Kzkbkwa6EWXNQ_xlsx.xlsx;xlsx;historical_metrics;alta;RESUMO moderno lido diretamente por linha fiscal.
+PRODIET;2025;data_sources\raw\prodiet\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx;xlsx;historical_metrics;alta;RESUMO moderno lido diretamente por linha fiscal.
+PRODIET;2019;data_sources\raw\prodiet\01_1lv_w4BqBWpf-3Y0vHm3v294Sih8dsCXX2ItrvgVn-mA_xlsx.xlsx;xlsx;historical_metrics;media;Fonte textual/narrativa sem RESUMO financeiro identificado.
+PRODIET;2022;https://docs.google.com/spreadsheets/d/1V4Vb0mqRYB3VcAYk26NIq04arse2eO5rmIoZJYl2ux0/edit?usp=sharing;google_sheet;historical_metrics;bloqueado;"Google retornou 401 Unauthorized na exportacao XLSX; ano ainda sem metricas normalizadas."
+NETZSCH NEM;2023;data_sources\raw\nem\01_1vmCroeJel-et_erRw0RevviFGKpUBN5SF4BWp7Zu2KE_xlsx.xlsx;xlsx;historical_metrics;alta;RESUMO moderno lido diretamente por linha fiscal.
+NETZSCH NEM;2024;data_sources\raw\nem\02_1Ii-SbCWJO9K7bxXkmQ7TOfkPXf3kthJ4N26rafKpgzE_xlsx.xlsx;xlsx;historical_metrics;alta;RESUMO moderno lido diretamente por linha fiscal.
+NETZSCH NEM;2025;data_sources\raw\nem\03_1KZbcFfptA_QFTg2VTzY8NtlgF2Du3nQRJVl1FmRvc4Y_xlsx.xlsx;xlsx;historical_metrics;alta;RESUMO moderno lido diretamente por linha fiscal.

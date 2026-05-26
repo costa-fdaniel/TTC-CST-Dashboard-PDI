@@ -1,0 +1,2 @@
+Fornecedor;CNPJ;Descricao;NF/ND;Valor;Data;Natureza;Objetivo do gasto;Inovacao?;Valor Incentivado;Projeto;Count;INOV00001;Conf. val. rateio
+Fornecedor Teste;00.000.000/0001-00;Servico tecnico;123;1000,00;12/01/2026;Servicos;Teste piloto;TRUE;1000,00;INOV00001;1;1000,00;TRUE

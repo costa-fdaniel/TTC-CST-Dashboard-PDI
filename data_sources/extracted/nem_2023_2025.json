@@ -1,0 +1,107 @@
+{
+  "company": "NETZSCH NEM",
+  "slug": "NEM_PD&I_2026",
+  "source_type": "xlsx",
+  "source_files": [
+    "data_sources\\raw\\nem\\01_1vmCroeJel-et_erRw0RevviFGKpUBN5SF4BWp7Zu2KE_xlsx.xlsx",
+    "data_sources\\raw\\nem\\02_1Ii-SbCWJO9K7bxXkmQ7TOfkPXf3kthJ4N26rafKpgzE_xlsx.xlsx",
+    "data_sources\\raw\\nem\\03_1KZbcFfptA_QFTg2VTzY8NtlgF2Du3nQRJVl1FmRvc4Y_xlsx.xlsx"
+  ],
+  "years": [
+    {
+      "year": 2023,
+      "base_total": 2748657.54,
+      "investment_total": 1322128.93,
+      "material_total": 0.0,
+      "third_party_total": 1322128.93,
+      "rh_partial_total": 0.0,
+      "rh_exclusive_total": 0.0,
+      "rh_total": 0.0,
+      "exclusion_total": 1649194.52,
+      "estimated_savings": 560726.14,
+      "method": "xlsx_resumo_direct",
+      "projects_total": 0,
+      "projects_incentivized": 0,
+      "eligible_hours": 0.0,
+      "top_projects": [
+        {
+          "name": "NOTIFY",
+          "value": 872229.14
+        }
+      ],
+      "source_refs": [
+        "data_sources\\raw\\nem\\01_1vmCroeJel-et_erRw0RevviFGKpUBN5SF4BWp7Zu2KE_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2024,
+      "base_total": 2405539.14,
+      "investment_total": 1121604.98,
+      "material_total": 0.0,
+      "third_party_total": 1121604.98,
+      "rh_partial_total": 0.0,
+      "rh_exclusive_total": 0.0,
+      "rh_total": 0.0,
+      "exclusion_total": 1443323.49,
+      "estimated_savings": 490729.98,
+      "method": "xlsx_resumo_direct",
+      "projects_total": 0,
+      "projects_incentivized": 0,
+      "eligible_hours": 0.0,
+      "top_projects": [],
+      "source_refs": [
+        "data_sources\\raw\\nem\\02_1Ii-SbCWJO9K7bxXkmQ7TOfkPXf3kthJ4N26rafKpgzE_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "base_total": 797122.62,
+      "investment_total": 224632.43,
+      "material_total": 0.0,
+      "third_party_total": 224632.43,
+      "rh_partial_total": 0.0,
+      "rh_exclusive_total": 0.0,
+      "rh_total": 0.0,
+      "exclusion_total": 478273.57,
+      "estimated_savings": 162613.01,
+      "method": "xlsx_resumo_direct",
+      "projects_total": 0,
+      "projects_incentivized": 0,
+      "eligible_hours": 0.0,
+      "top_projects": [],
+      "source_refs": [
+        "data_sources\\raw\\nem\\03_1KZbcFfptA_QFTg2VTzY8NtlgF2Du3nQRJVl1FmRvc4Y_xlsx.xlsx"
+      ]
+    }
+  ],
+  "projects": [],
+  "evidence": [
+    {
+      "company": "NETZSCH NEM",
+      "year": 2023,
+      "source": "data_sources\\raw\\nem\\01_1vmCroeJel-et_erRw0RevviFGKpUBN5SF4BWp7Zu2KE_xlsx.xlsx",
+      "kind": "xlsx",
+      "extracted_from": "RESUMO",
+      "confidence": "alta",
+      "notes": "RESUMO moderno lido diretamente por linha fiscal."
+    },
+    {
+      "company": "NETZSCH NEM",
+      "year": 2024,
+      "source": "data_sources\\raw\\nem\\02_1Ii-SbCWJO9K7bxXkmQ7TOfkPXf3kthJ4N26rafKpgzE_xlsx.xlsx",
+      "kind": "xlsx",
+      "extracted_from": "RESUMO",
+      "confidence": "alta",
+      "notes": "RESUMO moderno lido diretamente por linha fiscal."
+    },
+    {
+      "company": "NETZSCH NEM",
+      "year": 2025,
+      "source": "data_sources\\raw\\nem\\03_1KZbcFfptA_QFTg2VTzY8NtlgF2Du3nQRJVl1FmRvc4Y_xlsx.xlsx",
+      "kind": "xlsx",
+      "extracted_from": "RESUMO",
+      "confidence": "alta",
+      "notes": "RESUMO moderno lido diretamente por linha fiscal."
+    }
+  ]
+}

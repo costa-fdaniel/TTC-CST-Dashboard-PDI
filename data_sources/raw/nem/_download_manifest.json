@@ -1,0 +1,29 @@
+[
+  {
+    "index": 1,
+    "url": "https://docs.google.com/spreadsheets/d/1vmCroeJel-et_erRw0RevviFGKpUBN5SF4BWp7Zu2KE/edit?usp=sharing",
+    "document_id": "1vmCroeJel-et_erRw0RevviFGKpUBN5SF4BWp7Zu2KE",
+    "type": "spreadsheet",
+    "kind": "xlsx",
+    "target": "data_sources\\raw\\nem\\01_1vmCroeJel-et_erRw0RevviFGKpUBN5SF4BWp7Zu2KE_xlsx.xlsx",
+    "status": "downloaded:524709"
+  },
+  {
+    "index": 2,
+    "url": "https://docs.google.com/spreadsheets/d/1Ii-SbCWJO9K7bxXkmQ7TOfkPXf3kthJ4N26rafKpgzE/edit?usp=sharing",
+    "document_id": "1Ii-SbCWJO9K7bxXkmQ7TOfkPXf3kthJ4N26rafKpgzE",
+    "type": "spreadsheet",
+    "kind": "xlsx",
+    "target": "data_sources\\raw\\nem\\02_1Ii-SbCWJO9K7bxXkmQ7TOfkPXf3kthJ4N26rafKpgzE_xlsx.xlsx",
+    "status": "downloaded:338706"
+  },
+  {
+    "index": 3,
+    "url": "https://docs.google.com/spreadsheets/d/1KZbcFfptA_QFTg2VTzY8NtlgF2Du3nQRJVl1FmRvc4Y/edit?usp=sharing",
+    "document_id": "1KZbcFfptA_QFTg2VTzY8NtlgF2Du3nQRJVl1FmRvc4Y",
+    "type": "spreadsheet",
+    "kind": "xlsx",
+    "target": "data_sources\\raw\\nem\\03_1KZbcFfptA_QFTg2VTzY8NtlgF2Du3nQRJVl1FmRvc4Y_xlsx.xlsx",
+    "status": "downloaded:797250"
+  }
+]

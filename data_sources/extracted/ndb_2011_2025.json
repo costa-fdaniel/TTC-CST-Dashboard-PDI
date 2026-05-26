@@ -1,0 +1,369 @@
+{
+  "company": "NETZSCH NDB",
+  "slug": "NDB_PD&I_2026",
+  "source_type": "html",
+  "source_files": [
+    "data_sources\\raw\\ndb\\NETZSCH_LeiDoBem_2011_2025_v3.html"
+  ],
+  "years": [
+    {
+      "year": 2011,
+      "base_total": 1324981.15,
+      "investment_total": 465459.61,
+      "material_total": 202361.07,
+      "third_party_total": 263098.54,
+      "rh_partial_total": 801.44,
+      "rh_exclusive_total": 858720.1,
+      "rh_total": 859521.54,
+      "estimated_savings": null,
+      "eligible_hours_partial": "7:10:35",
+      "eligible_hours_exclusive": "7689:20:07",
+      "collaborators_partial": 1.0,
+      "collaborators_exclusive": 4.0,
+      "quarterly": [],
+      "source_refs": [
+        "NETZSCH_LeiDoBem_2011_2025_v3.html"
+      ]
+    },
+    {
+      "year": 2012,
+      "base_total": 1569083.0,
+      "investment_total": 544336.0,
+      "material_total": 517947.0,
+      "third_party_total": 26389.0,
+      "rh_partial_total": 2462.0,
+      "rh_exclusive_total": 1022285.0,
+      "rh_total": 1024747.0,
+      "estimated_savings": null,
+      "eligible_hours_partial": "0:00:00",
+      "eligible_hours_exclusive": "7689:20:07",
+      "collaborators_partial": 0.0,
+      "collaborators_exclusive": 4.0,
+      "quarterly": [],
+      "source_refs": [
+        "NETZSCH_LeiDoBem_2011_2025_v3.html"
+      ]
+    },
+    {
+      "year": 2013,
+      "base_total": 1825738.46,
+      "investment_total": 681288.75,
+      "material_total": 445217.63,
+      "third_party_total": 236071.12,
+      "rh_partial_total": 0.0,
+      "rh_exclusive_total": 1144449.71,
+      "rh_total": 1144449.71,
+      "estimated_savings": 496600.86,
+      "eligible_hours_partial": "0:00:00",
+      "eligible_hours_exclusive": "10247:52:35",
+      "collaborators_partial": 0.0,
+      "collaborators_exclusive": 6.0,
+      "quarterly": [],
+      "source_refs": [
+        "NETZSCH_LeiDoBem_2011_2025_v3.html"
+      ]
+    },
+    {
+      "year": 2014,
+      "base_total": 1844987.49,
+      "investment_total": 743286.67,
+      "material_total": 686248.67,
+      "third_party_total": 57038.0,
+      "rh_partial_total": 73944.79,
+      "rh_exclusive_total": 1027756.03,
+      "rh_total": 1101700.82,
+      "estimated_savings": 376377.45,
+      "eligible_hours_partial": "0:00:00",
+      "eligible_hours_exclusive": "10247:52:35",
+      "collaborators_partial": 0.0,
+      "collaborators_exclusive": 6.0,
+      "quarterly": [],
+      "source_refs": [
+        "NETZSCH_LeiDoBem_2011_2025_v3.html"
+      ]
+    },
+    {
+      "year": 2015,
+      "base_total": 2110449.15,
+      "investment_total": 893375.24,
+      "material_total": 738576.08,
+      "third_party_total": 154799.16,
+      "rh_partial_total": 36508.26,
+      "rh_exclusive_total": 1180565.65,
+      "rh_total": 1217073.91,
+      "estimated_savings": 430531.63,
+      "eligible_hours_partial": "326:54:36",
+      "eligible_hours_exclusive": "10571:16:24",
+      "collaborators_partial": 1.0,
+      "collaborators_exclusive": 6.0,
+      "quarterly": [],
+      "source_refs": [
+        "NETZSCH_LeiDoBem_2011_2025_v3.html"
+      ]
+    },
+    {
+      "year": 2016,
+      "base_total": 2289842.46,
+      "investment_total": 1038491.07,
+      "material_total": 879682.87,
+      "third_party_total": 158808.2,
+      "rh_partial_total": 2296.1,
+      "rh_exclusive_total": 1249055.29,
+      "rh_total": 1251351.39,
+      "estimated_savings": 467127.86,
+      "eligible_hours_partial": "20:33:37",
+      "eligible_hours_exclusive": "11184:33:29",
+      "collaborators_partial": 1.0,
+      "collaborators_exclusive": 6.0,
+      "quarterly": [],
+      "source_refs": [
+        "NETZSCH_LeiDoBem_2011_2025_v3.html"
+      ]
+    },
+    {
+      "year": 2017,
+      "base_total": 1752607.62,
+      "investment_total": 901833.58,
+      "material_total": 775601.13,
+      "third_party_total": 126232.45,
+      "rh_partial_total": 0.0,
+      "rh_exclusive_total": 850774.04,
+      "rh_total": 850774.04,
+      "estimated_savings": 357531.95,
+      "eligible_hours_partial": "0:00:00",
+      "eligible_hours_exclusive": "7618:10:58",
+      "collaborators_partial": 0.0,
+      "collaborators_exclusive": 4.0,
+      "quarterly": [],
+      "source_refs": [
+        "NETZSCH_LeiDoBem_2011_2025_v3.html"
+      ]
+    },
+    {
+      "year": 2018,
+      "base_total": 2454145.64,
+      "investment_total": 776956.41,
+      "material_total": 603812.86,
+      "third_party_total": 173143.55,
+      "rh_partial_total": 54450.68,
+      "rh_exclusive_total": 1622738.55,
+      "rh_total": 1677189.23,
+      "estimated_savings": 500645.71,
+      "eligible_hours_partial": "487:34:26",
+      "eligible_hours_exclusive": "14530:40:21",
+      "collaborators_partial": 1.0,
+      "collaborators_exclusive": 8.0,
+      "quarterly": [],
+      "source_refs": [
+        "NETZSCH_LeiDoBem_2011_2025_v3.html"
+      ]
+    },
+    {
+      "year": 2019,
+      "base_total": 1550176.73,
+      "investment_total": 776614.38,
+      "material_total": 776614.38,
+      "third_party_total": 0.0,
+      "rh_partial_total": 520833.22,
+      "rh_exclusive_total": 252729.13,
+      "rh_total": 773562.35,
+      "estimated_savings": 316236.05,
+      "eligible_hours_partial": "11105:48:48",
+      "eligible_hours_exclusive": "5916:47:00",
+      "collaborators_partial": 0.0,
+      "collaborators_exclusive": 0.0,
+      "quarterly": [],
+      "source_refs": [
+        "NETZSCH_LeiDoBem_2011_2025_v3.html"
+      ]
+    },
+    {
+      "year": 2020,
+      "base_total": 817083.08,
+      "investment_total": 817083.08,
+      "material_total": 817083.08,
+      "third_party_total": 0.0,
+      "rh_partial_total": 0.0,
+      "rh_exclusive_total": 0.0,
+      "rh_total": 0.0,
+      "estimated_savings": 166684.95,
+      "eligible_hours_partial": "14195:53:24",
+      "eligible_hours_exclusive": "0:00:00",
+      "collaborators_partial": 0.0,
+      "collaborators_exclusive": 0.0,
+      "quarterly": [],
+      "source_refs": [
+        "NETZSCH_LeiDoBem_2011_2025_v3.html"
+      ]
+    },
+    {
+      "year": 2021,
+      "base_total": 975654.92,
+      "investment_total": 515886.43,
+      "material_total": 515886.43,
+      "third_party_total": 0.0,
+      "rh_partial_total": 459768.49,
+      "rh_exclusive_total": 0.0,
+      "rh_total": 459768.49,
+      "estimated_savings": 199033.6,
+      "eligible_hours_partial": "6612:30:24",
+      "eligible_hours_exclusive": "0:00:00",
+      "collaborators_partial": 36.0,
+      "collaborators_exclusive": 0.0,
+      "quarterly": [],
+      "source_refs": [
+        "NETZSCH_LeiDoBem_2011_2025_v3.html"
+      ]
+    },
+    {
+      "year": 2022,
+      "base_total": 485932.46,
+      "investment_total": 318183.06,
+      "material_total": 318183.06,
+      "third_party_total": 0.0,
+      "rh_partial_total": 167749.4,
+      "rh_exclusive_total": 0.0,
+      "rh_total": 167749.4,
+      "estimated_savings": 99130.22,
+      "eligible_hours_partial": "9354:27:36",
+      "eligible_hours_exclusive": "0:00:00",
+      "collaborators_partial": 24.0,
+      "collaborators_exclusive": 0.0,
+      "quarterly": [],
+      "source_refs": [
+        "NETZSCH_LeiDoBem_2011_2025_v3.html"
+      ]
+    },
+    {
+      "year": 2023,
+      "base_total": 1302120.75,
+      "investment_total": 697742.19,
+      "material_total": 697742.19,
+      "third_party_total": 0.0,
+      "rh_partial_total": 604378.56,
+      "rh_exclusive_total": 0.0,
+      "rh_total": 604378.56,
+      "estimated_savings": 265632.63,
+      "eligible_hours_partial": "7762:13:48",
+      "eligible_hours_exclusive": "0:00:00",
+      "collaborators_partial": 22.0,
+      "collaborators_exclusive": 0.0,
+      "quarterly": [
+        {
+          "name": "T1",
+          "base": 352908.42,
+          "savings": 71993.32
+        },
+        {
+          "name": "T2",
+          "base": 285766.68,
+          "savings": 58296.4
+        },
+        {
+          "name": "T3",
+          "base": 313114.1,
+          "savings": 63875.28
+        },
+        {
+          "name": "T4",
+          "base": 350331.54,
+          "savings": 71467.63
+        }
+      ],
+      "source_refs": [
+        "NETZSCH_LeiDoBem_2011_2025_v3.html"
+      ]
+    },
+    {
+      "year": 2024,
+      "base_total": 723799.35,
+      "investment_total": 263446.19,
+      "material_total": 263446.19,
+      "third_party_total": 0.0,
+      "rh_partial_total": 460353.16,
+      "rh_exclusive_total": 0.0,
+      "rh_total": 460353.16,
+      "estimated_savings": 147655.07,
+      "eligible_hours_partial": "5217:54:00",
+      "eligible_hours_exclusive": "0:00:00",
+      "collaborators_partial": 18.0,
+      "collaborators_exclusive": 0.0,
+      "quarterly": [
+        {
+          "name": "T1",
+          "base": 141010.69,
+          "savings": 28766.18
+        },
+        {
+          "name": "T2",
+          "base": 239814.3,
+          "savings": 48922.12
+        },
+        {
+          "name": "T3",
+          "base": 171046.1,
+          "savings": 34893.41
+        },
+        {
+          "name": "T4",
+          "base": 171928.26,
+          "savings": 35073.37
+        }
+      ],
+      "source_refs": [
+        "NETZSCH_LeiDoBem_2011_2025_v3.html"
+      ]
+    },
+    {
+      "year": 2025,
+      "base_total": 1772791.39,
+      "investment_total": 1394486.34,
+      "material_total": 1394486.34,
+      "third_party_total": 0.0,
+      "rh_partial_total": 378305.05,
+      "rh_exclusive_total": 0.0,
+      "rh_total": 378305.05,
+      "estimated_savings": 361649.44,
+      "eligible_hours_partial": "3387:30:00",
+      "eligible_hours_exclusive": "0:00:00",
+      "collaborators_partial": 16.0,
+      "collaborators_exclusive": 0.0,
+      "quarterly": [
+        {
+          "name": "T1",
+          "base": 342511.9,
+          "savings": 69872.43
+        },
+        {
+          "name": "T2",
+          "base": 599653.4,
+          "savings": 122329.29
+        },
+        {
+          "name": "T3",
+          "base": 411367.14,
+          "savings": 83918.9
+        },
+        {
+          "name": "T4",
+          "base": 419258.95,
+          "savings": 85528.82
+        }
+      ],
+      "source_refs": [
+        "NETZSCH_LeiDoBem_2011_2025_v3.html"
+      ]
+    }
+  ],
+  "projects": [],
+  "evidence": [
+    {
+      "company": "NETZSCH NDB",
+      "source": "data_sources\\raw\\ndb\\NETZSCH_LeiDoBem_2011_2025_v3.html",
+      "kind": "html",
+      "extracted_from": "JavaScript constants rawData, horasIncentivadas, colaboradoresIncentivados, quarterlyData",
+      "confidence": "alta",
+      "notes": "Historico anual ja estava estruturado no HTML enviado."
+    }
+  ]
+}

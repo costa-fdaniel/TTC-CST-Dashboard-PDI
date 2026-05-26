@@ -1,0 +1,1479 @@
+{
+  "company": "PRODIET",
+  "slug": "PRODIET_PD&I_2026",
+  "source_type": "xlsx",
+  "source_files": [
+    "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx",
+    "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx",
+    "data_sources\\raw\\prodiet\\05_1ZvGnQ-g2Au2Q3y8Qq93x4y0z3rLQidzzfdNX6ypD_fQ_xlsx.xlsx",
+    "data_sources\\raw\\prodiet\\06_1AgMQv_FuFn6oJRpr_9mN9Lpi5mMzU3Kzkbkwa6EWXNQ_xlsx.xlsx",
+    "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx",
+    "data_sources\\raw\\prodiet\\01_1lv_w4BqBWpf-3Y0vHm3v294Sih8dsCXX2ItrvgVn-mA_xlsx.xlsx"
+  ],
+  "years": [
+    {
+      "year": 2020,
+      "base_total": 678545.63,
+      "investment_total": 377821.66,
+      "material_total": 5084.71,
+      "third_party_total": 372736.95,
+      "rh_partial_total": 0.0,
+      "rh_exclusive_total": 0.0,
+      "rh_total": 0.0,
+      "exclusion_total": 407127.38,
+      "estimated_savings": 138423.31,
+      "method": "xlsx_resumo_direct",
+      "projects_total": 37,
+      "projects_incentivized": 0,
+      "eligible_hours": 0.0,
+      "top_projects": [
+        {
+          "name": "Bemmax Sabor Neutro",
+          "value": 0.0
+        },
+        {
+          "name": "CarboCH",
+          "value": 0.0
+        },
+        {
+          "name": "Centro de Inovação",
+          "value": 0.0
+        },
+        {
+          "name": "Cicatrização",
+          "value": 0.0
+        },
+        {
+          "name": "Congresso ESPEN",
+          "value": 0.0
+        },
+        {
+          "name": "Congresso Ganepão",
+          "value": 0.0
+        },
+        {
+          "name": "Congressos",
+          "value": 0.0
+        },
+        {
+          "name": "Diamax IG",
+          "value": 0.0
+        },
+        {
+          "name": "Dieta artesanal",
+          "value": 0.0
+        },
+        {
+          "name": "EE - 2020",
+          "value": 0.0
+        },
+        {
+          "name": "Energyzip 1.0",
+          "value": 0.0
+        },
+        {
+          "name": "Energyzip baunilha",
+          "value": 0.0
+        }
+      ],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "base_total": 859993.12,
+      "investment_total": 503579.72,
+      "material_total": 0.0,
+      "third_party_total": 503579.72,
+      "rh_partial_total": 0.0,
+      "rh_exclusive_total": 0.0,
+      "rh_total": 0.0,
+      "exclusion_total": 582654.78,
+      "estimated_savings": 198102.63,
+      "method": "xlsx_resumo_direct",
+      "projects_total": 50,
+      "projects_incentivized": 0,
+      "eligible_hours": 0.0,
+      "top_projects": [
+        {
+          "name": "Bemmax sabor neutro",
+          "value": 0.0
+        },
+        {
+          "name": "CarboCH",
+          "value": 0.0
+        },
+        {
+          "name": "Centro de Inovação / Novos laboratórios",
+          "value": 0.0
+        },
+        {
+          "name": "Cicatrização",
+          "value": 0.0
+        },
+        {
+          "name": "Congresso ESPEN",
+          "value": 0.0
+        },
+        {
+          "name": "Congresso Ganepão",
+          "value": 0.0
+        },
+        {
+          "name": "Diamax IG",
+          "value": 0.0
+        },
+        {
+          "name": "Diamax pó",
+          "value": 0.0
+        },
+        {
+          "name": "Dieta artesanal",
+          "value": 0.0
+        },
+        {
+          "name": "EE - 2020",
+          "value": 0.0
+        },
+        {
+          "name": "Energyzip 1.0",
+          "value": 0.0
+        },
+        {
+          "name": "Energyzip baunilha",
+          "value": 0.0
+        }
+      ],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2023,
+      "base_total": 573557.07,
+      "investment_total": 366648.22,
+      "material_total": 0.0,
+      "third_party_total": 366648.22,
+      "rh_partial_total": 0.0,
+      "rh_exclusive_total": 0.0,
+      "rh_total": 0.0,
+      "exclusion_total": 344134.24,
+      "estimated_savings": 117005.64,
+      "method": "xlsx_resumo_direct",
+      "projects_total": 0,
+      "projects_incentivized": 0,
+      "eligible_hours": 0.0,
+      "top_projects": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\05_1ZvGnQ-g2Au2Q3y8Qq93x4y0z3rLQidzzfdNX6ypD_fQ_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2024,
+      "base_total": 463067.12,
+      "investment_total": 363268.97,
+      "material_total": 0.0,
+      "third_party_total": 363268.97,
+      "rh_partial_total": 0.0,
+      "rh_exclusive_total": 0.0,
+      "rh_total": 0.0,
+      "exclusion_total": 277840.27,
+      "estimated_savings": 94465.69,
+      "method": "xlsx_resumo_direct",
+      "projects_total": 0,
+      "projects_incentivized": 0,
+      "eligible_hours": 0.0,
+      "top_projects": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\06_1AgMQv_FuFn6oJRpr_9mN9Lpi5mMzU3Kzkbkwa6EWXNQ_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "base_total": 800234.15,
+      "investment_total": 755697.1,
+      "material_total": 0.0,
+      "third_party_total": 755697.1,
+      "rh_partial_total": 0.0,
+      "rh_exclusive_total": 0.0,
+      "rh_total": 0.0,
+      "exclusion_total": 480140.49,
+      "estimated_savings": 163247.77,
+      "method": "xlsx_resumo_direct",
+      "projects_total": 28,
+      "projects_incentivized": 21,
+      "eligible_hours": 792.42,
+      "top_projects": [
+        {
+          "name": "INOV00001",
+          "value": 253097.59
+        },
+        {
+          "name": "INOV00016",
+          "value": 188210.52
+        },
+        {
+          "name": "INOV00017",
+          "value": 172823.91
+        },
+        {
+          "name": "INOV00014",
+          "value": 80256.59
+        },
+        {
+          "name": "INOV00010",
+          "value": 36218.16
+        },
+        {
+          "name": "INOV00004",
+          "value": 31072.13
+        },
+        {
+          "name": "INOV00006",
+          "value": 25012.03
+        },
+        {
+          "name": "INOV00046",
+          "value": 4313.77
+        },
+        {
+          "name": "INOV00036",
+          "value": 4293.06
+        },
+        {
+          "name": "INOV00041",
+          "value": 2540.31
+        },
+        {
+          "name": "INOV00035",
+          "value": 1437.57
+        },
+        {
+          "name": "INOV00038",
+          "value": 502.98
+        }
+      ],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "year": 2020,
+      "name": "Bemmax Sabor Neutro",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "CarboCH",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Centro de Inovação",
+      "status": "nao informado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Cicatrização",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Congresso ESPEN",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Congresso Ganepão",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Congressos",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Diamax IG",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Dieta artesanal",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "EE - 2020",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Energyzip 1.0",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Energyzip baunilha",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Energyzip Chocolate",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Energyzip Fiber",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Energyzip Junior (Turquia)",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Energyzip morango",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Energyzip Sênior",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Estabilidade misturas secas",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "HDmax 1.5",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "HDmax 2.0",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Immax - etapa final da Pesquisa Clínica",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Inovação industrial - misturas secas",
+      "status": "nao informado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "InstanTH CLEAR (espessante)",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "InstanTH NEO",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Novos Produtos Turquia",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Pesquisas Clínicas",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "ProteinPT",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Retort (Sistema Fechado)",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Sachê",
+      "status": "nao informado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Sarcopenia",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Software P&D",
+      "status": "nao informado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Suplemento hiperproteico líquido",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Trophic 1.5 250mL - Edge",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Trophic Basic pó",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Trophic Junior Powder (China)",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Trophic Soya 1.5 Fiber",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2020,
+      "name": "Vulcano (pote jumbo e sachês a vácuo)",
+      "status": "nao informado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Bemmax sabor neutro",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "CarboCH",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Centro de Inovação / Novos laboratórios",
+      "status": "nao informado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Cicatrização",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Congresso ESPEN",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Congresso Ganepão",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Diamax IG",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Diamax pó",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Dieta artesanal",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "EE - 2020",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Energyzip 1.0",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Energyzip baunilha",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Energyzip Chocolate",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Energyzip Fiber",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Energyzip morango",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Energyzip pó",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "EnergyZIP Protein",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Energyzip Sênior",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Estabilidade misturas secas",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "HDmax - pesquisa",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "HDmax 1.5",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "HDmax 2.0",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Immax - etapa final da Pesquisa Clínica",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Inovação industrial - misturas secas",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "InstanTH CLEAR (espessante)",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "InstanTH Neo",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Jumbo UHT",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Licenciamento",
+      "status": "nao informado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Linha Soya pó",
+      "status": "nao informado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Marca própria - Enterfiber Prebiotic",
+      "status": "nao informado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Novos produtos Turquia",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Pasta de Amendoim - RUTF",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Peptimax - pesquisa",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "ProteinPT",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Retort (Sistema Fechado)",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Sachê",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Sarcopenia",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Software P&D",
+      "status": "nao informado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Suplemento hiperproteico líquido",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Trophic 1.5 250mL - Edge",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Trophic Basic Enteral",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Trophic Basic pó",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Trophic Dose Única",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Trophic Dose Única 250mL - Edge",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Trophic Junior Líquido 1.0 (ARB)",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Trophic Junior Líquido 1.0 e 1.5 (ARB)",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Trophic Junior Powder (China)",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Trophic Soya 1.5 Fiber",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Trophic Soya pó",
+      "status": "nao informado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2021,
+      "name": "Vulcano (pote jumbo e Sachês a vácuo)",
+      "status": "nao informado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV000001 (2018 - RETORT)",
+      "status": "incentivado",
+      "summary": "O objetivo é atuar num mercado que demanda 50% da Nutrição Enteral, mercado este que a Prodiet não atende com sua linha atual.",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV000004 (2019 - CICATRIZAÇÃO)",
+      "status": "incentivado",
+      "summary": "Produto voltado para cicatrização, desde pós-operatórios, como prevenção ou tratamento de lesões por pressão.",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV000006 (2019 - ARTESANAL)",
+      "status": "incentivado",
+      "summary": "Desenvolver um produto inovador no mercado brasileiro, visto que não há produto semelhante, com o objetivo de complementar a dieta enteral artesanal, com ótima relação custo/benefício.",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV000010",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV000013 (2021 - SACHÊ A VÁCUO)",
+      "status": "incentivado",
+      "summary": "Aplicar o uso do vácuo no envase dos produtos em pó do portfólio atual Prodiet, com o intuito de estudar se a embalagem mantém o vácuo ao longo do shelf-life, bem como auxiliar a manter as suas características nutricionais e sensoriais, em comparação às embalagens atuais (potes e latas).",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV000014 (2021 - ENERGYZIP 25%)",
+      "status": "incentivado",
+      "summary": "O projeto visa permitir maior abertura para Prodiet no mercado público e privado. Desenvolver suplemento hipercalórico e hiperproteico líquido, uma vez que hoje não há este produto em portfolio e existe demanda cada vez maior por suplementos hiperproteicos no mercado. Acompanhar o lançamento da linha de sistema fechado, tendo um produto que acompanha um mix de vendas para hospitais. Produto que seja competitivo também para processos públicos, bem como para o mercado internacional",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV000016 (2018 - LINHA TROPHIC SOYA LÍQUIDO)",
+      "status": "incentivado",
+      "summary": "Este projeto tem como objetivo aumentar o portfólio da linha 100% Soja, com produto de maior perfil proteico e fibras, atendendo a consumidores com alergias alimentares às protéinas do leite.",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV000017 (2020 - LINHA TROPHIC SOYA PÓ)",
+      "status": "incentivado",
+      "summary": "O objetivo é expandir a linha guarda-chuva Soya, desenvolvendo produtos em pó para nutrição enteral e oral para público adulto, com foco em editais de licitação.",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV000022 (2021 - PESQUISA CLÍNICA - INSTANTH NEO)",
+      "status": "incentivado",
+      "summary": "Determinar se o uso de Instanth Neo por 6 meses em pacientes acima dos 60 anos, com diagnóstico de CCL por DA é capaz de interferir no desempenho cognitivo, medido por testes neuropsicológicos.",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV000023 (2021 - PESQUISA CLÍNICA - DIAMAX IG)",
+      "status": "incentivado",
+      "summary": "Comprovar os benefícios e segurança de uso do produto DiamaxIG em amostra com Diabetes Mellitus tipo 2 e apresentar os resultados encontrados em forma de abstracts em congressos e artigos científicos.",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV000024 (2021 - ESTUDO DE CASO)",
+      "status": "nao informado",
+      "summary": "A realização de estudos de caso (EC) permite à empresa comprovar os benefícios e segurança de uso dos produtos, agregar maior participação na comunidade cientifica pela parceria com os profissionais, além apresentar os resultados encontrados em forma de abstracts em congressos e/ou artigos científicos.",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV000025 (2022 - TETRA PAK SF)",
+      "status": "incentivado",
+      "summary": "Comercializar a atual embalagem cartonada no uso de Sistema Fechado, sem haver a necessidade de transferência para o frasco de administração",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV000026",
+      "status": "nao informado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV000027 (2022 - PROJETO PESQUISA BÁSICA)",
+      "status": "nao informado",
+      "summary": "A realização de pesquisas clínicas permite à empresa comprovar os benefícios e segurança de uso dos produtos, agregar maior participação na comunidade cientifica pela parceria com as universidades, além apresentar os resultados encontrados em forma de abstracts em congressos e/ou artigos científicos.",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV000028 (2021 - PESQUISA APLICADA - RESULTADOS P&D)",
+      "status": "nao informado",
+      "summary": "Obter dados para construção de uma base de dados sólidas e possuir literatura reconhecida cientificamente, a ser utilizada como referência para análise estatística de dados analíticos obtidos, para alimentos para nutrição enteral e suplementos alimentares.",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV000029 (2021 - PESQUISA CLÍNICA - HDMAX)",
+      "status": "incentivado",
+      "summary": "Agregar à comunidade científica conhecimento sobre os efeitos da suplementação especializada em pacientes dialíticos",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV00032",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV000035 (2023 - PESQUISA CLÍNICA - CICATRIZAÇÃO)",
+      "status": "incentivado",
+      "summary": "Avaliar o impacto do uso do suplemento em pó para cicatrização no tempo de cicatrização e evolução da ferida.",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV000036 (2023 - PESQUISA APLICADA - ARTESANAL)",
+      "status": "incentivado",
+      "summary": "Avaliar composição físico-químicas de dietas enterais artesanais com e sem uso de suplementação específica, por meio de análises laboratoriais",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV000037 (2023 - PESQUISA CLÍNICA - IMMAX)",
+      "status": "incentivado",
+      "summary": "Comprovar os benefícios e segurança de uso do produto Immax em amostra de indivíduos com câncer colorretal e apresentar os resultados encontrados em forma de abstracts em congressos e artigos científicos.",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV00038",
+      "status": "incentivado",
+      "summary": "",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV000039 (2023 - PESQUISA ÍNDICE GLICÊMICO - DIAMAX IN / SF UTI)",
+      "status": "incentivado",
+      "summary": "Determinar o Indice glicemico de 2 fórmulas especializadas",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV000041 (2023 - PROTEÍNA LÍQUIDA)",
+      "status": "incentivado",
+      "summary": "Desenvolver módulo de proteína líquido para produção própria, em processo retort, que forneça o mínimo de aminoácidos segundo a RDC 21/2015, com menor volume, para uso em hospitais.",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV00046 (2023 - PEPTIMAX IBD)",
+      "status": "incentivado",
+      "summary": "Desenvolver um novo produto voltado para nutrição em estados de inflamação intestinal. Crescente demanda de mercado deste tipo de produto com fator bioativo TGF beta 2",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV00047 (2024 - PEPTÍDICA JUNIOR LÍQUIDA)",
+      "status": "incentivado",
+      "summary": "Desenvolver uma fórmula oligomérica para pediatria (1 a 10 anos), líquida. Competitivo com mercado nacional e internacional.",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV00049 (2024 - PESQUISA CLÍNICA PROTEIN PT WHEY)",
+      "status": "nao informado",
+      "summary": "Avaliar a melhoria da massa muscular de mulheres obesas com câncer de mama em tratamento quimioterápico que receberam suplementação nutricional com whey protein isolado (WPI - ProteinPT Whey).",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV00050 (2024 - PESQUISA APLICAÇÃO MICROBIOLOGIA)",
+      "status": "nao informado",
+      "summary": "Avaliar o comportamento microbiológico dos produtos da Prodiet Medical Nutrition, durante a administração em sistema aberto e sistema com adaptador de conexão direta ao equipo",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "INOV00052 (2024 - DIAMAX 1.5)",
+      "status": "nao informado",
+      "summary": "Desenvolver dieta enteral líquida para controle glicêmico hipercalórico e hiperproteico",
+      "activities": [],
+      "source_refs": [
+        "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "company": "PRODIET",
+      "year": 2020,
+      "source": "data_sources\\raw\\prodiet\\02_1DjFpKAlzV5iE_fnqeUtW0mmrQdz_Sk5C_-aCpKsP-dc_xlsx.xlsx",
+      "kind": "xlsx",
+      "extracted_from": "RESUMO",
+      "confidence": "alta",
+      "notes": "RESUMO moderno lido diretamente por linha fiscal."
+    },
+    {
+      "company": "PRODIET",
+      "year": 2021,
+      "source": "data_sources\\raw\\prodiet\\03_1UQ9kgMSMfMe7eSzJ5xEb_gCdLqNBSOJIE0n1zIxUyQw_xlsx.xlsx",
+      "kind": "xlsx",
+      "extracted_from": "RESUMO",
+      "confidence": "alta",
+      "notes": "RESUMO moderno lido diretamente por linha fiscal."
+    },
+    {
+      "company": "PRODIET",
+      "year": 2023,
+      "source": "data_sources\\raw\\prodiet\\05_1ZvGnQ-g2Au2Q3y8Qq93x4y0z3rLQidzzfdNX6ypD_fQ_xlsx.xlsx",
+      "kind": "xlsx",
+      "extracted_from": "RESUMO",
+      "confidence": "alta",
+      "notes": "RESUMO moderno lido diretamente por linha fiscal."
+    },
+    {
+      "company": "PRODIET",
+      "year": 2024,
+      "source": "data_sources\\raw\\prodiet\\06_1AgMQv_FuFn6oJRpr_9mN9Lpi5mMzU3Kzkbkwa6EWXNQ_xlsx.xlsx",
+      "kind": "xlsx",
+      "extracted_from": "RESUMO",
+      "confidence": "alta",
+      "notes": "RESUMO moderno lido diretamente por linha fiscal."
+    },
+    {
+      "company": "PRODIET",
+      "year": 2025,
+      "source": "data_sources\\raw\\prodiet\\07_1WexcBwsjYvYbW9uz9D2MvgyVAqHpUCXSePu7SJFy0vA_xlsx.xlsx",
+      "kind": "xlsx",
+      "extracted_from": "RESUMO",
+      "confidence": "alta",
+      "notes": "RESUMO moderno lido diretamente por linha fiscal."
+    },
+    {
+      "company": "PRODIET",
+      "year": 2019,
+      "source": "data_sources\\raw\\prodiet\\01_1lv_w4BqBWpf-3Y0vHm3v294Sih8dsCXX2ItrvgVn-mA_xlsx.xlsx",
+      "kind": "xlsx",
+      "extracted_from": "abas de revisao de projetos",
+      "confidence": "media",
+      "notes": "Fonte textual/narrativa sem RESUMO financeiro identificado."
+    },
+    {
+      "company": "PRODIET",
+      "year": 2022,
+      "source": "https://docs.google.com/spreadsheets/d/1V4Vb0mqRYB3VcAYk26NIq04arse2eO5rmIoZJYl2ux0/edit?usp=sharing",
+      "kind": "google_sheet",
+      "extracted_from": "download",
+      "confidence": "bloqueado",
+      "notes": "Google retornou 401 Unauthorized na exportacao XLSX; ano ainda sem metricas normalizadas."
+    }
+  ]
+}
