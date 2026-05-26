@@ -106,7 +106,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     }
     .topbar {
       display: grid;
-      grid-template-columns: minmax(230px, 360px) minmax(190px, 300px) minmax(150px, 210px) minmax(220px, 1fr);
+      grid-template-columns: minmax(180px, 280px) minmax(150px, 240px) minmax(120px, 180px) minmax(120px, 180px) minmax(220px, 1fr);
       gap: 10px;
       align-items: center;
       margin-bottom: 20px;
@@ -623,6 +623,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       <div class="topbar">
         <select id="companySelect" aria-label="Empresa" onchange="setCompany(this.value)"></select>
         <select id="projectSelect" aria-label="Projeto" onchange="setProject(this.value)"></select>
+        <select id="departmentSelect" aria-label="Departamento" onchange="setDepartment(this.value)"></select>
         <select id="statusSelect" aria-label="Status" onchange="setStatus(this.value)">
           <option value="all">Todos os status</option>
           <option value="ok">Incentivados</option>
@@ -639,7 +640,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     const COMPANIES = PORTFOLIO.companies || [];
     const fmtMoney = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
     const fmtNum = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2 });
-    const state = { company: 0, project: 'all', status: 'all', q: '', tab: 'overview' };
+    const state = { company: 0, project: 'all', status: 'all', q: '', department: 'all', tab: 'overview' };
     const chatState = {};
     let searchTimer = 0;
     let DATA = COMPANIES[0] || {};
@@ -652,6 +653,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       ['finance', 'Valores'],
       ['people', 'Pessoas'],
       ['history', 'Histórico'],
+      ['risks', 'Riscos'],
       ['chat', 'Chatbot'],
       ['audit', 'Auditoria']
     ];
@@ -693,6 +695,31 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     }
     function cleanRows(rows) {
       return (rows || []).filter(row => Object.values(row || {}).some(v => String(v || '').trim()));
+    }
+    function departmentValue(row) {
+      return String(cell(row, ['Departamento', 'Setor', 'Area', 'Área']) || '').trim();
+    }
+    function matchDepartment(row) {
+      return state.department === 'all' || norm(departmentValue(row)) === norm(state.department);
+    }
+    function allDepartments() {
+      const seen = new Map();
+      cleanRows(DATA.tables?.pessoal || []).forEach(row => {
+        const value = departmentValue(row);
+        if (value && !seen.has(norm(value))) seen.set(norm(value), value);
+      });
+      return [...seen.values()].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+    }
+    function departmentProjectRefs() {
+      if (state.department === 'all') return null;
+      const refs = new Set();
+      cleanRows(DATA.tables?.pessoal || []).filter(matchDepartment).forEach(row => {
+        const project = String(cell(row, ['Projeto', 'Attach']) || '').trim();
+        const code = codeKey(project);
+        if (code) refs.add(code);
+        if (project) refs.add(norm(project));
+      });
+      return refs;
     }
     function matchCode(row, code) {
       if (!code || code === 'all') return true;
@@ -740,10 +767,17 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       return [...map.entries()].sort((a, b) => b[1] - a[1]).slice(0, limit).map(([name, value]) => ({ name, value }));
     }
     function allProjects() {
-      return cleanRows(DATA.tables?.projetos || []).map(row => {
+      const refs = departmentProjectRefs();
+      return cleanRows(DATA.tables?.projetos || []).filter(row => {
+        if (!refs) return true;
+        const title = String(cell(row, ['Projeto']) || '').trim();
+        const attach = String(cell(row, ['Attach']) || '').trim();
+        const code = codeKey(title) || codeKey(attach);
+        return (code && refs.has(code)) || refs.has(norm(title)) || refs.has(norm(attach));
+      }).map(row => {
         const code = codeFrom(cell(row, ['Projeto'])) || codeFrom(cell(row, ['Attach'])) || String(cell(row, ['Projeto']) || '').split(' ')[0];
         const work = cleanRows(DATA.tables?.trabalho || []).filter(r => matchCode(r, code));
-        const people = cleanRows(DATA.tables?.pessoal || []).filter(r => matchCode(r, code));
+        const people = cleanRows(DATA.tables?.pessoal || []).filter(r => matchCode(r, code)).filter(matchDepartment);
         const inv = cleanRows(DATA.tables?.investimentos || []).filter(r => matchCode(r, code));
         const accepted = work.filter(r => boolCell(r, ['Projeto incentivado?']) && boolCell(r, ['Atividade incentivada?']));
         const rejected = work.filter(r => !boolCell(r, ['Projeto incentivado?']) || !boolCell(r, ['Atividade incentivada?']));
@@ -783,7 +817,9 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       return state.project !== 'all' ? list[0] : list.sort((a, b) => b.base - a.base)[0];
     }
     function activeRows(key) {
-      return cleanRows(DATA.tables?.[key] || []).filter(row => matchCode(row, state.project)).filter(matchSearch);
+      let rows = cleanRows(DATA.tables?.[key] || []).filter(row => matchCode(row, state.project)).filter(matchSearch);
+      if (key === 'pessoal') rows = rows.filter(matchDepartment);
+      return rows;
     }
     function kpi(label, value, sub = '') {
       return '<div class="metric"><span>' + esc(label) + '</span><b>' + value + '</b><small>' + esc(sub) + '</small></div>';
@@ -929,7 +965,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     }
     function people() {
       const rows = activeRows('pessoal');
-      return '<section id="people">' + hero() + '<div class="grid-2"><div>' + chart('RH por colaborador', group(rows, ['Funcionário', 'Funcionario'], ['Total PD&I', 'Total PDI'], 15), 'money') + '</div><div>' + chart('RH por projeto', group(rows, ['Projeto'], ['Total PD&I', 'Total PDI'], 12), 'money', 'blue') + '</div></div>' + tablePanel('Base de RH filtrada', rows, ['Projeto', 'Funcionário', 'Cargo', 'Formação', 'Horas efetivas (PD&I)', 'Custo hora (PD&I)', 'Total PD&I', 'Dedicação']) + '</section>';
+      return '<section id="people">' + hero() + '<div class="grid-2"><div>' + chart('RH por colaborador', group(rows, ['Funcionário', 'Funcionario'], ['Total PD&I', 'Total PDI'], 15), 'money') + '</div><div>' + chart('RH por projeto', group(rows, ['Projeto'], ['Total PD&I', 'Total PDI'], 12), 'money', 'blue') + '</div></div>' + tablePanel('Base de RH filtrada', rows, ['Projeto', 'Funcionário', 'Departamento', 'Setor', 'Area', 'Cargo', 'Formação', 'Horas efetivas (PD&I)', 'Custo hora (PD&I)', 'Total PD&I', 'Dedicação']) + '</section>';
     }
     function historyRows() {
       return (DATA.history?.years || []).slice().sort((a, b) => Number(a.year || 0) - Number(b.year || 0));
@@ -1055,8 +1091,8 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     function renderChat() {
       const box = $('messages');
       if (!box) return;
-      const key = DATA.company || 'empresa';
-      if (!chatState[key]) chatState[key] = [{ role: 'bot', text: 'Olá. Estou lendo os dados de ' + DATA.company + '. Pergunte sobre Lei do Bem, valores, projetos, atividades, RH ou investimentos.' }];
+      const key = DATA.company || 'empresa'; // Key for chat history
+      if (!chatState[key]) chatState[key] = [{ role: 'bot', text: 'Olá! Eu sou o Gemini, seu assistente de PD&I. Estou lendo os dados de ' + DATA.company + '. Pergunte sobre Lei do Bem, valores, projetos, atividades, RH ou investimentos.' }];
       box.innerHTML = chatState[key].map(m => '<div class="msg ' + m.role + '">' + m.text + '</div>').join('');
       box.scrollTop = box.scrollHeight;
     }
@@ -1086,9 +1122,17 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       const sheets = Object.entries(DATA.sheets || {}).map(([key, sheet]) => ({ Aba: sheet.original_name, Chave: key, Linhas: sheet.rows_table, Colunas: sheet.cols_table, Colunas_lidas: (sheet.columns || []).join(', ') }));
       return '<section id="audit">' + hero() + '<div class="panel"><div class="panel-head"><h2>Validações</h2></div><div class="table-wrap"><table><thead><tr><th>Item</th><th>Status</th><th>Detalhe</th></tr></thead><tbody>' + checks + '</tbody></table></div></div>' + tablePanel('Abas lidas', sheets, ['Aba', 'Chave', 'Linhas', 'Colunas'], true) + tablePanel('Resumo original', DATA.tables?.resumo || [], ['Natureza', 'Projetos', '1', '2', '3', '4', 'TOTAL', 'Total']) + tablePanel('Amostra de trabalho no HTML', DATA.tables?.trabalho || [], ['Projeto', 'Funcionário', 'Mês', 'Etapa', 'Atividade realizada', 'Descrição da atividade', 'Horas decimais', 'Projeto incentivado?', 'Atividade incentivada?']) + '</section>';
     }
+    function risks() {
+      const rows = cleanRows(DATA.tables?.riscos || []).filter(matchSearch);
+      return '<section id="risks">' + hero() + tablePanel('Riscos', rows, ['Risco', 'Categoria', 'Tipo', 'Impacto', 'Probabilidade', 'Mitigação'], true) + '</section>';
+    }
     function populateControls() {
       $('companySelect').innerHTML = COMPANIES.map((c, i) => '<option value="' + i + '">' + esc(c.company) + '</option>').join('');
       $('companySelect').value = String(state.company);
+      const departments = allDepartments();
+      if (state.department !== 'all' && !departments.some(item => norm(item) === norm(state.department))) state.department = 'all';
+      $('departmentSelect').innerHTML = '<option value="all">Todos os departamentos</option>' + departments.map(item => '<option value="' + esc(item) + '">' + esc(item) + '</option>').join('');
+      $('departmentSelect').value = state.department;
       const projects = allProjects().sort((a, b) => a.code.localeCompare(b.code));
       $('projectSelect').innerHTML = '<option value="all">Todos os projetos</option>' + projects.map(p => '<option value="' + esc(p.code) + '">' + esc((p.code || 'Projeto') + ' · ' + short(p.title, 70)) + '</option>').join('');
       $('projectSelect').value = projects.some(p => p.code === state.project) ? state.project : 'all';
@@ -1099,7 +1143,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     function render() {
       DATA = COMPANIES[state.company] || {};
       populateControls();
-      $('app').innerHTML = [overview(), projects(), activities(), finance(), people(), history(), chat(), audit()].join('');
+      $('app').innerHTML = [overview(), projects(), activities(), finance(), people(), history(), chat(), audit(), risks()].join('');
       activate(state.tab);
       setTimeout(renderChat, 0);
       setTimeout(updateSimulator, 0);
@@ -1117,8 +1161,14 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     function setCompany(value) {
       state.company = Number(value || 0);
       state.project = 'all';
+      state.department = 'all';
       state.status = 'all';
       state.q = '';
+      render();
+    }
+    function setDepartment(value) {
+      state.department = value || 'all';
+      state.project = 'all';
       render();
     }
     function setStatus(value) {
@@ -1132,6 +1182,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     }
     window.setCompany = setCompany;
     window.setProject = setProject;
+    window.setDepartment = setDepartment;
     window.setStatus = setStatus;
     window.setSearch = setSearch;
     window.activate = activate;
@@ -1189,9 +1240,10 @@ def slim_analysis(analysis: dict) -> dict:
     out["tables"]["trabalho"] = slim_work_rows(tables.get("trabalho", []))
     out["tables"]["pessoal"] = project_columns(
         tables.get("pessoal", []),
-        ["Projeto", "Funcionário", "Funcionario", "Cargo", "Formação", "Horas efetivas (PD&I)", "Horas efetivas PDI", "Custo hora (PD&I)", "Total PD&I", "Total PDI", "Dedicação"],
+        ["Projeto", "Funcionário", "Funcionario", "Cargo", "Formação", "Departamento", "Setor", "Area", "Horas efetivas (PD&I)", "Horas efetivas PDI", "Custo hora (PD&I)", "Total PD&I", "Total PDI", "Dedicação"],
     )
     out["tables"]["investimentos"] = slim_investment_rows(tables.get("investimentos", []))
+    out["tables"]["riscos"] = project_columns(tables.get("riscos", []), ["Risco", "Categoria", "Tipo", "Impacto", "Probabilidade", "Mitigação"])
     return out
 
 

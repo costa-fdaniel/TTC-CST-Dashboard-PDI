@@ -125,6 +125,7 @@ def canonical_sheet_name(name: str) -> str:
         "salarios": "salarios",
         "verificacao rh": "verificacao_rh",
     }
+    aliases["riscos"] = "riscos"
     return aliases.get(cleaned, cleaned.replace(" ", "_"))
 
 

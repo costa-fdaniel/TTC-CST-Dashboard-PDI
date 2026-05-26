@@ -179,6 +179,7 @@ def collect_metrics(tables: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
         "commission": resumo_metrics.get("commission") or 0,
         "quarterly": resumo_metrics.get("quarterly") or [],
         "resumo_natures": resumo_metrics.get("natures", []),
+        "risks_by_category": group_sum(tables.get("riscos", []), ["Categoria", "Tipo"], ["Impacto", "Valor"]),
         "investment_by_nature": resumo_metrics.get("investment_by_nature") or investment_metrics["by_nature"],
     }
     if not metrics["base_total"]:
