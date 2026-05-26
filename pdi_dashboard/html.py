@@ -1129,11 +1129,58 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     }
     function projectHistoryMatches(p) {
       if (!p) return [];
-      const code = codeKey(p.code || p.title);
+      const code = codeKey(p.code || p.attach || p.title);
       const title = norm(p.title);
+      const attach = norm(p.attach);
+      const titleTokens = title.split(' ').filter(token => token.length > 3 && !['projeto', 'desenvolvimento', 'desenvolver', 'linha'].includes(token));
       return (DATA.history?.projects || []).filter(item => {
         const text = [item.name, item.summary, item.status, ...(item.activities || [])].join(' ');
-        return (code && codeKey(text) === code) || (title && norm(text).includes(title.slice(0, 28)));
+        const textNorm = norm(text);
+        const overlap = titleTokens.filter(token => textNorm.includes(token)).length;
+        return (code && codeKey(text) === code) || (attach && textNorm.includes(attach)) || (title && textNorm.includes(title.slice(0, 28))) || overlap >= Math.min(3, titleTokens.length);
+      });
+    }
+    function topEvidenceTexts(rows, names, limit = 5) {
+      const seen = new Set();
+      const out = [];
+      cleanRows(rows).forEach(row => {
+        const text = short(cell(row, names), 260);
+        const key = norm(text);
+        if (text && !seen.has(key)) {
+          seen.add(key);
+          out.push(text);
+        }
+      });
+      return out.slice(0, limit);
+    }
+    function projectTimelineRows(p) {
+      const history = projectHistoryMatches(p);
+      if (!history.length) {
+        return [{
+          Ano: DATA.year || '',
+          Evento: p?.title || 'Projeto selecionado',
+          Maturidade: maturityProfile(p).stage,
+          Evidências: p?.accepted?.length ? num(p.hours) + ' horas aceitas no ano corrente' : 'Sem histórico anual vinculado',
+          Faltas: 'Não há narrativa histórica conectada a este projeto nos arquivos antigos carregados.'
+        }];
+      }
+      return history.map(item => {
+        const text = [item.summary, ...(item.activities || [])].join(' ');
+        const hasTest = /teste|ensaio|valid|prot[oó]tipo|piloto|bancada|amostra/i.test(text);
+        const hasScale = /escala|industrial|produ[cç][aã]o|lan[cç]amento|implement/i.test(text);
+        const hasStudy = /estudo|pesquisa|an[aá]lise|norma|metodologia|desenvol/i.test(text);
+        const maturity = hasScale ? 'Aplicação/escala' : hasTest ? 'Validação técnica' : hasStudy ? 'Pesquisa e desenvolvimento' : 'Narrativa preliminar';
+        const gaps = [];
+        if (!hasTest) gaps.push('sem teste/validação explícita');
+        if (!/resultado|evid[eê]ncia|conclus/i.test(text)) gaps.push('sem resultado conclusivo');
+        if (!/valor|custo|hora|invest/i.test(text)) gaps.push('sem vínculo financeiro explícito');
+        return {
+          Ano: item.year || '',
+          Evento: item.name || p?.title || '',
+          Maturidade: maturity,
+          Evidências: short(text || item.status || 'Narrativa histórica localizada.', 260),
+          Faltas: gaps.join('; ') || 'sem falta crítica identificada na narrativa'
+        };
       });
     }
     function maturityProfile(p) {
@@ -1145,7 +1192,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       if (p?.accepted?.length) score += 18;
       if (Number(p?.hours || 0) > 40) score += 12;
       if (Number(p?.investment || 0) > 0) score += 10;
-      if (history.length) score += 12;
+      if (history.length) score += Math.min(18, 8 + history.length * 2);
       score = Math.min(score, 100);
       const stage = score >= 82 ? 'Maturidade alta' : score >= 62 ? 'Validação avançada' : score >= 42 ? 'Desenvolvimento técnico' : score >= 22 ? 'Estruturação inicial' : 'Evidência insuficiente';
       const next = score >= 82 ? 'Manter trilha de evidências, impactos e memória técnica por ano.' : score >= 62 ? 'Amarrar resultados, testes, gastos e decisões técnicas ao ganho inovador.' : score >= 42 ? 'Reforçar barreira tecnológica, critérios de aceite e documentação de execução.' : 'Consolidar objetivo técnico, incertezas, atividades e vínculo financeiro.';
@@ -1234,20 +1281,44 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     function eligibilityDecision(p) {
       if (!p) return { status: 'Sem projeto selecionado', reason: 'Selecione uma empresa e um projeto para o agente ler a base.' };
       const rows = eligibilityCriteriaRows(p);
-      const critical = ['Enquadramento na base', 'Elemento inovador', 'Barreira ou incerteza tecnológica', 'Atividades técnicas executadas', 'Vínculo financeiro'];
+      const critical = ['Elemento inovador', 'Barreira ou incerteza tecnológica', 'Atividades técnicas executadas', 'Vínculo financeiro', 'Descrição técnica mínima'];
       const metCritical = rows.filter(row => critical.includes(row.Critério) && row.Status === 'Atendido').length;
       const pending = rows.filter(row => ['Pendente', 'Não atendido'].includes(row.Status)).length;
-      if (p.ok && metCritical >= 4) return { status: 'Incentivado com boa sustentação', reason: 'A base marca o projeto como incentivado e contém evidências técnicas, atividades aceitas e valores vinculados suficientes para sustentar o enquadramento.' };
-      if (p.ok) return { status: 'Incentivado com ressalvas', reason: 'A base marca o projeto como incentivado, mas faltam evidências críticas ou conciliações para uma defesa técnica robusta.' };
-      if (!p.ok && metCritical >= 4) return { status: 'Revisar potencial de incentivo', reason: 'Apesar de não estar marcado como incentivado, há sinais técnicos e financeiros que justificam reavaliação do enquadramento.' };
-      return { status: 'Não incentivado pela leitura atual', reason: 'A base não marca o projeto como incentivado e há pendências técnicas/documentais relevantes nos critérios centrais.' + (pending ? ' Pendências: ' + pending + '.' : '') };
+      const marked = p.ok ? ' A planilha também marca o projeto como incentivado.' : ' A planilha não marca o projeto como incentivado.';
+      if (metCritical >= 4 && p.accepted?.length) return { status: 'Tecnicamente incentivável', reason: 'Há substância técnica suficiente: desafio tecnológico, descrição, execução registrada e base econômica vinculada.' + marked };
+      if (metCritical >= 3) return { status: 'Potencialmente incentivável com ressalvas', reason: 'Há sinais técnicos relevantes, mas faltam evidências críticas para uma defesa robusta.' + marked + (pending ? ' Pendências: ' + pending + '.' : '') };
+      if (p.ok) return { status: 'Marcado como incentivado, mas frágil tecnicamente', reason: 'A marcação da planilha existe, porém a leitura técnico-científica não encontrou evidências suficientes de inovação, incerteza, execução ou vínculo financeiro.' };
+      return { status: 'Não incentivável pela leitura técnico-científica atual', reason: 'A base disponível não demonstra substância técnica suficiente para sustentar Lei do Bem.' + (pending ? ' Pendências: ' + pending + '.' : '') };
+    }
+    function technicalScientificAnswer(p) {
+      if (!p) return 'Selecione um projeto para o agente produzir a análise técnico-científica.';
+      const decision = eligibilityDecision(p);
+      const profile = maturityProfile(p);
+      const element = cell(p.row, ['Elemento tecnologicamente novo ou inovador', 'Elemento inovador']);
+      const barrier = cell(p.row, ['Barreira ou desafio tecnológico a superar', 'Risco tecnológico']);
+      const description = cell(p.row, ['Descrição', 'Descricao']);
+      const activities = topEvidenceTexts(p.accepted || [], ['Descrição da atividade', 'Atividade realizada', 'Atividade'], 5);
+      const investments = topEvidenceTexts(p.inv || [], ['Objetivo do gasto', 'Descrição', 'Descricao', 'Natureza'], 4);
+      const timeline = projectTimelineRows(p);
+      const gaps = eligibilityCriteriaRows(p).filter(row => ['Pendente', 'Não atendido', 'Revisar', 'Não localizado'].includes(row.Status));
+      return '<strong>Análise técnico-científica do agente Benner</strong>' +
+        '<ul>' +
+        '<li><b>Conclusão:</b> ' + esc(decision.status) + '. ' + esc(decision.reason) + '</li>' +
+        '<li><b>Tese técnica:</b> ' + esc(short(description || element || 'A base não trouxe descrição técnica suficiente para formular uma tese robusta.', 420)) + '</li>' +
+        '<li><b>Incerteza ou barreira tecnológica:</b> ' + esc(short(barrier || 'Não localizada de forma explícita; esta é uma falta relevante para Lei do Bem.', 420)) + '</li>' +
+        '<li><b>Elemento inovador:</b> ' + esc(short(element || 'Não localizado de forma explícita; é preciso descrever a novidade, melhoria técnica ou superação frente ao estado anterior.', 420)) + '</li>' +
+        '<li><b>Execução técnica:</b> ' + (activities.length ? activities.map(item => esc(item)).join('; ') : 'não há atividades aceitas suficientes no recorte filtrado') + '</li>' +
+        '<li><b>Valores vinculados:</b> RH ' + money(p.rh || 0) + ', investimentos ' + money(p.investment || 0) + ', base do projeto ' + money(p.base || 0) + '. ' + (investments.length ? 'Evidências de gasto: ' + investments.map(item => esc(item)).join('; ') : 'Sem descrição de investimento vinculada.') + '</li>' +
+        '<li><b>Histórico e maturidade:</b> ' + esc(profile.stage) + ' (' + num(profile.score) + '/100). ' + esc(timeline.length ? timeline.map(row => (row.Ano ? row.Ano + ': ' : '') + row.Maturidade).join('; ') : 'Sem histórico conectado.') + '</li>' +
+        '<li><b>Faltas para defesa:</b> ' + (gaps.length ? gaps.map(row => esc(row.Critério + ' - ' + row.Leitura)).join('; ') : 'não identifiquei falta crítica nos critérios carregados') + '</li>' +
+        '</ul>';
     }
     function riskAnswer() {
       const p = activeProject();
       const profile = maturityProfile(p);
       const risks = riskRowsForProject(p).slice(0, 6);
       const decision = eligibilityDecision(p);
-      return '<strong>Agente Benner: riscos, maturidade e incentivo' + (p?.code ? ' do projeto ' + esc(p.code) : '') + '</strong><ul><li>Decisão técnica: ' + esc(decision.status) + '</li><li>Fundamento: ' + esc(decision.reason) + '</li><li>Nível de maturidade: ' + esc(profile.stage) + ' (' + num(profile.score) + '/100)</li><li>Próximo passo: ' + esc(profile.next) + '</li><li>Principais riscos: ' + (risks.map(r => esc(r.Categoria + ': ' + r.Risco)).join('; ') || 'sem riscos mapeados na base filtrada') + '</li></ul>';
+      return technicalScientificAnswer(p) + '<strong>Riscos e maturidade</strong><ul><li>Nível de maturidade: ' + esc(profile.stage) + ' (' + num(profile.score) + '/100)</li><li>Próximo passo: ' + esc(profile.next) + '</li><li>Principais riscos: ' + (risks.map(r => esc(r.Categoria + ': ' + r.Risco)).join('; ') || 'sem riscos mapeados na base filtrada') + '</li></ul>';
     }
     function sectorRows() {
       const rows = COMPANIES.map(company => {
@@ -1324,16 +1395,19 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       const q = norm(question || '');
       const p = activeProject();
       if (!p) return 'Selecione um projeto para o agente ler a base técnica.';
-      if (!q || q.includes('resumo') || q.includes('diagnostico') || q.includes('diagnóstico')) return riskAnswer();
+      if (!q || q.includes('resumo') || q.includes('diagnostico') || q.includes('diagnóstico') || q.includes('analise') || q.includes('análise')) return riskAnswer();
       if (q.includes('criterio') || q.includes('critério') || q.includes('incentivado') || q.includes('glosa')) {
-        const rows = eligibilityCriteriaRows(p);
-        return '<strong>Matriz técnica de enquadramento</strong><ul>' + rows.map(row => '<li><b>' + esc(row.Critério) + ':</b> ' + esc(row.Status) + ' — ' + esc(short(row.Leitura, 180)) + '</li>').join('') + '</ul>';
+        return technicalScientificAnswer(p) + '<strong>Matriz técnica de enquadramento</strong><ul>' + eligibilityCriteriaRows(p).map(row => '<li><b>' + esc(row.Critério) + ':</b> ' + esc(row.Status) + ' - ' + esc(short(row.Leitura, 180)) + '</li>').join('') + '</ul>';
       }
       if (q.includes('valor') || q.includes('base') || q.includes('rh') || q.includes('invest')) return investmentAnswer() + peopleAnswer();
       if (q.includes('atividade') || q.includes('inovador') || q.includes('barreira')) return projectAnswer(p) + activitiesAnswer();
-      if (q.includes('risco') || q.includes('maturidade') || q.includes('evolucao') || q.includes('evolução')) return riskAnswer();
+      if (q.includes('historico') || q.includes('histórico') || q.includes('ano') || q.includes('maturidade') || q.includes('evolucao') || q.includes('evolução')) {
+        const rows = projectTimelineRows(p);
+        return '<strong>Evolução histórica e maturidade</strong><ul>' + rows.map(row => '<li><b>' + esc(row.Ano || 'Ano atual') + ':</b> ' + esc(row.Maturidade) + ' - ' + esc(short(row.Evidências, 220)) + (row.Faltas ? ' | Faltas: ' + esc(row.Faltas) : '') + '</li>').join('') + '</ul>';
+      }
+      if (q.includes('risco')) return riskAnswer();
       if (q.includes('compar') || q.includes('setor') || q.includes('benchmark')) return sectorAnswer();
-      return riskAnswer();
+      return technicalScientificAnswer(p);
     }
     function renderRiskAgent() {
       const box = $('riskAgentMessages');
@@ -1385,6 +1459,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
         Resumo: item.summary || '',
         Atividades: (item.activities || []).join('; ')
       }));
+      const timelineRows = projectTimelineRows(p);
       const criteriaRows = eligibilityCriteriaRows(p);
       const decision = eligibilityDecision(p);
       const maturityRows = [
@@ -1414,7 +1489,8 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
         tablePanel('Critérios técnicos do agente', criteriaRows, ['Critério', 'Status', 'Evidência', 'Leitura'], true) +
         tablePanel('Tabela de Riscos', riskRows, ['Risco', 'Categoria', 'Impacto', 'Probabilidade', 'Mitigação'], true) +
         tablePanel('Atividades que sustentam a análise', acceptedActivities, ['Projeto', 'Funcionário', 'Atividade', 'Descrição', 'Horas'], true) +
-        tablePanel('Evolução histórica vinculada', history, ['Ano', 'Projeto', 'Status', 'Resumo', 'Atividades']) +
+        tablePanel('Evolução e faltas históricas', timelineRows, ['Ano', 'Evento', 'Maturidade', 'Evidências', 'Faltas'], true) +
+        tablePanel('Narrativas históricas vinculadas', history, ['Ano', 'Projeto', 'Status', 'Resumo', 'Atividades']) +
         tablePanel('Comparativo interno do portfólio', sectorRows(), ['Empresa', 'Base', 'Projetos', 'Incentivados', '% incentivado', 'Economia estimada'], true) +
         '</section>';
     }
