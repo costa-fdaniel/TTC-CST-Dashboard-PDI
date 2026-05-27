@@ -64,6 +64,8 @@ def render_intranet_site(
     .report-hero .eyebrow { color:var(--muted); font-size:12px; font-weight:850; text-transform:uppercase; }
     .report-hero h2 { font-size:26px; margin:4px 0 8px; }
     .report-hero p { margin:0; color:var(--muted); max-width:980px; }
+    .scope-strip { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+    .scope-strip span { border:1px solid var(--line); border-radius:999px; padding:5px 10px; background:#fff; color:var(--muted); font-size:12px; font-weight:850; }
     .section-title { display:flex; align-items:end; justify-content:space-between; gap:12px; margin:0 0 10px; }
     .section-title h2 { font-size:20px; }
     .section-title p { margin:4px 0 0; color:var(--muted); }
@@ -197,10 +199,10 @@ def render_intranet_site(
     function projects() {
       const current = rows('projetos').map((row, i) => {
         const title = String(cell(row, ['Projeto']) || 'Projeto ' + (i+1)).trim();
-        return { id:'p'+i, title, code:projectCode(row), row, source:'Atual', year:DATA().year || '' };
+        return { id:'c'+state.company+'-p'+i, title, code:projectCode(row), row, source:'Atual', year:DATA().year || '' };
       });
       const history = (DATA().history?.projects || []).map((item, i) => ({
-        id:'h'+i,
+        id:'c'+state.company+'-h'+i,
         title:item.name || item.summary || 'Projeto histórico ' + (i+1),
         code:'',
         row:{ Projeto:item.name || '', Descrição:item.summary || '', Incentivado:item.status || '' },
@@ -431,6 +433,26 @@ def render_intranet_site(
         };
       }).sort((a,b)=>b.Índice-a.Índice);
     }
+    function historyProjectCountForYear(year) {
+      const seen = new Set();
+      (DATA().history?.projects || []).forEach(item => {
+        if (String(item.year || '') !== String(year || '')) return;
+        const key = norm(item.name || item.summary || '');
+        if (key) seen.add(key);
+      });
+      return seen.size;
+    }
+    function historyIncentivizedCountForYear(year) {
+      const seen = new Set();
+      (DATA().history?.projects || []).forEach(item => {
+        if (String(item.year || '') !== String(year || '')) return;
+        const text = norm([item.status, item.summary, item.name].join(' '));
+        if (!text.includes('incent')) return;
+        const key = norm(item.name || item.summary || '');
+        if (key) seen.add(key);
+      });
+      return seen.size;
+    }
     function annualProjectValue(row, p) {
       if (!p) return 0;
       const code = norm(p.code);
@@ -520,8 +542,12 @@ def render_intranet_site(
         const investimento = values.investimento || material + servicos;
         const base = values.base;
         const beneficio = values.beneficio;
-        const projetos = p ? 1 : Number(row.projects_total || 0);
-        const incentivados = p ? (projectValue > 0 ? 1 : 0) : Number(row.projects_incentivized || 0);
+        const topProjects = (row.top_projects || []).filter(item => norm(item.name || '')).length;
+        const positiveTopProjects = (row.top_projects || []).filter(item => Number(item.value || 0) > 0).length;
+        const histProjects = historyProjectCountForYear(row.year);
+        const histIncentivized = historyIncentivizedCountForYear(row.year);
+        const projetos = p ? 1 : (Number(row.projects_total || 0) || topProjects || histProjects);
+        const incentivados = p ? (projectValue > 0 ? 1 : 0) : (Number(row.projects_incentivized || 0) || positiveTopProjects || histIncentivized);
         return { ...row, rh_total:rh, material_total:material, third_party_total:servicos, investment_total:investimento, base_total:base, estimated_savings:beneficio, projects_total:projetos, projects_incentivized:incentivados, _projectValue:projectValue };
       });
       return scopedRows.map((row, idx) => {
@@ -571,19 +597,35 @@ def render_intranet_site(
     function portfolioNarrative() {
       const ctx = filteredContext();
       const qRows = projectQualityRows();
+      const p = selectedProject();
       const avg = qRows.length ? qRows.reduce((a,r)=>a+r.Índice,0)/qRows.length : 0;
       const strong = qRows.filter(r => r.Índice >= 78).length;
       const weak = qRows.filter(r => r.Índice < 58).length;
       const annual = annualRows();
+      const base = annual.reduce((a,r)=>a+Number(r.Base_val||0),0);
+      const benefit = annual.reduce((a,r)=>a+Number(r.Beneficio_val||0),0);
+      const projectsCount = annual.reduce((a,r)=>a+Number(r.Projetos||0),0);
       const losing = annual.filter(r => r.Tendência === 'perdeu força').map(r => r.Ano);
       const top = qRows[0];
       const low = qRows[qRows.length - 1];
       return [
-        { title:'Leitura executiva', text:'O recorte atual tem índice médio de qualidade de ' + num(avg) + '/100, com ' + strong + ' projeto(s) forte(s) e ' + weak + ' projeto(s) que exigem reforço documental ou técnico. Isso ajuda a separar o que já sustenta renovação do contrato do que vira plano de horas de suporte.' },
+        { title:'Leitura executiva', text:'No recorte selecionado' + (p ? ' para o projeto ' + p.title : '') + ', a base PD&I soma ' + money(base) + ', com benefício estimado de ' + money(benefit) + ' e ' + num(projectsCount || filteredProjects().length) + ' projeto(s)/ocorrência(s) analisados no período.' },
+        { title:'Qualidade técnica', text:'O recorte atual tem índice médio de qualidade de ' + num(avg) + '/100, com ' + strong + ' projeto(s) forte(s) e ' + weak + ' projeto(s) que exigem reforço documental ou técnico.' },
         { title:'Força dos projetos', text: top ? 'Projeto mais forte: ' + top.Projeto + ' (' + num(top.Índice) + '/100). Projeto em maior atenção: ' + low.Projeto + ' (' + num(low.Índice) + '/100). A recomendação é usar essa leitura para priorizar revisões mensais e memoriais técnicos.' : 'Sem projetos suficientes no recorte para ranquear força técnica.' },
         { title:'Tração histórica', text: losing.length ? 'O programa perdeu força em ' + losing.join(', ') + ', indicando necessidade de recuperar evidências, resultados e vínculo financeiro.' : 'Não identifiquei perda relevante de força no recorte anual; a oportunidade é estruturar governança para manter consistência.' },
         { title:'Potencial comercial', text:'As lacunas encontradas não devem aparecer só como risco: elas podem ser convertidas em escopo de suporte, revisão de projetos, treinamento de timesheet, conciliação de despesas e preparação preventiva para fiscalização.' }
       ];
+    }
+    function scopeSummary() {
+      const p = selectedProject();
+      const parts = [
+        'Empresa: ' + (DATA().company || 'Não informada'),
+        'Ano: ' + (state.year === 'all' ? 'Todos' : state.year),
+        'Projeto: ' + (p ? short(p.title, 90) : 'Todos'),
+        'Despesa: ' + (state.expense === 'all' ? 'Todas' : state.expense)
+      ];
+      if (state.q) parts.push('Busca: ' + short(state.q, 80));
+      return '<div class="scope-strip">' + parts.map(item => '<span>'+esc(item)+'</span>').join('') + '</div>';
     }
     function strengths() {
       const m = DATA().metrics || {};
@@ -659,7 +701,7 @@ def render_intranet_site(
       ];
       const narrative = portfolioNarrative();
       return '<section id="resumo" class="view">' +
-        '<div class="report-hero"><div class="eyebrow">'+esc(DATA().company || '')+' · '+(state.year === 'all' ? 'Todos os anos' : esc(state.year))+'</div><h2>Relatório de PD&I para renovação e suporte</h2><p>Visão executiva com os filtros aplicados em todas as seções: projeto, ano, despesa e busca textual alimentam o mesmo recorte de dados.</p></div>' +
+        '<div class="report-hero"><div class="eyebrow">'+esc(DATA().company || '')+' · '+(state.year === 'all' ? 'Todos os anos' : esc(state.year))+'</div><h2>Relatório de PD&I para renovação e suporte</h2><p>Visão executiva com os filtros aplicados em todas as seções: projeto, ano, despesa e busca textual alimentam o mesmo recorte de dados.</p>'+scopeSummary()+'</div>' +
         '<div class="grid-3">' +
         kpi('Base PD&I', money(base), 'Recorte filtrado') +
         kpi('Economia estimada', money(annualBenefit || (state.year === 'all' ? (m.estimated_savings || 0) : ctx.histYears.reduce((a,row)=>a+Number(row.estimated_savings||0),0))), 'Lei do Bem') +
@@ -752,9 +794,12 @@ def render_intranet_site(
       return '<section id="downloads" class="view"><div class="panel"><div class="panel-head"><h2>Downloads e congelamento</h2></div><div class="actions"><button onclick="window.print()">Baixar PDF / imprimir</button><button onclick="downloadFrozenHtml()">Baixar HTML congelado</button>'+sheets+'</div><p class="toc-note">O HTML congelado baixa uma cópia com os dados embutidos neste momento, útil para evidência de versão.</p></div></section>';
     }
     function renderControls() {
+      if (!COMPANIES[state.company]) state.company = 0;
       $('companySelect').innerHTML = COMPANIES.map((c,i)=>'<option value="'+i+'">'+esc(c.company)+'</option>').join('');
       $('companySelect').value = String(state.company);
-      $('yearSelect').innerHTML = '<option value="all">Todos os anos</option>' + years().map(y=>'<option value="'+esc(y)+'">'+esc(y)+'</option>').join('');
+      const ys = years();
+      if (state.year !== 'all' && !ys.includes(String(state.year))) state.year = 'all';
+      $('yearSelect').innerHTML = '<option value="all">Todos os anos</option>' + ys.map(y=>'<option value="'+esc(y)+'">'+esc(y)+'</option>').join('');
       $('yearSelect').value = state.year;
       const ps = availableProjectsForControl();
       $('projectSelect').innerHTML = '<option value="all">Todos os projetos</option>' + ps.map(p=>'<option value="'+esc(p.id)+'">'+esc((p.code || 'Projeto')+' · '+short(p.title,80))+'</option>').join('');
@@ -771,8 +816,20 @@ def render_intranet_site(
       activateView();
       renderBot();
     }
-    function setCompany(value) { state.company=Number(value||0); state.year='all'; state.project='all'; state.expense='all'; state.q=''; render(); }
-    function setFilter(key, value) { state[key] = key === 'q' ? (value || '') : (value || 'all'); render(); }
+    function setCompany(value) {
+      const next = Number(value || 0);
+      state.company = COMPANIES[next] ? next : 0;
+      state.year='all';
+      state.project='all';
+      state.expense='all';
+      state.q='';
+      render();
+    }
+    function setFilter(key, value) {
+      state[key] = key === 'q' ? (value || '') : (value || 'all');
+      if (key === 'year') state.project = 'all';
+      render();
+    }
     function setView(view) { state.view = view || 'resumo'; activateView(); }
     function activateView() {
       document.querySelectorAll('.view').forEach(el => el.classList.toggle('active', el.id === state.view));
