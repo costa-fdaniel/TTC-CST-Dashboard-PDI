@@ -87,8 +87,15 @@ def render_intranet_site(
     .sparkline { width:100%; height:230px; display:block; }
     .sparkline path.line { fill:none; stroke:var(--teal); stroke-width:3; }
     .sparkline circle { fill:var(--teal); }
+    .multi-line path.base, .multi-line circle.base { stroke:var(--teal); fill:var(--teal); }
+    .multi-line path.rh, .multi-line circle.rh { stroke:var(--blue); fill:var(--blue); }
+    .multi-line path.servicos, .multi-line circle.servicos { stroke:var(--amber); fill:var(--amber); }
+    .multi-line path.beneficio, .multi-line circle.beneficio { stroke:var(--green); fill:var(--green); }
+    .legend-inline { display:flex; gap:10px; flex-wrap:wrap; color:var(--muted); font-size:12px; }
+    .legend-inline span::before { content:""; display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:5px; background:var(--c); }
     .donut-wrap { display:grid; grid-template-columns:150px minmax(0,1fr); gap:14px; align-items:center; }
     .donut { width:150px; height:150px; border-radius:50%; background:conic-gradient(var(--green) 0 var(--good), var(--amber) var(--good) var(--warn), var(--red) var(--warn) 100%); position:relative; }
+    .donut.financial { background:var(--parts); }
     .donut::after { content:""; position:absolute; inset:30px; border-radius:50%; background:white; border:1px solid var(--line); }
     .matrix { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px; }
     .bar { display:grid; grid-template-columns:minmax(130px,260px) 1fr auto; gap:10px; align-items:center; margin:9px 0; }
@@ -317,11 +324,52 @@ def render_intranet_site(
       const axis = points.map(p => '<text x="'+p.x+'" y="215" text-anchor="middle" font-size="11" fill="#65726e">'+esc(p.label)+'</text>').join('');
       return '<div class="panel"><div class="panel-head"><h2>'+esc(title)+'</h2><span class="pill">'+clean.length+' pontos</span></div><svg class="sparkline" viewBox="0 0 590 230" role="img"><line x1="30" y1="190" x2="560" y2="190" stroke="#dbe3df"/><line x1="30" y1="35" x2="30" y2="190" stroke="#dbe3df"/><path class="line" d="'+path+'"/>'+dots+axis+'</svg></div>';
     }
+    function multiLineChart(title, rows, series) {
+      const clean = (rows || []).filter(row => series.some(s => Number(row[s.key] || 0) > 0));
+      if (!clean.length) return '<div class="panel"><div class="panel-head"><h2>'+esc(title)+'</h2></div><p>Sem dados financeiros para exibir.</p></div>';
+      const values = clean.flatMap(row => series.map(s => Number(row[s.key] || 0)));
+      const max = Math.max(...values, 1);
+      const xFor = i => 38 + (i * (510 / Math.max(clean.length - 1, 1)));
+      const yFor = v => 190 - (Number(v || 0) / max * 150);
+      const paths = series.map(s => {
+        const points = clean.map((row,i) => ({ x:xFor(i), y:yFor(row[s.key]), v:Number(row[s.key] || 0), ano:row.Ano }));
+        const path = points.map((p,i) => (i ? 'L' : 'M') + p.x + ' ' + p.y).join(' ');
+        const dots = points.map(p => '<circle class="'+esc(s.className)+'" cx="'+p.x+'" cy="'+p.y+'" r="3"><title>'+esc(s.label)+' '+esc(p.ano)+': '+money(p.v)+'</title></circle>').join('');
+        return '<g><path class="line '+esc(s.className)+'" d="'+path+'"/>'+dots+'</g>';
+      }).join('');
+      const labels = clean.map((row,i) => '<text x="'+xFor(i)+'" y="215" text-anchor="middle" font-size="11" fill="#65726e">'+esc(row.Ano)+'</text>').join('');
+      const legend = '<div class="legend-inline">' + series.map(s => '<span style="--c:'+s.color+'">'+esc(s.label)+'</span>').join('') + '</div>';
+      return '<div class="panel multi-line"><div class="panel-head"><h2>'+esc(title)+'</h2><span class="pill">'+clean.length+' anos</span></div>'+legend+'<svg class="sparkline" viewBox="0 0 590 230" role="img"><line x1="38" y1="190" x2="548" y2="190" stroke="#dbe3df"/><line x1="38" y1="35" x2="38" y2="190" stroke="#dbe3df"/>'+paths+labels+'</svg></div>';
+    }
+    function stackedBarChart(title, rows) {
+      const clean = (rows || []).filter(row => Number(row.RH_val || 0) || Number(row.Material_val || 0) || Number(row.Servicos_val || 0));
+      if (!clean.length) return '<div class="panel"><div class="panel-head"><h2>'+esc(title)+'</h2></div><p>Sem composição de dispêndios para exibir.</p></div>';
+      const max = Math.max(...clean.map(r => Number(r.RH_val||0)+Number(r.Material_val||0)+Number(r.Servicos_val||0)), 1);
+      const body = clean.map(r => {
+        const rh = Number(r.RH_val||0), mat = Number(r.Material_val||0), serv = Number(r.Servicos_val||0);
+        const total = rh + mat + serv || 1;
+        return '<div class="bar"><label>'+esc(r.Ano)+'</label><div class="track" style="display:flex;height:16px"><i style="width:'+(rh/total*100)+'%;background:var(--blue)"></i><i style="width:'+(mat/total*100)+'%;background:var(--teal)"></i><i style="width:'+(serv/total*100)+'%;background:var(--amber)"></i></div><strong>'+money(total)+'</strong></div>';
+      }).join('');
+      return '<div class="panel"><div class="panel-head"><h2>'+esc(title)+'</h2><span class="pill">'+clean.length+' anos</span></div><div class="legend-inline"><span style="--c:var(--blue)">RH</span><span style="--c:var(--teal)">Materiais</span><span style="--c:var(--amber)">Serviços/terceiros</span></div>'+body+'</div>';
+    }
     function donutChart(title, quality) {
       const total = Math.max(quality.length, 1);
       const good = quality.filter(r => r.Índice >= 78).length / total * 100;
       const warn = good + quality.filter(r => r.Índice >= 58 && r.Índice < 78).length / total * 100;
       return '<div class="panel"><div class="panel-head"><h2>'+esc(title)+'</h2><span class="pill">'+quality.length+' projetos</span></div><div class="donut-wrap"><div class="donut" style="--good:'+good+'%;--warn:'+warn+'%"></div><ul class="list"><li><b>Fortes:</b> '+num(quality.filter(r=>r.Índice>=78).length)+'</li><li><b>Com ressalvas:</b> '+num(quality.filter(r=>r.Índice>=58 && r.Índice<78).length)+'</li><li><b>Frágeis/críticos:</b> '+num(quality.filter(r=>r.Índice<58).length)+'</li></ul></div></div>';
+    }
+    function compositionDonut(title, parts) {
+      const clean = (parts || []).filter(part => Number(part.value || 0) > 0);
+      if (!clean.length) return '<div class="panel"><div class="panel-head"><h2>'+esc(title)+'</h2></div><p>Sem valores positivos para compor o gráfico.</p></div>';
+      const total = clean.reduce((acc, part) => acc + Number(part.value || 0), 0);
+      let cursor = 0;
+      const stops = clean.map(part => {
+        const start = cursor;
+        cursor += Number(part.value || 0) / total * 100;
+        return part.color + ' ' + start.toFixed(2) + '% ' + cursor.toFixed(2) + '%';
+      }).join(', ');
+      const legend = clean.map(part => '<li><b>'+esc(part.name)+':</b> '+money(part.value)+' <small>('+num(Number(part.value || 0) / total * 100)+'%)</small></li>').join('');
+      return '<div class="panel"><div class="panel-head"><h2>'+esc(title)+'</h2><span class="pill">'+money(total)+'</span></div><div class="donut-wrap"><div class="donut financial" style="--parts:conic-gradient('+stops+')"></div><ul class="list">'+legend+'</ul></div></div>';
     }
     function kpi(label, value, sub='') { return '<div class="kpi"><span>'+esc(label)+'</span><b>'+value+'</b><small>'+esc(sub)+'</small></div>'; }
     function programScoreForYear(row) {
@@ -384,12 +432,22 @@ def render_intranet_site(
     }
     function annualRows() {
       const source = filteredHistoryYears();
-      const rows = source.length ? source : [{ year:DATA().year, base_total:DATA().metrics?.base_total, estimated_savings:DATA().metrics?.estimated_savings, rh_total:DATA().metrics?.people_pdi_total, material_total:DATA().metrics?.investment_incentivized }];
+      const rows = (source.length ? source : [{ year:DATA().year, base_total:DATA().metrics?.base_total, estimated_savings:DATA().metrics?.estimated_savings, rh_total:DATA().metrics?.people_pdi_total, material_total:DATA().metrics?.investment_incentivized }])
+        .slice()
+        .sort((a,b) => Number(a.year || 0) - Number(b.year || 0));
       return rows.map((row, idx) => {
         const score = programScoreForYear(row);
         const prev = idx ? programScoreForYear(rows[idx-1]) : null;
         const delta = prev == null ? 0 : score - prev;
         const trend = delta > 6 ? 'ganhou força' : delta < -6 ? 'perdeu força' : 'estável';
+        const rh = Number(row.rh_total || 0);
+        const material = Number(row.material_total || 0);
+        const servicos = Number(row.third_party_total || 0);
+        const investimento = Number(row.investment_total || 0) || material + servicos;
+        const base = Number(row.base_total || 0);
+        const beneficio = Number(row.estimated_savings || 0);
+        const projetos = Number(row.projects_total || 0);
+        const incentivados = Number(row.projects_incentivized || 0);
         const recommendation = score >= 82
           ? 'Manter governança e transformar maturidade em agenda de suporte, com revisão preventiva de evidências.'
           : score >= 65
@@ -397,7 +455,28 @@ def render_intranet_site(
             : score >= 45
               ? 'Implantar plano de ação: timesheet técnico, memória por projeto, conciliação mensal e comitê de evidências.'
               : 'Priorizar reconstrução documental e revisão de elegibilidade antes de defender benefício fiscal.';
-        return { Ano:row.year || DATA().year || 'Atual', Índice:score, Tendência:trend, Variação:delta ? (delta > 0 ? '+' : '') + num(delta) : 'base', Diagnóstico:scoreBand(score), Base:money(row.base_total || 0), Economia:money(row.estimated_savings || 0), Recomendação:recommendation };
+        return {
+          Ano:row.year || DATA().year || 'Atual',
+          Índice:score,
+          Tendência:trend,
+          Variação:delta ? (delta > 0 ? '+' : '') + num(delta) : 'base',
+          Diagnóstico:scoreBand(score),
+          Base:money(base),
+          Base_val:base,
+          RH:money(rh),
+          RH_val:rh,
+          Materiais:money(material),
+          Material_val:material,
+          'Serviços/terceiros':money(servicos),
+          Servicos_val:servicos,
+          Investimentos:money(investimento),
+          Investimentos_val:investimento,
+          Benefício:money(beneficio),
+          Beneficio_val:beneficio,
+          Projetos:projetos,
+          Incentivados:incentivados,
+          Recomendação:recommendation
+        };
       });
     }
     function portfolioNarrative() {
@@ -472,8 +551,20 @@ def render_intranet_site(
     function summary() {
       const m = DATA().metrics || {};
       const ctx = filteredContext();
+      const annual = annualRows();
       const histBase = ctx.histYears.reduce((a,row)=>a+Number(row.base_total||0),0);
       const base = state.year === 'all' ? (m.base_total || (m.people_pdi_total||0)+(m.investment_incentivized||0)) : (histBase || sum(ctx.people, ['Total PD&I','Total PDI']) + sum(ctx.inv, ['Valor Incentivado','Valor']));
+      const financialSeries = [
+        { key:'Base_val', label:'Base PD&I', className:'base', color:'var(--teal)' },
+        { key:'RH_val', label:'RH', className:'rh', color:'var(--blue)' },
+        { key:'Servicos_val', label:'Serviços/terceiros', className:'servicos', color:'var(--amber)' },
+        { key:'Beneficio_val', label:'Benefício', className:'beneficio', color:'var(--green)' }
+      ];
+      const expenseParts = [
+        { name:'RH', value:annual.reduce((a,r)=>a+Number(r.RH_val||0),0), color:'var(--blue)' },
+        { name:'Materiais', value:annual.reduce((a,r)=>a+Number(r.Material_val||0),0), color:'var(--teal)' },
+        { name:'Serviços/terceiros', value:annual.reduce((a,r)=>a+Number(r.Servicos_val||0),0), color:'var(--amber)' }
+      ];
       const narrative = portfolioNarrative();
       return '<section id="resumo" class="view">' +
         '<div class="report-hero"><div class="eyebrow">'+esc(DATA().company || '')+' · '+(state.year === 'all' ? 'Todos os anos' : esc(state.year))+'</div><h2>Relatório de PD&I para renovação e suporte</h2><p>Visão executiva com os filtros aplicados em todas as seções: projeto, ano, despesa e busca textual alimentam o mesmo recorte de dados.</p></div>' +
@@ -486,8 +577,11 @@ def render_intranet_site(
         kpi('RH filtrado', money(sum(ctx.people, ['Total PD&I','Total PDI'])), 'Projeto/ano atual') +
       '</div><div class="grid-2" style="margin-top:14px">' +
         '<div class="panel insight"><div class="panel-head"><h2>Resumo consultivo da IA</h2><span class="pill">recorte atual</span></div>' + narrative.map(item => '<div class="insight-card"><strong>'+esc(item.title)+'</strong><p>'+esc(item.text)+'</p></div>').join('') + '</div>' +
+        multiLineChart('Evolução financeira anual', annual, financialSeries) +
+        stackedBarChart('Composição anual dos dispêndios', annual) +
+        compositionDonut('Composição acumulada dos dispêndios', expenseParts) +
+        chart('Quantidade de projetos por ano', annual.map(r => ({ name:String(r.Ano), value:r.Projetos })), 'number', 'blue') +
         donutChart('Distribuição de qualidade', projectQualityRows()) +
-        lineChart('Tração histórica do programa', annualRows()) +
         chart('Força técnica dos projetos', projectQualityRows().slice(0,8).map(r => ({ name:r.Projeto, value:r.Índice })), 'number', 'blue') +
       '</div></section>';
     }
@@ -501,12 +595,23 @@ def render_intranet_site(
     function analytics() {
       const ctx = filteredContext();
       const quality = projectQualityRows();
+      const annual = annualRows();
+      const financialSeries = [
+        { key:'Base_val', label:'Base PD&I', className:'base', color:'var(--teal)' },
+        { key:'RH_val', label:'RH', className:'rh', color:'var(--blue)' },
+        { key:'Servicos_val', label:'Serviços/terceiros', className:'servicos', color:'var(--amber)' },
+        { key:'Beneficio_val', label:'Benefício', className:'beneficio', color:'var(--green)' }
+      ];
       return '<section id="analiticos" class="view"><div class="section-title"><div><h2>Dados analíticos</h2><p>Tabelas, gráficos e estatísticas abaixo usam exatamente os filtros do topo.</p></div><span class="pill">'+num(ctx.work.length + ctx.inv.length + ctx.people.length)+' registros</span></div><div class="grid-4">' +
         '<div class="score-card"><span>Índice médio dos projetos</span><b>'+num(quality.length ? quality.reduce((a,r)=>a+r.Índice,0)/quality.length : 0)+'</b></div>' +
         '<div class="score-card"><span>Projetos fortes</span><b>'+num(quality.filter(r=>r.Índice>=78).length)+'</b></div>' +
         '<div class="score-card"><span>Projetos em atenção</span><b>'+num(quality.filter(r=>r.Índice<58).length)+'</b></div>' +
         '<div class="score-card"><span>Horas aceitas</span><b>'+num(sum(ctx.accepted, ['Horas decimais','Horas']))+'</b></div>' +
       '</div><div class="section-body grid-2" style="margin-top:14px">' +
+        multiLineChart('Base, RH, serviços e benefício por ano', annual, financialSeries) +
+        stackedBarChart('RH, materiais e serviços por ano', annual) +
+        chart('Benefício fiscal por ano', annual.map(r => ({ name:String(r.Ano), value:r.Beneficio_val })), 'money', 'blue') +
+        chart('Serviços/terceiros por ano', annual.map(r => ({ name:String(r.Ano), value:r.Servicos_val })), 'money', 'amber') +
         donutChart('Qualidade da carteira filtrada', quality) +
         chart('Atividades por horas', group(ctx.work, ['Atividade realizada','Atividade'], ['Horas decimais','Horas'], 10), 'number', 'blue') +
         chart('Despesas por natureza', group(ctx.inv, ['Natureza','Tipo de despesa'], ['Valor Incentivado','Valor'], 10), 'money', 'amber') +
@@ -524,8 +629,27 @@ def render_intranet_site(
     }
     function indexSection() {
       const rows = annualRows();
-      const current = rows.length ? rows : [{ Ano:DATA().year || 'Atual', Índice:programScoreForYear({base_total:DATA().metrics?.base_total, estimated_savings:DATA().metrics?.estimated_savings}), Diagnóstico:'Ano corrente', Base:money(DATA().metrics?.base_total || 0), Economia:money(DATA().metrics?.estimated_savings || 0), Foco:'Consolidar governança' }];
-      return '<section id="indice" class="view"><div class="section-title"><div><h2>Índice PD&I ano a ano</h2><p>Pontuação calculada com base, RH, dispêndios, horas, economia e evidências históricas.</p></div></div><div class="section-body">' + lineChart('Evolução do índice PD&I', current) + chart('Índice por ano', current.map(r => ({ name:String(r.Ano), value:r.Índice })), 'number') + table('Índice e recomendação anual', current, ['Ano','Índice','Tendência','Variação','Diagnóstico','Base','Economia','Recomendação']) + '</div></section>';
+      const current = rows.length ? rows : [{ Ano:DATA().year || 'Atual', Índice:programScoreForYear({base_total:DATA().metrics?.base_total, estimated_savings:DATA().metrics?.estimated_savings}), Tendência:'base', Variação:'base', Diagnóstico:'Ano corrente', Base:money(DATA().metrics?.base_total || 0), Base_val:Number(DATA().metrics?.base_total||0), RH:money(DATA().metrics?.people_pdi_total || 0), RH_val:Number(DATA().metrics?.people_pdi_total||0), Materiais:money(DATA().metrics?.investment_incentivized || 0), Material_val:Number(DATA().metrics?.investment_incentivized||0), 'Serviços/terceiros':money(0), Servicos_val:0, Investimentos:money(DATA().metrics?.investment_incentivized || 0), Investimentos_val:Number(DATA().metrics?.investment_incentivized||0), Benefício:money(DATA().metrics?.estimated_savings || 0), Beneficio_val:Number(DATA().metrics?.estimated_savings||0), Projetos:filteredProjects().length, Incentivados:filteredProjects().filter(p=>boolCell(p.row,['Incentivado?'])).length, Recomendação:'Consolidar governança' }];
+      const financialSeries = [
+        { key:'Base_val', label:'Base PD&I', className:'base', color:'var(--teal)' },
+        { key:'RH_val', label:'RH', className:'rh', color:'var(--blue)' },
+        { key:'Servicos_val', label:'Serviços/terceiros', className:'servicos', color:'var(--amber)' },
+        { key:'Beneficio_val', label:'Benefício', className:'beneficio', color:'var(--green)' }
+      ];
+      const expenseParts = [
+        { name:'RH', value:current.reduce((a,r)=>a+Number(r.RH_val||0),0), color:'var(--blue)' },
+        { name:'Materiais', value:current.reduce((a,r)=>a+Number(r.Material_val||0),0), color:'var(--teal)' },
+        { name:'Serviços/terceiros', value:current.reduce((a,r)=>a+Number(r.Servicos_val||0),0), color:'var(--amber)' }
+      ];
+      return '<section id="indice" class="view"><div class="section-title"><div><h2>Evolução anual, valores e índice PD&I</h2><p>O índice é um diagnóstico técnico; os gráficos abaixo mostram os valores reais de RH, serviços, materiais, base, benefício e quantidade de projetos.</p></div></div><div class="section-body grid-2">' +
+        multiLineChart('Evolução dos valores anuais', current, financialSeries) +
+        stackedBarChart('Composição anual dos dispêndios', current) +
+        compositionDonut('Composição acumulada dos dispêndios', expenseParts) +
+        chart('Projetos por ano', current.map(r => ({ name:String(r.Ano), value:r.Projetos })), 'number', 'blue') +
+        chart('Projetos incentivados por ano', current.map(r => ({ name:String(r.Ano), value:r.Incentivados })), 'number') +
+        lineChart('Índice de maturidade PD&I', current) +
+        table('Valores, benefício e recomendação anual', current, ['Ano','Projetos','Incentivados','Base','RH','Materiais','Serviços/terceiros','Investimentos','Benefício','Índice','Tendência','Variação','Diagnóstico','Recomendação']) +
+      '</div></section>';
     }
     function agents() {
       const endpoint = PORTAL.support_endpoint ? 'Envio automático configurado' : 'Endpoint de envio não configurado';
