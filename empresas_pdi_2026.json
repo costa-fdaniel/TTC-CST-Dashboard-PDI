@@ -21,6 +21,12 @@
       "slug": "NEM_PD&I_2026",
       "year": 2026,
       "input": "G:\\.shortcut-targets-by-id\\0Bz8y8Tdm2lKWcEp2RHVaTXRXYkE\\∑ Projetos\\N-O\\NETZSCH (NEM)\\2023-000 MCB - CPL NETZSCH (NEM) - PD&I\\2026\\2. Workpapers\\NEM - PD&I (2026).xlsx"
+    },
+    {
+      "name": "BIGCORE SOLUÇÕES EM TECNOLOGIA LTDA",
+      "slug": "BIGCORE_PD&I_2026",
+      "year": 2025,
+      "input": "data_sources/extracted/bigcore_csv"
     }
   ]
 }

@@ -1,0 +1,28 @@
+﻿Fornecedor;Natureza;Valor;Ano;Descrição
+ALGI - ABRAAO LINCOLN GESTAO INTELIGENTE;Serviços/terceiros;7200.0;2024;Nao achei vinculo tecnico suficiente no arquivo.
+BAGGIO DATAHOUSE;Serviços/terceiros;97058.31;2024;Microempresa, vinculo por Marcelo Baggio, 108 itens.
+Diego Henrique Magalhães;Serviços/terceiros;2200.0;2024;Microempresa, vinculo por Diego Henrique, 26 itens.
+Flavio de Morais Correia;Serviços/terceiros;1450.0;2024;O dashboard o descreve como desenvolvedor, mas sem itens ou backlog vinculados.
+HENRIQUE GOMES SOUSA;Serviços/terceiros;1550.0;2024;"O join ficou fraco, puxando outro nome; precisa prova documental."
+JONATHAN DE MOURA FEITOSA;Serviços/terceiros;3200.0;2024;Microempresa, vinculo por Jonathan Moura, 3 itens.
+MATEUS AVILA ISIDORO;Serviços/terceiros;7000.0;2024;Microempresa, vinculo por Mateus Avila Isidoro, 20 itens.
+RENATO RAMOS IT;Serviços/terceiros;255319.2;2024;Microempresa, vinculo com backlog por Renato Ramos, 212 itens.
+RFL SERVICOS EM T.I.;Serviços/terceiros;10125.0;2024;Nao achei vinculo tecnico suficiente no arquivo.
+SETINTECH;Serviços/terceiros;117315.0;2024;Execucao tecnica complementar em backlog do projeto. Validar consistencia cadastral de CNPJ entre 2024 e 2025.
+SOLIDBASE DESENVOLVIMENTO DE SISTEMAS LTDA;Serviços/terceiros;141128.0;2024;Execucao tecnica complementar em backlog de desenvolvimento. Validar consistencia cadastral de CNPJ entre 2024 e 2025.
+QUALP PORTAL DE INTERNET LTDA;Serviços/terceiros;120664.0;2024;"Porte Demais e sem vinculo tecnico mapeado no backlog; fora da zona segura do art. 18."
+A F SEGALA SERVICOS ADMINISTRATIVOS;Serviços/terceiros;24000.0;2025;Manter apenas se houver evidencia de validacao experimental de regras e cenarios ligados a incerteza tecnologica.
+BAGGIO DATAHOUSE;Serviços/terceiros;127709.98;2025;Apoio tecnico em engenharia de software e consolidacao de dados operacionais para rastreabilidade e auditabilidade da jornada.
+CJ TECNOLOGIA;Serviços/terceiros;44182.5;2025;Execucao complementar de funcionalidades e servicos vinculados ao backlog tecnico e ao processamento de eventos logisticos.
+DEEP CONSULTING SERVIÇOS E INFORMATICA LTDA;Serviços/terceiros;7769.77;2025;Consultoria DPO/LGPD com natureza de compliance regulatorio, sem execucao direta de PD&I do E-Log. Expurgo integral recomendado.
+Diego Henrique Magalhães;Serviços/terceiros;28500.0;2025;Execucao complementar de backlog tecnico com implementacao iterativa de componentes da arquitetura orientada a eventos e estado.
+Flavio de Morais Correia;Serviços/terceiros;1100.0;2025;Sem vinculo documental tecnico suficiente no estado atual (backlog, commit, teste e aceite). Manter congelado ate robustecer prova.
+LEONARDO SOARES PAULINO;Serviços/terceiros;12675.0;2025;Execucao tecnica complementar em ajustes e componentes especificos para evolucao experimental e estabilizacao funcional.
+MATEUS AVILA ISIDORO;Serviços/terceiros;7000.0;2025;Execucao complementar em backlog pontual de implementacao, com contribuicao tecnica para evolucao funcional do E-Log.
+NESTOR HUGO FERREIRA CARDOZO;Serviços/terceiros;6350.34;2025;Manter apenas com prova de que filtros/paineis validaram tecnicamente o modelo temporal-semantico, e nao so reporting.
+NYCOLAS PIMENTEL GALDINO;Serviços/terceiros;20340.0;2025;Execucao complementar em modulos e rotinas dependentes do novo modelo operacional orientado a eventos e estado.
+PAULA CRISTINA BATISTA SALVADO;Serviços/terceiros;38843.6;2025;Manter apenas com prova de UX/UI como parte de validacao experimental (estado reconstruido, campo ou conectividade intermitente).
+RENATO RAMOS IT;Serviços/terceiros;255319.2;2025;Execucao tecnica complementar em backlog critico do nucleo transacional e reconciliacao de eventos, sob direcao da BIGCORE.
+RICARDO DIDIMO;Serviços/terceiros;22206.86;2025;Execucao complementar em backlog funcional para validacao de hipoteses tecnicas e consolidacao de mecanismos da jornada estruturada.
+SETINTECH;Serviços/terceiros;17300.0;2025;Execucao complementar em itens tecnicos do backlog e operacionalizacao de funcionalidades da jornada estruturada. Revisar consistencia cadastral de CNPJ 2024/2025.
+SOLIDBASE DESENVOLVIMENTO DE SISTEMAS LTDA;Serviços/terceiros;199708.06;2025;Execucao complementar em componentes de jornada, integracoes e servicos orientados a estado. Revisar consistencia cadastral de CNPJ 2024/2025.

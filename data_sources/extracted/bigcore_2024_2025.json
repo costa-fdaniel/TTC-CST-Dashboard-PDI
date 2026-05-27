@@ -1,0 +1,366 @@
+{
+  "company": "BIGCORE SOLUÇÕES EM TECNOLOGIA LTDA",
+  "slug": "BIGCORE_PD&I_2026",
+  "source_type": "html",
+  "source_files": [
+    "data_sources\\raw\\bigcore\\BIGCORE_2025.html"
+  ],
+  "years": [
+    {
+      "year": 2024,
+      "base_total": 648247.63,
+      "investment_total": 643545.51,
+      "material_total": 0.0,
+      "third_party_total": 643545.51,
+      "rh_partial_total": 4702.12,
+      "rh_exclusive_total": 0.0,
+      "rh_total": 4702.12,
+      "exclusion_total": 388948.57,
+      "estimated_savings": 132242.51,
+      "method": "bigcore_html_dashboard",
+      "projects_total": 1,
+      "projects_incentivized": 1,
+      "eligible_hours": 0.0,
+      "top_projects": [
+        {
+          "name": "RENATO RAMOS IT",
+          "value": 255319.2
+        },
+        {
+          "name": "SOLIDBASE DESENVOLVIMENTO DE SISTEMAS LTDA",
+          "value": 141128.0
+        },
+        {
+          "name": "QUALP PORTAL DE INTERNET LTDA",
+          "value": 120664.0
+        },
+        {
+          "name": "SETINTECH",
+          "value": 117315.0
+        },
+        {
+          "name": "BAGGIO DATAHOUSE",
+          "value": 97058.31
+        },
+        {
+          "name": "RFL SERVICOS EM T.I.",
+          "value": 10125.0
+        },
+        {
+          "name": "ALGI - ABRAAO LINCOLN GESTAO INTELIGENTE",
+          "value": 7200.0
+        },
+        {
+          "name": "MATEUS AVILA ISIDORO",
+          "value": 7000.0
+        },
+        {
+          "name": "JONATHAN DE MOURA FEITOSA",
+          "value": 3200.0
+        },
+        {
+          "name": "Diego Henrique Magalhães",
+          "value": 2200.0
+        },
+        {
+          "name": "HENRIQUE GOMES SOUSA",
+          "value": 1550.0
+        },
+        {
+          "name": "Flavio de Morais Correia",
+          "value": 1450.0
+        }
+      ],
+      "third_party_full_total": 764209.51,
+      "source_refs": [
+        "data_sources\\raw\\bigcore\\BIGCORE_2025.html"
+      ]
+    },
+    {
+      "year": 2025,
+      "base_total": 829816.01,
+      "investment_total": 813005.31,
+      "material_total": 0.0,
+      "third_party_total": 813005.31,
+      "rh_partial_total": 16810.7,
+      "rh_exclusive_total": 0.0,
+      "rh_total": 16810.7,
+      "exclusion_total": 497889.6,
+      "estimated_savings": 169282.47,
+      "method": "bigcore_html_dashboard",
+      "projects_total": 1,
+      "projects_incentivized": 1,
+      "eligible_hours": 0.0,
+      "top_projects": [
+        {
+          "name": "RENATO RAMOS IT",
+          "value": 255319.2
+        },
+        {
+          "name": "SOLIDBASE DESENVOLVIMENTO DE SISTEMAS LTDA",
+          "value": 199708.06
+        },
+        {
+          "name": "BAGGIO DATAHOUSE",
+          "value": 127709.98
+        },
+        {
+          "name": "CJ TECNOLOGIA",
+          "value": 44182.5
+        },
+        {
+          "name": "PAULA CRISTINA BATISTA SALVADO",
+          "value": 38843.6
+        },
+        {
+          "name": "Diego Henrique Magalhães",
+          "value": 28500.0
+        },
+        {
+          "name": "A F SEGALA SERVICOS ADMINISTRATIVOS",
+          "value": 24000.0
+        },
+        {
+          "name": "RICARDO DIDIMO",
+          "value": 22206.86
+        },
+        {
+          "name": "NYCOLAS PIMENTEL GALDINO",
+          "value": 20340.0
+        },
+        {
+          "name": "SETINTECH",
+          "value": 17300.0
+        },
+        {
+          "name": "LEONARDO SOARES PAULINO",
+          "value": 12675.0
+        },
+        {
+          "name": "DEEP CONSULTING SERVIÇOS E INFORMATICA LTDA",
+          "value": 7769.77
+        },
+        {
+          "name": "MATEUS AVILA ISIDORO",
+          "value": 7000.0
+        },
+        {
+          "name": "NESTOR HUGO FERREIRA CARDOZO",
+          "value": 6350.34
+        },
+        {
+          "name": "Flavio de Morais Correia",
+          "value": 1100.0
+        }
+      ],
+      "third_party_full_total": 813005.31,
+      "source_refs": [
+        "data_sources\\raw\\bigcore\\BIGCORE_2025.html"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "year": 2024,
+      "name": "E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas",
+      "status": "incentivado",
+      "summary": "Projeto E-Log: plataforma inteligente e adaptativa para gestão logística, integração de sistemas, torre de controle, jornada operacional, auditoria, automações, ETA e processamento orientado a eventos.",
+      "activities": [
+        "Função do rastreador: BE-349",
+        "Função do rastreador: Adequação dos serviços de cache",
+        "Função do rastreador: Adequação dos serviços de processamento",
+        "Implantação Contatto: Torre de Controle - Tempo em Cerca - Incluir histórico (i)",
+        "Implantação Contatto: Torre de Controle - Auditoria - Unificar mapa de ETA e Visualizar posição",
+        "Implantação Contatto: Habilitar e verificar serviços de vinculo de km",
+        "Implantação IC: Relatórios - Incluir informações de tempo em atividades no relatório de jornada",
+        "Implantação IC: Data Lake - Criação de usuário para IC Transportes",
+        "Implantação IC: Automação - ETA - Ajustes para baixa de Shift e RV",
+        "Implantação IC: Schedule - Cálculo de pedágio com eixo levantado",
+        "Implantação Monfredini: Buonny - Integração com SM (início de programação de carga)",
+        "Implantação Monfredini: Programação de carga - Adaptar o modelo de integração do mercado livre para a shopee",
+        "Implantação Monfredini: Monfredini - Ativação OMINILINK",
+        "Implantação Monfredini: Autotrac - Criar vinculo de id_tracking automático",
+        "Implantação Monfredini: Adaptar serviços de processamento de documentos para entender documento SHOPEE",
+        "Implantação Monfredini: Montar backlog de atividades para controle do ETD",
+        "Implantação Monfredini: Habilitar consumers e dispatchers SASCAR",
+        "Implantação Rodomeu: Rodopar - Ativar alertas de documentação para Rodomeu (Veículos)",
+        "Implantação Rodomeu: Torre de Controle - Configurar na assinatura quais divisões podem receber vinculo de motorista na torre de controle",
+        "Implantação Rodomeu: Ponto de parada obrigatório dos documentos Rodomeu",
+        "Implantação VIX Pesados: Prog de Carga - Criar filtro para esconder programações entregues",
+        "Incluir documento nos registros de jornada operacional: Melhorar repositório para obter macros e viagens vinculadas",
+        "Incluir documento nos registros de jornada operacional: Nova task para preencher o document_code nas macros",
+        "Incluir documento nos registros de jornada operacional: Carregar regras de jornada a partir das novas configurações das macros",
+        "Incluir documento nos registros de jornada operacional: Refatorar lógica de processamento das jornadas",
+        "Jornada do motorista: Incluir tempo em atividade no processamento de jornadas",
+        "Jornada do motorista: Condutores - Auditoria - Incluir informações novas na tela de auditoria",
+        "Melhorias documentos: Schedule - Incluir tempo em cerca/atividade no documento",
+        "Melhorias gerais: Remover informação dos dados de cache direção continua",
+        "Melhorias gerais: Relatórios - Utilizar informações de performed_schedule a partir do Data lake",
+        "Melhorias gerais: Alterações em tela",
+        "Melhorias gerais: Incluir estrutura para armazenar observações no snapshot do veiculo",
+        "Melhorias gerais: Relatório - Jornada - Inclusão de Colunas de Qntd de Pausas e Tempo Total Pausas",
+        "Melhorias gerais: Incluir novas informações na estrutura de dados básicos no snapshot do veículo",
+        "Melhorias gerais: Auditoria - Extração para excel das tabelas de auditoria",
+        "Melhorias gerais: Simplificar parâmetros no processamento de tempo em cerca dinâmica",
+        "Modulo de segurança: Alertas - Coluna de Divisão - Opção de selecionar 2 ou mais opções",
+        "Modulo de segurança: Alertas - Coluna de Velocidade - Opção de Ordenação",
+        "Modulo de segurança: Alertas - Colunas para duração e parâmetro",
+        "Modulo de segurança: Alertas - Finalização em Massa - Adicionar filtro opcional de CM",
+        "Modulo de segurança: Tipo de alertas - Criar coluna bool (gera pontuação)",
+        "Modulo de segurança: Alertas - Atalho de envio de mensagem",
+        "Modulo de segurança: Pontuação Motorista - Editar pontuação",
+        "Modulo de segurança: Alertas - Tarefas - Anexar arquivos",
+        "Modulo de segurança: Alertas - Coluna (Data Evento)",
+        "Modulo de segurança: Alertas - Filtro de Motorista por seleção (dropdown)",
+        "Modulo de segurança: Alertas - Filtro de Tipo de Alerta por seleção (dropdown)",
+        "Modulo de segurança: Alertas - Filtro de KM/H com opção de (=, > e <)",
+        "Modulo de segurança: Alertas - Inserir coluna com divisão do motorista",
+        "Modulo de segurança: Torre de controle - Inserir coluna com divisão do motorista",
+        "Modulo de segurança: Alertas - Sighra - Violações de Rotograma",
+        "Modulo de segurança: Alertas - Maxtrack - Incluir parâmetro e duração de alertas de velocidade",
+        "Modulo de segurança: Rodopar - Gerar advertencias no rodopar",
+        "Nova estrutura de relatórios: Serviço para tratar relatórios de forma individual",
+        "Nova estrutura de relatórios: Relatórios - Refatorar tela de geração e consulta de relatórios em excel",
+        "Rodopar - Gerar advertencias no rodopar: Query Rodopar (Flavio)",
+        "Rodopar - Gerar advertencias no rodopar: Cadastro Tipo Alerta - Incluir na Automação o tipo \"Gerar advertência\"",
+        "Rodopar - Gerar advertencias no rodopar: Api Rodopar - Criar endpoint insert dados da advertência",
+        "Rodopar - Gerar advertencias no rodopar: Automação - Integração advertência",
+        "Torre de controle - Inserir coluna com divisão de motorista: Incluir informação da divisão do motorista no cache",
+        "Torre de controle - Inserir coluna com divisão de motorista: Mostrar a divisão do motorista em uma coluna na torre de controle",
+        "Visão km planejado vs realizado: Configurar a velocidade média na roteirização dos documentos de planejamento",
+        "Visão realizado vs planejado em tempo real: Estimativa de chegada (ETA) para veiculos executando documentos CTE",
+        "Visão realizado vs planejado em tempo real: Mostrar informação de ETA na torre de controle",
+        "Visão realizado vs planejado em tempo real: Finalizar ETA para veiculos executando documentos CTE",
+        "(vazio): ETA - Verificar alterações nos processamentos de ETA",
+        "(vazio): Avaliar quais informações são importantes no painel de carga",
+        "(vazio): Relatório - Adicionar novos métodos em BigCore SDK para utilizar no serviço de relatório",
+        "(vazio): Maxtrack - Habilitar nova leitura de macros para a IC Transportes",
+        "(vazio): Testar instâncias de container SPOT",
+        "(vazio): Torre de Controle - ETA - Incluir \"tempo restante\" na leganda do ETA",
+        "(vazio): Torre de Controle - Programação / Documento - Filtro por múltiplos números",
+        "(vazio): Extrair document_code das macros maxtrack da Contatto",
+        "(vazio): Como saber programações que não estão aparecendo nos veículos na torre de controle?",
+        "(vazio): Torre de Controle - ETA - Manter caminhão vermelho quando chegar com atraso",
+        "(vazio): Contatto - Messer - Importação de ponto de retorno",
+        "(vazio): Aprovação e Documento - Botão de Ocorrências",
+        "(vazio): Automações - Macro - Usar categoria ao invés da Macro",
+        "(vazio): Incluir documento nos registros de jornada operacional",
+        "(vazio): Adaptar novo tipo de macro fim de refeição"
+      ],
+      "source_refs": [
+        "data_sources\\raw\\bigcore\\BIGCORE_2025.html"
+      ]
+    },
+    {
+      "year": 2025,
+      "name": "E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas",
+      "status": "incentivado",
+      "summary": "Projeto E-Log: plataforma inteligente e adaptativa para gestão logística, integração de sistemas, torre de controle, jornada operacional, auditoria, automações, ETA e processamento orientado a eventos.",
+      "activities": [
+        "Função do rastreador: BE-349",
+        "Função do rastreador: Adequação dos serviços de cache",
+        "Função do rastreador: Adequação dos serviços de processamento",
+        "Implantação Contatto: Torre de Controle - Tempo em Cerca - Incluir histórico (i)",
+        "Implantação Contatto: Torre de Controle - Auditoria - Unificar mapa de ETA e Visualizar posição",
+        "Implantação Contatto: Habilitar e verificar serviços de vinculo de km",
+        "Implantação IC: Relatórios - Incluir informações de tempo em atividades no relatório de jornada",
+        "Implantação IC: Data Lake - Criação de usuário para IC Transportes",
+        "Implantação IC: Automação - ETA - Ajustes para baixa de Shift e RV",
+        "Implantação IC: Schedule - Cálculo de pedágio com eixo levantado",
+        "Implantação Monfredini: Buonny - Integração com SM (início de programação de carga)",
+        "Implantação Monfredini: Programação de carga - Adaptar o modelo de integração do mercado livre para a shopee",
+        "Implantação Monfredini: Monfredini - Ativação OMINILINK",
+        "Implantação Monfredini: Autotrac - Criar vinculo de id_tracking automático",
+        "Implantação Monfredini: Adaptar serviços de processamento de documentos para entender documento SHOPEE",
+        "Implantação Monfredini: Montar backlog de atividades para controle do ETD",
+        "Implantação Monfredini: Habilitar consumers e dispatchers SASCAR",
+        "Implantação Rodomeu: Rodopar - Ativar alertas de documentação para Rodomeu (Veículos)",
+        "Implantação Rodomeu: Torre de Controle - Configurar na assinatura quais divisões podem receber vinculo de motorista na torre de controle",
+        "Implantação Rodomeu: Ponto de parada obrigatório dos documentos Rodomeu",
+        "Implantação VIX Pesados: Prog de Carga - Criar filtro para esconder programações entregues",
+        "Incluir documento nos registros de jornada operacional: Melhorar repositório para obter macros e viagens vinculadas",
+        "Incluir documento nos registros de jornada operacional: Nova task para preencher o document_code nas macros",
+        "Incluir documento nos registros de jornada operacional: Carregar regras de jornada a partir das novas configurações das macros",
+        "Incluir documento nos registros de jornada operacional: Refatorar lógica de processamento das jornadas",
+        "Jornada do motorista: Incluir tempo em atividade no processamento de jornadas",
+        "Jornada do motorista: Condutores - Auditoria - Incluir informações novas na tela de auditoria",
+        "Melhorias documentos: Schedule - Incluir tempo em cerca/atividade no documento",
+        "Melhorias gerais: Remover informação dos dados de cache direção continua",
+        "Melhorias gerais: Relatórios - Utilizar informações de performed_schedule a partir do Data lake",
+        "Melhorias gerais: Alterações em tela",
+        "Melhorias gerais: Incluir estrutura para armazenar observações no snapshot do veiculo",
+        "Melhorias gerais: Relatório - Jornada - Inclusão de Colunas de Qntd de Pausas e Tempo Total Pausas",
+        "Melhorias gerais: Incluir novas informações na estrutura de dados básicos no snapshot do veículo",
+        "Melhorias gerais: Auditoria - Extração para excel das tabelas de auditoria",
+        "Melhorias gerais: Simplificar parâmetros no processamento de tempo em cerca dinâmica",
+        "Modulo de segurança: Alertas - Coluna de Divisão - Opção de selecionar 2 ou mais opções",
+        "Modulo de segurança: Alertas - Coluna de Velocidade - Opção de Ordenação",
+        "Modulo de segurança: Alertas - Colunas para duração e parâmetro",
+        "Modulo de segurança: Alertas - Finalização em Massa - Adicionar filtro opcional de CM",
+        "Modulo de segurança: Tipo de alertas - Criar coluna bool (gera pontuação)",
+        "Modulo de segurança: Alertas - Atalho de envio de mensagem",
+        "Modulo de segurança: Pontuação Motorista - Editar pontuação",
+        "Modulo de segurança: Alertas - Tarefas - Anexar arquivos",
+        "Modulo de segurança: Alertas - Coluna (Data Evento)",
+        "Modulo de segurança: Alertas - Filtro de Motorista por seleção (dropdown)",
+        "Modulo de segurança: Alertas - Filtro de Tipo de Alerta por seleção (dropdown)",
+        "Modulo de segurança: Alertas - Filtro de KM/H com opção de (=, > e <)",
+        "Modulo de segurança: Alertas - Inserir coluna com divisão do motorista",
+        "Modulo de segurança: Torre de controle - Inserir coluna com divisão do motorista",
+        "Modulo de segurança: Alertas - Sighra - Violações de Rotograma",
+        "Modulo de segurança: Alertas - Maxtrack - Incluir parâmetro e duração de alertas de velocidade",
+        "Modulo de segurança: Rodopar - Gerar advertencias no rodopar",
+        "Nova estrutura de relatórios: Serviço para tratar relatórios de forma individual",
+        "Nova estrutura de relatórios: Relatórios - Refatorar tela de geração e consulta de relatórios em excel",
+        "Rodopar - Gerar advertencias no rodopar: Query Rodopar (Flavio)",
+        "Rodopar - Gerar advertencias no rodopar: Cadastro Tipo Alerta - Incluir na Automação o tipo \"Gerar advertência\"",
+        "Rodopar - Gerar advertencias no rodopar: Api Rodopar - Criar endpoint insert dados da advertência",
+        "Rodopar - Gerar advertencias no rodopar: Automação - Integração advertência",
+        "Torre de controle - Inserir coluna com divisão de motorista: Incluir informação da divisão do motorista no cache",
+        "Torre de controle - Inserir coluna com divisão de motorista: Mostrar a divisão do motorista em uma coluna na torre de controle",
+        "Visão km planejado vs realizado: Configurar a velocidade média na roteirização dos documentos de planejamento",
+        "Visão realizado vs planejado em tempo real: Estimativa de chegada (ETA) para veiculos executando documentos CTE",
+        "Visão realizado vs planejado em tempo real: Mostrar informação de ETA na torre de controle",
+        "Visão realizado vs planejado em tempo real: Finalizar ETA para veiculos executando documentos CTE",
+        "(vazio): ETA - Verificar alterações nos processamentos de ETA",
+        "(vazio): Avaliar quais informações são importantes no painel de carga",
+        "(vazio): Relatório - Adicionar novos métodos em BigCore SDK para utilizar no serviço de relatório",
+        "(vazio): Maxtrack - Habilitar nova leitura de macros para a IC Transportes",
+        "(vazio): Testar instâncias de container SPOT",
+        "(vazio): Torre de Controle - ETA - Incluir \"tempo restante\" na leganda do ETA",
+        "(vazio): Torre de Controle - Programação / Documento - Filtro por múltiplos números",
+        "(vazio): Extrair document_code das macros maxtrack da Contatto",
+        "(vazio): Como saber programações que não estão aparecendo nos veículos na torre de controle?",
+        "(vazio): Torre de Controle - ETA - Manter caminhão vermelho quando chegar com atraso",
+        "(vazio): Contatto - Messer - Importação de ponto de retorno",
+        "(vazio): Aprovação e Documento - Botão de Ocorrências",
+        "(vazio): Automações - Macro - Usar categoria ao invés da Macro",
+        "(vazio): Incluir documento nos registros de jornada operacional",
+        "(vazio): Adaptar novo tipo de macro fim de refeição"
+      ],
+      "source_refs": [
+        "data_sources\\raw\\bigcore\\BIGCORE_2025.html"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "company": "BIGCORE SOLUÇÕES EM TECNOLOGIA LTDA",
+      "year": 2024,
+      "source": "data_sources\\raw\\bigcore\\BIGCORE_2025.html",
+      "kind": "html",
+      "extracted_from": "const DATA, THIRD_RULES e WORK_CATALOG_BASE",
+      "confidence": "alta",
+      "notes": "HTML BIGCORE continha dados anuais, fornecedores, regras de incentivo e backlog técnico estruturados em JavaScript."
+    },
+    {
+      "company": "BIGCORE SOLUÇÕES EM TECNOLOGIA LTDA",
+      "year": 2025,
+      "source": "data_sources\\raw\\bigcore\\BIGCORE_2025.html",
+      "kind": "html",
+      "extracted_from": "const DATA, THIRD_RULES e WORK_CATALOG_BASE",
+      "confidence": "alta",
+      "notes": "HTML BIGCORE continha dados anuais, fornecedores, regras de incentivo e backlog técnico estruturados em JavaScript."
+    }
+  ]
+}

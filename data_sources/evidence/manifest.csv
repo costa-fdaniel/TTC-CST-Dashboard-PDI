@@ -31,3 +31,5 @@ PRODIET;2022;https://docs.google.com/spreadsheets/d/1V4Vb0mqRYB3VcAYk26NIq04arse
 NETZSCH NEM;2023;data_sources\raw\nem\01_1vmCroeJel-et_erRw0RevviFGKpUBN5SF4BWp7Zu2KE_xlsx.xlsx;xlsx;historical_metrics;alta;RESUMO moderno lido diretamente por linha fiscal.
 NETZSCH NEM;2024;data_sources\raw\nem\02_1Ii-SbCWJO9K7bxXkmQ7TOfkPXf3kthJ4N26rafKpgzE_xlsx.xlsx;xlsx;historical_metrics;alta;RESUMO moderno lido diretamente por linha fiscal.
 NETZSCH NEM;2025;data_sources\raw\nem\03_1KZbcFfptA_QFTg2VTzY8NtlgF2Du3nQRJVl1FmRvc4Y_xlsx.xlsx;xlsx;historical_metrics;alta;RESUMO moderno lido diretamente por linha fiscal.
+BIGCORE SOLUÇÕES EM TECNOLOGIA LTDA;2024;data_sources\raw\bigcore\BIGCORE_2025.html;html;historical_metrics;alta;HTML BIGCORE continha dados anuais, fornecedores, regras de incentivo e backlog técnico estruturados em JavaScript.
+BIGCORE SOLUÇÕES EM TECNOLOGIA LTDA;2025;data_sources\raw\bigcore\BIGCORE_2025.html;html;historical_metrics;alta;HTML BIGCORE continha dados anuais, fornecedores, regras de incentivo e backlog técnico estruturados em JavaScript.

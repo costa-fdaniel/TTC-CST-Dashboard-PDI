@@ -1,0 +1,83 @@
+﻿Projeto;Atividade realizada;Código;Ano;Projeto incentivado?;Atividade incentivada?
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Função do rastreador;BE-349;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Função do rastreador - Adequação dos serviços de cache;BE-350;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Função do rastreador - Adequação dos serviços de processamento;BE-353;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Implantação Contatto - Torre de Controle - Tempo em Cerca - Incluir histórico (i);BE-1379;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Implantação Contatto - Torre de Controle - Auditoria - Unificar mapa de ETA e Visualizar posição;BE-1467;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Implantação Contatto - Habilitar e verificar serviços de vinculo de km;BE-1625;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Implantação IC - Relatórios - Incluir informações de tempo em atividades no relatório de jornada;BE-1479;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Implantação IC - Data Lake - Criação de usuário para IC Transportes;BE-1489;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Implantação IC - Automação - ETA - Ajustes para baixa de Shift e RV;BE-1491;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Implantação IC - Schedule - Cálculo de pedágio com eixo levantado;BE-1614;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Implantação Monfredini - Buonny - Integração com SM (início de programação de carga);BE-1385;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Implantação Monfredini - Programação de carga - Adaptar o modelo de integração do mercado livre para a shopee;BE-1418;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Implantação Monfredini - Monfredini - Ativação OMINILINK;BE-1526;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Implantação Monfredini - Autotrac - Criar vinculo de id_tracking automático;BE-1531;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Implantação Monfredini - Adaptar serviços de processamento de documentos para entender documento SHOPEE;BE-1580;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Implantação Monfredini - Montar backlog de atividades para controle do ETD;BE-1621;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Implantação Monfredini - Habilitar consumers e dispatchers SASCAR;BE-1649;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Implantação Rodomeu - Rodopar - Ativar alertas de documentação para Rodomeu (Veículos);BE-1362;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Implantação Rodomeu - Torre de Controle - Configurar na assinatura quais divisões podem receber vinculo de motorista na torre de controle;BE-1440;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Implantação Rodomeu - Ponto de parada obrigatório dos documentos Rodomeu;BE-200;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Implantação VIX Pesados - Prog de Carga - Criar filtro para esconder programações entregues;BE-1560;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Incluir documento nos registros de jornada operacional - Melhorar repositório para obter macros e viagens vinculadas;BE-401;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Incluir documento nos registros de jornada operacional - Nova task para preencher o document_code nas macros;BE-402;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Incluir documento nos registros de jornada operacional - Carregar regras de jornada a partir das novas configurações das macros;BE-403;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Incluir documento nos registros de jornada operacional - Refatorar lógica de processamento das jornadas;BE-404;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Jornada do motorista - Incluir tempo em atividade no processamento de jornadas;BE-1334;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Jornada do motorista - Condutores - Auditoria - Incluir informações novas na tela de auditoria;BE-1337;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Melhorias documentos - Schedule - Incluir tempo em cerca/atividade no documento;BE-1047;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Melhorias gerais - Remover informação dos dados de cache direção continua;BE-1417;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Melhorias gerais - Relatórios - Utilizar informações de performed_schedule a partir do Data lake;BE-1443;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Melhorias gerais - Alterações em tela;BE-1486;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Melhorias gerais - Incluir estrutura para armazenar observações no snapshot do veiculo;BE-1503;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Melhorias gerais - Relatório - Jornada - Inclusão de Colunas de Qntd de Pausas e Tempo Total Pausas;BE-1515;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Melhorias gerais - Incluir novas informações na estrutura de dados básicos no snapshot do veículo;BE-1554;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Melhorias gerais - Auditoria - Extração para excel das tabelas de auditoria;BE-1573;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Melhorias gerais - Simplificar parâmetros no processamento de tempo em cerca dinâmica;BE-1574;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Modulo de segurança - Alertas - Coluna de Divisão - Opção de selecionar 2 ou mais opções;BE-301;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Modulo de segurança - Alertas - Coluna de Velocidade - Opção de Ordenação;BE-302;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Modulo de segurança - Alertas - Colunas para duração e parâmetro;BE-312;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Modulo de segurança - Alertas - Finalização em Massa - Adicionar filtro opcional de CM;BE-341;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Modulo de segurança - Tipo de alertas - Criar coluna bool (gera pontuação);BE-342;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Modulo de segurança - Alertas - Atalho de envio de mensagem;BE-367;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Modulo de segurança - Pontuação Motorista - Editar pontuação;BE-368;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Modulo de segurança - Alertas - Tarefas - Anexar arquivos;BE-369;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Modulo de segurança - Alertas - Coluna (Data Evento);BE-376;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Modulo de segurança - Alertas - Filtro de Motorista por seleção (dropdown);BE-377;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Modulo de segurança - Alertas - Filtro de Tipo de Alerta por seleção (dropdown);BE-378;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Modulo de segurança - Alertas - Filtro de KM/H com opção de (=, > e <);BE-379;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Modulo de segurança - Alertas - Inserir coluna com divisão do motorista;BE-382;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Modulo de segurança - Torre de controle - Inserir coluna com divisão do motorista;BE-383;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Modulo de segurança - Alertas - Sighra - Violações de Rotograma;BE-393;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Modulo de segurança - Alertas - Maxtrack - Incluir parâmetro e duração de alertas de velocidade;BE-423;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Modulo de segurança - Rodopar - Gerar advertencias no rodopar;BE-87;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Nova estrutura de relatórios - Serviço para tratar relatórios de forma individual;BE-1205;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Nova estrutura de relatórios - Relatórios - Refatorar tela de geração e consulta de relatórios em excel;BE-1482;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Rodopar - Gerar advertencias no rodopar - Query Rodopar (Flavio);BE-102;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;"Rodopar - Gerar advertencias no rodopar - Cadastro Tipo Alerta - Incluir na Automação o tipo ""Gerar advertência""";BE-97;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Rodopar - Gerar advertencias no rodopar - Api Rodopar - Criar endpoint insert dados da advertência;BE-98;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Rodopar - Gerar advertencias no rodopar - Automação - Integração advertência;BE-99;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Torre de controle - Inserir coluna com divisão de motorista - Incluir informação da divisão do motorista no cache;BE-394;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Torre de controle - Inserir coluna com divisão de motorista - Mostrar a divisão do motorista em uma coluna na torre de controle;BE-395;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Visão km planejado vs realizado - Configurar a velocidade média na roteirização dos documentos de planejamento;BE-298;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Visão realizado vs planejado em tempo real - Estimativa de chegada (ETA) para veiculos executando documentos CTE;BE-414;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Visão realizado vs planejado em tempo real - Mostrar informação de ETA na torre de controle;BE-442;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;Visão realizado vs planejado em tempo real - Finalizar ETA para veiculos executando documentos CTE;BE-443;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;(vazio) - ETA - Verificar alterações nos processamentos de ETA;BE-1577;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;(vazio) - Avaliar quais informações são importantes no painel de carga;BE-1579;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;(vazio) - Relatório - Adicionar novos métodos em BigCore SDK para utilizar no serviço de relatório;BE-1583;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;(vazio) - Maxtrack - Habilitar nova leitura de macros para a IC Transportes;BE-1591;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;(vazio) - Testar instâncias de container SPOT;BE-1595;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;"(vazio) - Torre de Controle - ETA - Incluir ""tempo restante"" na leganda do ETA";BE-1596;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;(vazio) - Torre de Controle - Programação / Documento - Filtro por múltiplos números;BE-1597;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;(vazio) - Extrair document_code das macros maxtrack da Contatto;BE-1602;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;(vazio) - Como saber programações que não estão aparecendo nos veículos na torre de controle?;BE-1608;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;(vazio) - Torre de Controle - ETA - Manter caminhão vermelho quando chegar com atraso;BE-1655;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;(vazio) - Contatto - Messer - Importação de ponto de retorno;BE-1659;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;(vazio) - Aprovação e Documento - Botão de Ocorrências;BE-1660;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;(vazio) - Automações - Macro - Usar categoria ao invés da Macro;BE-398;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;(vazio) - Incluir documento nos registros de jornada operacional;BE-399;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;(vazio) - Adaptar novo tipo de macro fim de refeição;BE-409;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;(vazio) - Criar configuração de configuração de Grupo de Hardware Padrão;BE-412;;Sim;Sim
+E-Log - Plataforma Inteligente e Adaptativa para Gestão Logística e Integração de Sistemas;(vazio) - Alertas - Cadastro manual de Infrações;BE-417;;Sim;Sim
