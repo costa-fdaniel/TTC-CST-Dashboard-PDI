@@ -44,20 +44,22 @@ def render_intranet_site(
     h2 { margin:0; font-size:17px; }
     h3 { margin:0 0 8px; font-size:13px; text-transform:uppercase; color:var(--muted); }
     nav { display:grid; gap:8px; margin-top:14px; }
-    nav a { color:var(--ink); text-decoration:none; padding:10px 11px; border:1px solid var(--line); border-radius:8px; background:#f9fbfa; font-weight:800; transition:.15s ease; }
-    nav a:hover { border-color:rgba(15,118,110,.45); transform:translateX(2px); }
+    nav button { justify-content:flex-start; color:var(--ink); text-decoration:none; padding:10px 11px; border:1px solid var(--line); border-radius:8px; background:#f9fbfa; font-weight:800; transition:.15s ease; }
+    nav button:hover, nav button.active { border-color:rgba(15,118,110,.45); background:#eaf5f2; transform:translateX(2px); }
     select, input, textarea, button { font:inherit; }
     select, input, textarea { width:100%; border:1px solid var(--line); border-radius:8px; padding:10px 11px; background:white; color:var(--ink); }
     textarea { min-height:96px; resize:vertical; }
     button, .button { border:1px solid var(--line); border-radius:8px; padding:10px 12px; background:white; color:var(--ink); font-weight:850; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; justify-content:center; }
     button.primary, .button.primary { background:var(--teal); border-color:var(--teal); color:white; }
     .filters {
-      position:sticky; top:0; z-index:5; display:grid; grid-template-columns:1.2fr 1fr 1fr 1.2fr;
+      position:sticky; top:0; z-index:5; display:grid; grid-template-columns:1.1fr 1.1fr 1fr 1.2fr auto;
       gap:10px; margin:0 0 18px; padding:12px; border:1px solid var(--line); border-radius:10px;
       background:rgba(255,255,255,.96); box-shadow:var(--shadow);
     }
     .filters label { display:grid; gap:5px; color:var(--muted); font-size:11px; font-weight:850; text-transform:uppercase; }
     section { margin-bottom:22px; scroll-margin-top:84px; }
+    .view { display:none; }
+    .view.active { display:block; }
     .report-hero { background:linear-gradient(135deg,#fff 0%,#edf7f4 100%); border:1px solid var(--line); border-radius:14px; padding:20px; box-shadow:var(--shadow); margin-bottom:18px; }
     .report-hero .eyebrow { color:var(--muted); font-size:12px; font-weight:850; text-transform:uppercase; }
     .report-hero h2 { font-size:26px; margin:4px 0 8px; }
@@ -82,6 +84,13 @@ def render_intranet_site(
     .score-card { border:1px solid var(--line); border-radius:10px; padding:13px; background:var(--soft); }
     .score-card b { display:block; font-size:24px; }
     .score-card span { color:var(--muted); font-size:12px; font-weight:850; text-transform:uppercase; }
+    .sparkline { width:100%; height:230px; display:block; }
+    .sparkline path.line { fill:none; stroke:var(--teal); stroke-width:3; }
+    .sparkline circle { fill:var(--teal); }
+    .donut-wrap { display:grid; grid-template-columns:150px minmax(0,1fr); gap:14px; align-items:center; }
+    .donut { width:150px; height:150px; border-radius:50%; background:conic-gradient(var(--green) 0 var(--good), var(--amber) var(--good) var(--warn), var(--red) var(--warn) 100%); position:relative; }
+    .donut::after { content:""; position:absolute; inset:30px; border-radius:50%; background:white; border:1px solid var(--line); }
+    .matrix { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px; }
     .bar { display:grid; grid-template-columns:minmax(130px,260px) 1fr auto; gap:10px; align-items:center; margin:9px 0; }
     .bar label { font-weight:800; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     .track { height:12px; background:#e7ece9; border-radius:99px; overflow:hidden; }
@@ -121,14 +130,14 @@ def render_intranet_site(
       <h1>Relatórios de PD&I</h1>
       <select id="companySelect" onchange="setCompany(this.value)" aria-label="Relatório"></select>
       <nav aria-label="Table of contents">
-        <a href="#resumo">Resumo</a>
-        <a href="#lei">Lei do Bem</a>
-        <a href="#tecnoparque">Tecnoparque</a>
-        <a href="#analiticos">Dados analíticos</a>
-        <a href="#avaliacao">Avaliação PD&I</a>
-        <a href="#indice">Índice ano a ano</a>
-        <a href="#agentes">Agentes e suporte</a>
-        <a href="#downloads">Downloads</a>
+        <button type="button" data-view="resumo" onclick="setView('resumo')">Resumo</button>
+        <button type="button" data-view="lei" onclick="setView('lei')">Lei do Bem</button>
+        <button type="button" data-view="tecnoparque" onclick="setView('tecnoparque')">Tecnoparque</button>
+        <button type="button" data-view="analiticos" onclick="setView('analiticos')">Dados analíticos</button>
+        <button type="button" data-view="avaliacao" onclick="setView('avaliacao')">Avaliação PD&I</button>
+        <button type="button" data-view="indice" onclick="setView('indice')">Índice ano a ano</button>
+        <button type="button" data-view="agentes" onclick="setView('agentes')">Agentes e suporte</button>
+        <button type="button" data-view="downloads" onclick="setView('downloads')">Downloads</button>
       </nav>
       <p class="toc-note">Header corporativo entra acima desta área na intranet.</p>
     </aside>
@@ -138,6 +147,7 @@ def render_intranet_site(
         <label>Projeto<select id="projectSelect" onchange="setFilter('project', this.value)" aria-label="Projeto"></select></label>
         <label>Despesa<select id="expenseSelect" onchange="setFilter('expense', this.value)" aria-label="Tipo de despesa"></select></label>
         <label>Busca<input id="searchInput" oninput="setFilter('q', this.value)" placeholder="Projeto, atividade, evidência ou fornecedor"></label>
+        <button type="button" onclick="clearFilters()">Limpar</button>
       </div>
       <div id="app"></div>
     </main>
@@ -147,7 +157,7 @@ def render_intranet_site(
     const COMPANIES = PORTAL.companies || [];
     const fmtMoney = new Intl.NumberFormat('pt-BR', { style:'currency', currency:'BRL' });
     const fmtNum = new Intl.NumberFormat('pt-BR', { maximumFractionDigits:2 });
-    const state = { company:0, year:'all', project:'all', expense:'all', q:'' };
+    const state = { company:0, year:'all', project:'all', expense:'all', q:'', view:'resumo' };
     const chats = {};
     const $ = id => document.getElementById(id);
     const norm = v => String(v || '').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().trim();
@@ -291,6 +301,28 @@ def render_intranet_site(
         return '<div class="bar"><label title="'+esc(item.name)+'">'+esc(item.name)+'</label><div class="track"><div class="fill '+tone+'" style="--w:'+Math.max(4, item.value/max*100)+'%"></div></div><b>'+value+'</b></div>';
       }).join('') + '</div>';
     }
+    function lineChart(title, rows) {
+      const clean = (rows || []).filter(r => Number(r.Índice || r.value || 0) > 0);
+      if (!clean.length) return '<div class="panel"><div class="panel-head"><h2>'+esc(title)+'</h2></div><p>Sem dados suficientes.</p></div>';
+      const vals = clean.map(r => Number(r.Índice || r.value || 0));
+      const labels = clean.map(r => String(r.Ano || r.name || ''));
+      const max = Math.max(...vals, 100), min = Math.min(...vals, 0);
+      const points = vals.map((v,i) => {
+        const x = 30 + (i * (520 / Math.max(vals.length - 1, 1)));
+        const y = 190 - ((v - min) / Math.max(max - min, 1) * 150);
+        return { x, y, v, label: labels[i] };
+      });
+      const path = points.map((p,i) => (i ? 'L' : 'M') + p.x + ' ' + p.y).join(' ');
+      const dots = points.map(p => '<circle cx="'+p.x+'" cy="'+p.y+'" r="4"><title>'+esc(p.label)+': '+num(p.v)+'</title></circle>').join('');
+      const axis = points.map(p => '<text x="'+p.x+'" y="215" text-anchor="middle" font-size="11" fill="#65726e">'+esc(p.label)+'</text>').join('');
+      return '<div class="panel"><div class="panel-head"><h2>'+esc(title)+'</h2><span class="pill">'+clean.length+' pontos</span></div><svg class="sparkline" viewBox="0 0 590 230" role="img"><line x1="30" y1="190" x2="560" y2="190" stroke="#dbe3df"/><line x1="30" y1="35" x2="30" y2="190" stroke="#dbe3df"/><path class="line" d="'+path+'"/>'+dots+axis+'</svg></div>';
+    }
+    function donutChart(title, quality) {
+      const total = Math.max(quality.length, 1);
+      const good = quality.filter(r => r.Índice >= 78).length / total * 100;
+      const warn = good + quality.filter(r => r.Índice >= 58 && r.Índice < 78).length / total * 100;
+      return '<div class="panel"><div class="panel-head"><h2>'+esc(title)+'</h2><span class="pill">'+quality.length+' projetos</span></div><div class="donut-wrap"><div class="donut" style="--good:'+good+'%;--warn:'+warn+'%"></div><ul class="list"><li><b>Fortes:</b> '+num(quality.filter(r=>r.Índice>=78).length)+'</li><li><b>Com ressalvas:</b> '+num(quality.filter(r=>r.Índice>=58 && r.Índice<78).length)+'</li><li><b>Frágeis/críticos:</b> '+num(quality.filter(r=>r.Índice<58).length)+'</li></ul></div></div>';
+    }
     function kpi(label, value, sub='') { return '<div class="kpi"><span>'+esc(label)+'</span><b>'+value+'</b><small>'+esc(sub)+'</small></div>'; }
     function programScoreForYear(row) {
       let score = 20;
@@ -413,8 +445,13 @@ def render_intranet_site(
         '<ul class="list"><li><b>Projeto:</b> '+esc(p?.title || 'Carteira')+'</li><li><b>Índice técnico:</b> '+num(q.score)+'/100, risco '+esc(q.risk)+'.</li><li><b>Tese técnica:</b> '+esc(short(q.desc || q.element || 'Sem tese técnica suficiente na base filtrada.', 380))+'</li><li><b>Incerteza/barreira:</b> '+esc(short(q.barrier || 'Não localizada de forma explícita.', 300))+'</li><li><b>Execução:</b> '+num(sum(q.accepted, ['Horas decimais','Horas']))+' horas aceitas em '+num(q.accepted.length)+' linhas.</li><li><b>Valores:</b> '+money(sum(q.inv, ['Valor Incentivado','Valor']))+' em investimentos filtrados.</li><li><b>Histórico:</b> '+num(q.hist.length)+' narrativa(s) conectada(s).</li></ul></div>';
     }
     function table(title, data, cols) {
-      const body = (data||[]).slice(0,500).map(row => '<tr>'+cols.map(c => '<td>'+esc(row[c] ?? '')+'</td>').join('')+'</tr>').join('');
-      return '<div class="panel"><div class="panel-head"><h2>'+esc(title)+'</h2><span class="pill">'+num((data||[]).length)+' linhas</span></div><div class="table-wrap"><table><thead><tr>'+cols.map(c=>'<th>'+esc(c)+'</th>').join('')+'</tr></thead><tbody>'+body+'</tbody></table></div></div>';
+      const visible = (data || []).filter(row => cols.some(c => {
+        const value = String(row[c] ?? '').trim();
+        return value && !['0','0,00','R$ 0,00','nan','undefined','null'].includes(value);
+      }));
+      if (!visible.length) return '<div class="panel"><div class="panel-head"><h2>'+esc(title)+'</h2></div><p>Sem linhas relevantes para exibir no recorte atual.</p></div>';
+      const body = visible.slice(0,500).map(row => '<tr>'+cols.map(c => '<td>'+esc(row[c] ?? '')+'</td>').join('')+'</tr>').join('');
+      return '<div class="panel"><div class="panel-head"><h2>'+esc(title)+'</h2><span class="pill">'+num(visible.length)+' linhas</span></div><div class="table-wrap"><table><thead><tr>'+cols.map(c=>'<th>'+esc(c)+'</th>').join('')+'</tr></thead><tbody>'+body+'</tbody></table></div></div>';
     }
     function summary() {
       const m = DATA().metrics || {};
@@ -422,7 +459,7 @@ def render_intranet_site(
       const histBase = ctx.histYears.reduce((a,row)=>a+Number(row.base_total||0),0);
       const base = state.year === 'all' ? (m.base_total || (m.people_pdi_total||0)+(m.investment_incentivized||0)) : (histBase || sum(ctx.people, ['Total PD&I','Total PDI']) + sum(ctx.inv, ['Valor Incentivado','Valor']));
       const narrative = portfolioNarrative();
-      return '<section id="resumo">' +
+      return '<section id="resumo" class="view">' +
         '<div class="report-hero"><div class="eyebrow">'+esc(DATA().company || '')+' · '+(state.year === 'all' ? 'Todos os anos' : esc(state.year))+'</div><h2>Relatório de PD&I para renovação e suporte</h2><p>Visão executiva com os filtros aplicados em todas as seções: projeto, ano, despesa e busca textual alimentam o mesmo recorte de dados.</p></div>' +
         '<div class="grid-3">' +
         kpi('Base PD&I', money(base), 'Recorte filtrado') +
@@ -433,25 +470,28 @@ def render_intranet_site(
         kpi('RH filtrado', money(sum(ctx.people, ['Total PD&I','Total PDI'])), 'Projeto/ano atual') +
       '</div><div class="grid-2" style="margin-top:14px">' +
         '<div class="panel insight"><div class="panel-head"><h2>Resumo consultivo da IA</h2><span class="pill">recorte atual</span></div>' + narrative.map(item => '<div class="insight-card"><strong>'+esc(item.title)+'</strong><p>'+esc(item.text)+'</p></div>').join('') + '</div>' +
+        donutChart('Distribuição de qualidade', projectQualityRows()) +
+        lineChart('Tração histórica do programa', annualRows()) +
         chart('Força técnica dos projetos', projectQualityRows().slice(0,8).map(r => ({ name:r.Projeto, value:r.Índice })), 'number', 'blue') +
       '</div></section>';
     }
     function leiDoBem() {
       const m = DATA().metrics || {};
-      return '<section id="lei"><div class="section-title"><div><h2>Lei do Bem</h2><p>Leitura fiscal e técnica do recorte selecionado.</p></div><span class="pill">Governança fiscal</span></div><div class="grid-2"><div class="panel"><div class="panel-head"><h2>Resumo fiscal</h2></div><ul class="list"><li>Base PD&I conciliada: <b>'+money(m.base_total || 0)+'</b></li><li>Exclusão adicional: <b>'+money(m.exclusion_total || 0)+'</b></li><li>Economia fiscal: <b>'+money(m.estimated_savings || 0)+'</b></li><li>Risco central: manter vínculo entre incerteza tecnológica, execução e valor.</li></ul></div>'+agentAssessment()+'</div></section>';
+      return '<section id="lei" class="view"><div class="section-title"><div><h2>Lei do Bem</h2><p>Leitura fiscal e técnica do recorte selecionado.</p></div><span class="pill">Governança fiscal</span></div><div class="grid-2"><div class="panel"><div class="panel-head"><h2>Resumo fiscal</h2></div><ul class="list"><li>Base PD&I conciliada: <b>'+money(m.base_total || 0)+'</b></li><li>Exclusão adicional: <b>'+money(m.exclusion_total || 0)+'</b></li><li>Economia fiscal: <b>'+money(m.estimated_savings || 0)+'</b></li><li>Risco central: manter vínculo entre incerteza tecnológica, execução e valor.</li></ul></div>'+agentAssessment()+'</div></section>';
     }
     function tecnoparque() {
-      return '<section id="tecnoparque"><div class="section-title"><div><h2>Tecnoparque</h2><p>Oportunidades comerciais e de melhoria do programa.</p></div><span class="pill warn">Suporte recorrente</span></div><div class="panel"><p>Área para consolidar oportunidades de parceria, infraestrutura, ecossistema de inovação, ICTs, laboratórios, projetos de continuidade e suporte técnico recorrente.</p><ul class="list"><li>Mapear projetos com potencial de laboratório, validação, prototipagem ou ensaio.</li><li>Relacionar maturidade técnica com necessidade de suporte mensal.</li><li>Transformar lacunas documentais em plano de horas e renovação contratual.</li></ul></div></section>';
+      return '<section id="tecnoparque" class="view"><div class="section-title"><div><h2>Tecnoparque</h2><p>Oportunidades comerciais e de melhoria do programa.</p></div><span class="pill warn">Suporte recorrente</span></div><div class="panel"><p>Área para consolidar oportunidades de parceria, infraestrutura, ecossistema de inovação, ICTs, laboratórios, projetos de continuidade e suporte técnico recorrente.</p><ul class="list"><li>Mapear projetos com potencial de laboratório, validação, prototipagem ou ensaio.</li><li>Relacionar maturidade técnica com necessidade de suporte mensal.</li><li>Transformar lacunas documentais em plano de horas e renovação contratual.</li></ul></div></section>';
     }
     function analytics() {
       const ctx = filteredContext();
       const quality = projectQualityRows();
-      return '<section id="analiticos"><div class="section-title"><div><h2>Dados analíticos</h2><p>Tabelas, gráficos e estatísticas abaixo usam exatamente os filtros do topo.</p></div><span class="pill">'+num(ctx.work.length + ctx.inv.length + ctx.people.length)+' registros</span></div><div class="grid-4">' +
+      return '<section id="analiticos" class="view"><div class="section-title"><div><h2>Dados analíticos</h2><p>Tabelas, gráficos e estatísticas abaixo usam exatamente os filtros do topo.</p></div><span class="pill">'+num(ctx.work.length + ctx.inv.length + ctx.people.length)+' registros</span></div><div class="grid-4">' +
         '<div class="score-card"><span>Índice médio dos projetos</span><b>'+num(quality.length ? quality.reduce((a,r)=>a+r.Índice,0)/quality.length : 0)+'</b></div>' +
         '<div class="score-card"><span>Projetos fortes</span><b>'+num(quality.filter(r=>r.Índice>=78).length)+'</b></div>' +
         '<div class="score-card"><span>Projetos em atenção</span><b>'+num(quality.filter(r=>r.Índice<58).length)+'</b></div>' +
         '<div class="score-card"><span>Horas aceitas</span><b>'+num(sum(ctx.accepted, ['Horas decimais','Horas']))+'</b></div>' +
       '</div><div class="section-body grid-2" style="margin-top:14px">' +
+        donutChart('Qualidade da carteira filtrada', quality) +
         chart('Atividades por horas', group(ctx.work, ['Atividade realizada','Atividade'], ['Horas decimais','Horas'], 10), 'number', 'blue') +
         chart('Despesas por natureza', group(ctx.inv, ['Natureza','Tipo de despesa'], ['Valor Incentivado','Valor'], 10), 'money', 'amber') +
         table('Ranking técnico dos projetos', quality.map(r => ({ Projeto:r.Projeto, Índice:num(r.Índice), Diagnóstico:r.Diagnóstico, Risco:r.Risco, Evidência:short(r.Evidência, 260) })), ['Projeto','Índice','Diagnóstico','Risco','Evidência']) +
@@ -461,7 +501,7 @@ def render_intranet_site(
     }
     function evaluation() {
       const narrative = portfolioNarrative();
-      return '<section id="avaliacao"><div class="section-title"><div><h2>Nossa avaliação do programa</h2><p>Diagnóstico comercial e técnico para renovar contrato e orientar suporte.</p></div></div><div class="panel insight" style="margin-bottom:14px"><div class="panel-head"><h2>Parecer da IA sobre o programa</h2><span class="pill">consultivo</span></div>' + narrative.map(item => '<div class="insight-card"><strong>'+esc(item.title)+'</strong><p>'+esc(item.text)+'</p></div>').join('') + '</div><div class="grid-2">' +
+      return '<section id="avaliacao" class="view"><div class="section-title"><div><h2>Nossa avaliação do programa</h2><p>Diagnóstico comercial e técnico para renovar contrato e orientar suporte.</p></div></div><div class="panel insight" style="margin-bottom:14px"><div class="panel-head"><h2>Parecer da IA sobre o programa</h2><span class="pill">consultivo</span></div>' + narrative.map(item => '<div class="insight-card"><strong>'+esc(item.title)+'</strong><p>'+esc(item.text)+'</p></div>').join('') + '</div><div class="grid-2">' +
         '<div class="panel"><div class="panel-head"><h2>Pontos fortes</h2></div><ul class="list">'+strengths().map(item=>'<li>'+esc(item)+'</li>').join('')+'</ul></div>' +
         '<div class="panel"><div class="panel-head"><h2>Melhorias recomendadas</h2></div><ul class="list">'+improvements().map(item=>'<li>'+esc(item)+'</li>').join('')+'</ul></div>' +
       '</div></section>';
@@ -469,15 +509,15 @@ def render_intranet_site(
     function indexSection() {
       const rows = annualRows();
       const current = rows.length ? rows : [{ Ano:DATA().year || 'Atual', Índice:programScoreForYear({base_total:DATA().metrics?.base_total, estimated_savings:DATA().metrics?.estimated_savings}), Diagnóstico:'Ano corrente', Base:money(DATA().metrics?.base_total || 0), Economia:money(DATA().metrics?.estimated_savings || 0), Foco:'Consolidar governança' }];
-      return '<section id="indice"><div class="section-title"><div><h2>Índice PD&I ano a ano</h2><p>Pontuação calculada com base, RH, dispêndios, horas, economia e evidências históricas.</p></div></div><div class="section-body">' + chart('Índice PD&I ano a ano', current.map(r => ({ name:String(r.Ano), value:r.Índice })), 'number') + table('Índice e recomendação anual', current, ['Ano','Índice','Tendência','Variação','Diagnóstico','Base','Economia','Recomendação']) + '</div></section>';
+      return '<section id="indice" class="view"><div class="section-title"><div><h2>Índice PD&I ano a ano</h2><p>Pontuação calculada com base, RH, dispêndios, horas, economia e evidências históricas.</p></div></div><div class="section-body">' + lineChart('Evolução do índice PD&I', current) + chart('Índice por ano', current.map(r => ({ name:String(r.Ano), value:r.Índice })), 'number') + table('Índice e recomendação anual', current, ['Ano','Índice','Tendência','Variação','Diagnóstico','Base','Economia','Recomendação']) + '</div></section>';
     }
     function agents() {
       const endpoint = PORTAL.support_endpoint ? 'Envio automático configurado' : 'Endpoint de envio não configurado';
-      return '<section id="agentes"><div class="section-title"><div><h2>Agentes e suporte</h2><p>IA limitada ao recorte filtrado e canal humano para abrir demanda.</p></div></div><div class="grid-2"><div class="panel"><div class="panel-head"><h2>Chatbot de projetos</h2><span class="pill">Escopo limitado</span></div><div class="messages" id="botMessages"></div><form class="chat-form" onsubmit="askBot(event)"><input id="botInput" placeholder="Pergunte sobre projetos, anos, descrição, valores ou riscos"><button class="primary">Enviar</button></form></div><div class="panel"><div class="panel-head"><h2>Falar com especialista</h2><span class="pill '+(PORTAL.support_endpoint?'ok':'warn')+'">'+endpoint+'</span></div><form onsubmit="openTicket(event)"><input id="ticketSubject" placeholder="Assunto da ordem de serviço"><textarea id="ticketBody" placeholder="Descreva a dúvida, projeto, ano e urgência"></textarea><div class="actions"><button class="primary">Enviar solicitação</button></div><p id="ticketStatus" class="toc-note">Para envio sem abrir e-mail, configure um endpoint interno que encaminhe para inovacao@taticcaconsulting.com.</p></form></div></div></section>';
+      return '<section id="agentes" class="view"><div class="section-title"><div><h2>Agentes e suporte</h2><p>IA limitada ao recorte filtrado e canal humano para abrir demanda.</p></div></div><div class="grid-2"><div class="panel"><div class="panel-head"><h2>Chatbot de projetos</h2><span class="pill">Escopo limitado</span></div><div class="messages" id="botMessages"></div><form class="chat-form" onsubmit="askBot(event)"><input id="botInput" placeholder="Pergunte sobre projetos, anos, descrição, valores ou riscos"><button class="primary">Enviar</button></form></div><div class="panel"><div class="panel-head"><h2>Falar com especialista</h2><span class="pill '+(PORTAL.support_endpoint?'ok':'warn')+'">'+endpoint+'</span></div><form onsubmit="openTicket(event)"><input id="ticketSubject" placeholder="Assunto da ordem de serviço"><textarea id="ticketBody" placeholder="Descreva a dúvida, projeto, ano e urgência"></textarea><div class="actions"><button class="primary">Enviar solicitação</button></div><p id="ticketStatus" class="toc-note">Para envio sem abrir e-mail, configure um endpoint interno que encaminhe para inovacao@taticcaconsulting.com.</p></form></div></div></section>';
     }
     function downloads() {
       const sheets = PORTAL.sheets_url ? '<a class="button" target="_blank" rel="noopener" href="'+esc(PORTAL.sheets_url)+'">Abrir Google Sheets</a>' : '<span class="pill warn">Google Sheets restrito: informar URL no gerador</span>';
-      return '<section id="downloads" class="panel"><div class="panel-head"><h2>Downloads e congelamento</h2></div><div class="actions"><button onclick="window.print()">Baixar PDF / imprimir</button><button onclick="downloadFrozenHtml()">Baixar HTML congelado</button>'+sheets+'</div><p class="toc-note">O HTML congelado baixa uma cópia com os dados embutidos neste momento, útil para evidência de versão.</p></section>';
+      return '<section id="downloads" class="view"><div class="panel"><div class="panel-head"><h2>Downloads e congelamento</h2></div><div class="actions"><button onclick="window.print()">Baixar PDF / imprimir</button><button onclick="downloadFrozenHtml()">Baixar HTML congelado</button>'+sheets+'</div><p class="toc-note">O HTML congelado baixa uma cópia com os dados embutidos neste momento, útil para evidência de versão.</p></div></section>';
     }
     function renderControls() {
       $('companySelect').innerHTML = COMPANIES.map((c,i)=>'<option value="'+i+'">'+esc(c.company)+'</option>').join('');
@@ -496,10 +536,17 @@ def render_intranet_site(
     function render() {
       renderControls();
       $('app').innerHTML = summary() + leiDoBem() + tecnoparque() + analytics() + evaluation() + indexSection() + agents() + downloads();
+      activateView();
       renderBot();
     }
     function setCompany(value) { state.company=Number(value||0); state.year='all'; state.project='all'; state.expense='all'; state.q=''; render(); }
     function setFilter(key, value) { state[key] = key === 'q' ? (value || '') : (value || 'all'); render(); }
+    function setView(view) { state.view = view || 'resumo'; activateView(); }
+    function activateView() {
+      document.querySelectorAll('.view').forEach(el => el.classList.toggle('active', el.id === state.view));
+      document.querySelectorAll('nav button').forEach(btn => btn.classList.toggle('active', btn.dataset.view === state.view));
+    }
+    function clearFilters() { state.year='all'; state.project='all'; state.expense='all'; state.q=''; render(); }
     function botAnswer(q) {
       const p = activeProject();
       if (!p) return 'Selecione um projeto para limitar o escopo da resposta.';
@@ -569,7 +616,7 @@ def render_intranet_site(
       a.click();
       URL.revokeObjectURL(a.href);
     }
-    window.setCompany=setCompany; window.setFilter=setFilter; window.askBot=askBot; window.openTicket=openTicket; window.downloadFrozenHtml=downloadFrozenHtml;
+    window.setCompany=setCompany; window.setFilter=setFilter; window.setView=setView; window.clearFilters=clearFilters; window.askBot=askBot; window.openTicket=openTicket; window.downloadFrozenHtml=downloadFrozenHtml;
     render();
   </script>
 </body>
