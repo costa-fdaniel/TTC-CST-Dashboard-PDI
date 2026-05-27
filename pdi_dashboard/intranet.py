@@ -264,6 +264,7 @@ def render_intranet_site(
     }
     function expenses() {
       const set = new Set(['all']);
+      ['RH', 'Materiais', 'Serviços/terceiros'].forEach(v => set.add(v));
       rows('investimentos').forEach(row => { const v = cell(row, ['Natureza', 'Tipo de despesa']); if (v) set.add(v); });
       return [...set];
     }
@@ -430,14 +431,102 @@ def render_intranet_site(
         };
       }).sort((a,b)=>b.Índice-a.Índice);
     }
+    function annualProjectValue(row, p) {
+      if (!p) return 0;
+      const code = norm(p.code);
+      const title = norm(p.title);
+      const tokens = title.split(' ').filter(t => t.length > 3 && !['projeto','desenvolvimento','linha'].includes(t));
+      const matches = (row.top_projects || []).filter(item => {
+        const name = norm(item.name || '');
+        const overlap = tokens.filter(t => name.includes(t)).length;
+        return (code && name.includes(code)) || (title && name.includes(title.slice(0,80))) || overlap >= Math.min(3, tokens.length);
+      });
+      return matches.reduce((acc,item)=>acc+Number(item.value || 0),0);
+    }
+    function annualHasProject(row, p) {
+      if (!p) return true;
+      if (annualProjectValue(row, p) > 0) return true;
+      return projectHistoryMatches(p).some(item => String(item.year || '') === String(row.year || DATA().year || ''));
+    }
+    function annualMatchesQuery(row) {
+      if (!state.q) return true;
+      const q = norm(state.q);
+      const top = (row.top_projects || []).map(item => item.name).join(' ');
+      const refs = (row.source_refs || []).join(' ');
+      const hist = (DATA().history?.projects || [])
+        .filter(item => String(item.year || '') === String(row.year || ''))
+        .map(item => [item.name, item.summary, item.status, ...(item.activities || [])].join(' '))
+        .join(' ');
+      return norm([row.year, top, refs, hist].join(' ')).includes(q);
+    }
+    function applyExpenseFilter(values, row) {
+      if (state.expense === 'all') return values;
+      const selected = norm(state.expense);
+      const baseTotal = Number(row.base_total || 0) || values.base || 1;
+      const only = { rh:0, material:0, servicos:0, investimento:0, base:0, beneficio:0 };
+      if (selected.includes('rh') || selected.includes('pessoal') || selected.includes('folha') || selected.includes('salario')) {
+        only.rh = values.rh;
+        only.base = values.rh;
+      } else if (selected.includes('serv') || selected.includes('terc') || selected.includes('fornecedor') || selected.includes('laborat') || selected.includes('analise')) {
+        only.servicos = values.servicos;
+        only.investimento = values.servicos;
+        only.base = values.servicos;
+      } else if (selected.includes('mat') || selected.includes('insumo') || selected.includes('consumo') || selected.includes('equip')) {
+        only.material = values.material;
+        only.investimento = values.material;
+        only.base = values.material;
+      } else {
+        only.investimento = values.investimento;
+        only.base = values.investimento;
+      }
+      const share = Math.min(1, Math.max(0, only.base / baseTotal));
+      only.beneficio = values.beneficio * share;
+      return only;
+    }
     function annualRows() {
-      const source = filteredHistoryYears();
-      const rows = (source.length ? source : [{ year:DATA().year, base_total:DATA().metrics?.base_total, estimated_savings:DATA().metrics?.estimated_savings, rh_total:DATA().metrics?.people_pdi_total, material_total:DATA().metrics?.investment_incentivized }])
+      const p = selectedProject();
+      const historyYears = filteredHistoryYears();
+      const source = historyYears.filter(row => annualHasProject(row, p) && annualMatchesQuery(row));
+      const fallback = [{ year:DATA().year, base_total:DATA().metrics?.base_total, estimated_savings:DATA().metrics?.estimated_savings, rh_total:DATA().metrics?.people_pdi_total, material_total:DATA().metrics?.investment_incentivized }];
+      const rows = (source.length ? source : (historyYears.length ? [] : fallback))
         .slice()
         .sort((a,b) => Number(a.year || 0) - Number(b.year || 0));
-      return rows.map((row, idx) => {
+      const scopedRows = rows.map(row => {
+        let values = {
+          rh:Number(row.rh_total || 0),
+          material:Number(row.material_total || 0),
+          servicos:Number(row.third_party_total || 0),
+          investimento:Number(row.investment_total || 0) || Number(row.material_total || 0) + Number(row.third_party_total || 0),
+          base:Number(row.base_total || 0),
+          beneficio:Number(row.estimated_savings || 0)
+        };
+        const projectValue = annualProjectValue(row, p);
+        if (p) {
+          const baseTotal = Number(row.base_total || 0) || values.base || 1;
+          const share = projectValue > 0 ? Math.min(1, Math.max(0, projectValue / baseTotal)) : 0;
+          values = {
+            rh:values.rh * share,
+            material:values.material * share,
+            servicos:values.servicos * share,
+            investimento:values.investimento * share,
+            base:projectValue || values.base * share,
+            beneficio:values.beneficio * share
+          };
+        }
+        values = applyExpenseFilter(values, row);
+        const rh = values.rh;
+        const material = values.material;
+        const servicos = values.servicos;
+        const investimento = values.investimento || material + servicos;
+        const base = values.base;
+        const beneficio = values.beneficio;
+        const projetos = p ? 1 : Number(row.projects_total || 0);
+        const incentivados = p ? (projectValue > 0 ? 1 : 0) : Number(row.projects_incentivized || 0);
+        return { ...row, rh_total:rh, material_total:material, third_party_total:servicos, investment_total:investimento, base_total:base, estimated_savings:beneficio, projects_total:projetos, projects_incentivized:incentivados, _projectValue:projectValue };
+      });
+      return scopedRows.map((row, idx) => {
         const score = programScoreForYear(row);
-        const prev = idx ? programScoreForYear(rows[idx-1]) : null;
+        const prev = idx ? programScoreForYear(scopedRows[idx-1]) : null;
         const delta = prev == null ? 0 : score - prev;
         const trend = delta > 6 ? 'ganhou força' : delta < -6 ? 'perdeu força' : 'estável';
         const rh = Number(row.rh_total || 0);
@@ -552,8 +641,11 @@ def render_intranet_site(
       const m = DATA().metrics || {};
       const ctx = filteredContext();
       const annual = annualRows();
-      const histBase = ctx.histYears.reduce((a,row)=>a+Number(row.base_total||0),0);
-      const base = state.year === 'all' ? (m.base_total || (m.people_pdi_total||0)+(m.investment_incentivized||0)) : (histBase || sum(ctx.people, ['Total PD&I','Total PDI']) + sum(ctx.inv, ['Valor Incentivado','Valor']));
+      const annualBase = annual.reduce((a,row)=>a+Number(row.Base_val||0),0);
+      const annualBenefit = annual.reduce((a,row)=>a+Number(row.Beneficio_val||0),0);
+      const annualInvest = annual.reduce((a,row)=>a+Number(row.Investimentos_val||0),0);
+      const annualRh = annual.reduce((a,row)=>a+Number(row.RH_val||0),0);
+      const base = annualBase || (state.year === 'all' ? (m.base_total || (m.people_pdi_total||0)+(m.investment_incentivized||0)) : (sum(ctx.people, ['Total PD&I','Total PDI']) + sum(ctx.inv, ['Valor Incentivado','Valor'])));
       const financialSeries = [
         { key:'Base_val', label:'Base PD&I', className:'base', color:'var(--teal)' },
         { key:'RH_val', label:'RH', className:'rh', color:'var(--blue)' },
@@ -570,11 +662,11 @@ def render_intranet_site(
         '<div class="report-hero"><div class="eyebrow">'+esc(DATA().company || '')+' · '+(state.year === 'all' ? 'Todos os anos' : esc(state.year))+'</div><h2>Relatório de PD&I para renovação e suporte</h2><p>Visão executiva com os filtros aplicados em todas as seções: projeto, ano, despesa e busca textual alimentam o mesmo recorte de dados.</p></div>' +
         '<div class="grid-3">' +
         kpi('Base PD&I', money(base), 'Recorte filtrado') +
-        kpi('Economia estimada', money(state.year === 'all' ? (m.estimated_savings || 0) : ctx.histYears.reduce((a,row)=>a+Number(row.estimated_savings||0),0)), 'Lei do Bem') +
-        kpi('Anos no recorte', num(ctx.histYears.length || (state.year === 'all' ? (DATA().history?.years || []).length : 1)), 'Memória filtrada') +
+        kpi('Economia estimada', money(annualBenefit || (state.year === 'all' ? (m.estimated_savings || 0) : ctx.histYears.reduce((a,row)=>a+Number(row.estimated_savings||0),0))), 'Lei do Bem') +
+        kpi('Anos no recorte', num(annual.length), 'Memória filtrada') +
         kpi('Projetos filtrados', num(filteredProjects().length), 'Seleção atual') +
-        kpi('Investimentos', money(sum(ctx.inv, ['Valor Incentivado','Valor'])), state.expense === 'all' ? 'Todas as despesas' : state.expense) +
-        kpi('RH filtrado', money(sum(ctx.people, ['Total PD&I','Total PDI'])), 'Projeto/ano atual') +
+        kpi('Investimentos', money(annualInvest || sum(ctx.inv, ['Valor Incentivado','Valor'])), state.expense === 'all' ? 'Todas as despesas' : state.expense) +
+        kpi('RH filtrado', money(annualRh || sum(ctx.people, ['Total PD&I','Total PDI'])), 'Projeto/ano atual') +
       '</div><div class="grid-2" style="margin-top:14px">' +
         '<div class="panel insight"><div class="panel-head"><h2>Resumo consultivo da IA</h2><span class="pill">recorte atual</span></div>' + narrative.map(item => '<div class="insight-card"><strong>'+esc(item.title)+'</strong><p>'+esc(item.text)+'</p></div>').join('') + '</div>' +
         multiLineChart('Evolução financeira anual', annual, financialSeries) +
