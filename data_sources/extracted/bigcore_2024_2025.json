@@ -72,6 +72,40 @@
         }
       ],
       "third_party_full_total": 764209.51,
+      "quarterly": [
+        {
+          "name": "T1",
+          "base": 156053.6,
+          "investment": 155772.13,
+          "rh": 281.47,
+          "exclusion": 93632.16,
+          "savings": 31834.93
+        },
+        {
+          "name": "T2",
+          "base": 185017.05,
+          "investment": 184940.46,
+          "rh": 76.59,
+          "exclusion": 111010.23,
+          "savings": 37743.48
+        },
+        {
+          "name": "T3",
+          "base": 167260.89,
+          "investment": 164934.79,
+          "rh": 2326.1,
+          "exclusion": 100356.53,
+          "savings": 34121.22
+        },
+        {
+          "name": "T4",
+          "base": 139916.09,
+          "investment": 137898.13,
+          "rh": 2017.96,
+          "exclusion": 83949.65,
+          "savings": 28542.88
+        }
+      ],
       "source_refs": [
         "data_sources\\raw\\bigcore\\BIGCORE_2025.html"
       ]
@@ -154,6 +188,40 @@
         }
       ],
       "third_party_full_total": 813005.31,
+      "quarterly": [
+        {
+          "name": "T1",
+          "base": 173023.57,
+          "investment": 173023.57,
+          "rh": 0.0,
+          "exclusion": 103814.14,
+          "savings": 35296.81
+        },
+        {
+          "name": "T2",
+          "base": 177241.47,
+          "investment": 173934.34,
+          "rh": 3307.13,
+          "exclusion": 106344.88,
+          "savings": 36157.26
+        },
+        {
+          "name": "T3",
+          "base": 191306.04,
+          "investment": 184541.98,
+          "rh": 6764.06,
+          "exclusion": 114783.62,
+          "savings": 39026.43
+        },
+        {
+          "name": "T4",
+          "base": 288244.93,
+          "investment": 281505.42,
+          "rh": 6739.51,
+          "exclusion": 172946.96,
+          "savings": 58801.97
+        }
+      ],
       "source_refs": [
         "data_sources\\raw\\bigcore\\BIGCORE_2025.html"
       ]

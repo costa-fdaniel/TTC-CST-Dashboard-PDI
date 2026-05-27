@@ -77,6 +77,10 @@ def render_intranet_site(
     .insight-card strong { display:block; margin-bottom:5px; font-size:15px; }
     .insight-card p { margin:0; color:var(--muted); }
     .panel-head { display:flex; justify-content:space-between; gap:12px; align-items:start; margin-bottom:12px; }
+    .method-note { border-left:4px solid var(--teal); background:#f6fbf9; }
+    .method-note p { margin:0 0 8px; color:var(--muted); }
+    .method-note .list li { background:#fff; }
+    .subtle { color:var(--muted); font-size:12px; }
     .grid-2 { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:14px; }
     .grid-3 { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
     .grid-4 { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
@@ -681,6 +685,79 @@ def render_intranet_site(
       if (map.size) return [...map.entries()].sort((a,b)=>b[1]-a[1]).slice(0,10).map(([name,value]) => ({ name, value }));
       return annual.map(row => ({ name:'Projetos em ' + row.Ano, value:Number(row.Projetos || 0) })).filter(item => item.value > 0);
     }
+    function evidenceRows() {
+      return (DATA().history?.evidence || []).filter(row => state.year === 'all' || !row.year || String(row.year) === String(state.year));
+    }
+    function methodPanel() {
+      const evidence = evidenceRows();
+      const sourceKind = (DATA().history?.years || []).some(row => row.method) ? 'histórico estruturado' : 'base atual';
+      const rows = evidence.map(row => ({
+        Ano:row.year || 'Todos',
+        Fonte:short(row.source || DATA().source || '', 90),
+        Tipo:row.kind || sourceKind,
+        Confiança:row.confidence || 'não informada',
+        Nota:short(row.notes || row.extracted_from || 'Sem nota metodológica.', 180)
+      }));
+      const intro = '<div class="panel method-note"><div class="panel-head"><h2>Fonte, método e confiança</h2><span class="pill">'+esc(sourceKind)+'</span></div><p>Inspirado no HTML da BIGCORE, este bloco explicita de onde vieram os dados do recorte e como eles devem ser lidos antes da decisão comercial ou fiscal.</p><ul class="list"><li><b>Valores:</b> priorizam dados históricos estruturados quando há ano selecionado; quando não há detalhe analítico, usam agregados anuais.</li><li><b>Projetos e fornecedores:</b> aparecem como drilldown para explicar o valor, sem remover a base original.</li><li><b>Risco:</b> aumenta quando falta vínculo entre descrição técnica, atividade executada e despesa.</li></ul></div>';
+      return intro + table('Evidências do recorte', rows, ['Ano','Fonte','Tipo','Confiança','Nota']);
+    }
+    function topSpendRows() {
+      const out = [];
+      filteredHistoryYears().forEach(row => {
+        (row.top_projects || []).forEach(item => {
+          const value = Number(item.value || 0);
+          if (value > 0) out.push({ Ano:row.year || '', Item:item.name || 'Não informado', Valor:money(value), Valor_num:value, Origem:'histórico anual' });
+        });
+      });
+      if (!out.length) {
+        filteredInvestments().forEach(row => {
+          const value = numCell(row, ['Valor Incentivado','Valor']);
+          if (value > 0) out.push({ Ano:rowYear(row) || state.year || '', Item:cell(row, ['Fornecedor','Projeto','Natureza']) || 'Não informado', Valor:money(value), Valor_num:value, Origem:'investimentos analíticos' });
+        });
+      }
+      return out.sort((a,b)=>b.Valor_num-a.Valor_num).slice(0,20).map(row => ({ Ano:row.Ano, Item:row.Item, Valor:row.Valor, Origem:row.Origem }));
+    }
+    function quarterlyRows() {
+      const rows = [];
+      filteredHistoryYears().forEach(yearRow => {
+        (yearRow.quarterly || []).forEach(item => rows.push({
+          Ano:yearRow.year || '',
+          Trimestre:item.name || item.quarter || '',
+          Base:Number(item.base || item.total || 0),
+          Investimentos:Number(item.investment || 0),
+          RH:Number(item.rh || 0),
+          Exclusão:Number(item.exclusion || 0),
+          Benefício:Number(item.savings || item.benefit || 0)
+        }));
+      });
+      if (!rows.length && (DATA().metrics?.quarterly || []).length && (state.year === 'all' || String(DATA().year || '') === String(state.year))) {
+        (DATA().metrics.quarterly || []).forEach(item => rows.push({
+          Ano:DATA().year || '',
+          Trimestre:item.name || '',
+          Base:Number(item.base || 0),
+          Investimentos:Number(item.investment || 0),
+          RH:Number(item.rh || 0),
+          Exclusão:Number(item.exclusion || 0),
+          Benefício:Number(item.savings || 0)
+        }));
+      }
+      return rows.filter(row => row.Base || row.Investimentos || row.RH || row.Benefício);
+    }
+    function quarterlyPanel() {
+      const rows = quarterlyRows();
+      if (!rows.length) return '<div class="panel"><div class="panel-head"><h2>Leitura trimestral</h2></div><p class="subtle">Sem abertura trimestral estruturada para o recorte atual.</p></div>';
+      const labels = rows.map(row => String(row.Ano) + ' ' + row.Trimestre);
+      const fallback = '<div class="mini-grid">' + rows.map(row => '<div class="mini-value"><span>'+esc(row.Ano+' '+row.Trimestre)+'</span><b>'+money(row.Base)+'</b><small class="subtle">Benefício: '+money(row.Benefício)+'</small></div>').join('') + '</div>';
+      const config = {
+        type:'bar',
+        data:{ labels, datasets:[
+          { label:'Base PD&I', data:rows.map(row=>row.Base), backgroundColor:'#0f766e', borderRadius:6 },
+          { label:'Benefício', data:rows.map(row=>row.Benefício), backgroundColor:'#13795b', borderRadius:6 }
+        ] },
+        options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom' }, tooltip:{ callbacks:{ label:ctx => ctx.dataset.label + ': ' + money(ctx.raw) } } }, scales:{ y:{ ticks:{ callback:value => money(value) }, grid:{ color:'#edf2ef' } }, x:{ grid:{ display:false } } } }
+      };
+      return chartPanel('Leitura trimestral: base e benefício', config, fallback, rows.length+' períodos');
+    }
     function portfolioNarrative() {
       const ctx = filteredContext();
       const qRows = projectQualityRows();
@@ -752,7 +829,7 @@ def render_intranet_site(
         const numeric = text.replace(/r[$]/g,'').replace(/%/g,'').replace(/\\s/g,'').replace(/[.]/g,'').replace(',','.');
         return /^-?0+([.]0+)?$/.test(numeric);
       };
-      const hasMaterialText = row => ['Fornecedor','Natureza','Descrição','Projeto','Código','Evidência','Diagnóstico','Recomendação','Atividade'].some(key => {
+      const hasMaterialText = row => ['Fornecedor','Natureza','Descrição','Projeto','Código','Evidência','Diagnóstico','Recomendação','Atividade','Fonte','Confiança','Nota','Item','Ano'].some(key => {
         const value = String(row[key] ?? '').trim();
         return value && !isZeroLike(value);
       });
@@ -806,13 +883,15 @@ def render_intranet_site(
         stackedBarChart('Composição anual dos dispêndios', annual) +
         compositionDonut('Composição acumulada dos dispêndios', expenseParts) +
         chart('Quantidade de projetos por ano', annual.map(r => ({ name:String(r.Ano), value:r.Projetos })), 'number', 'blue') +
+        table('Principais itens que explicam o valor', topSpendRows(), ['Ano','Item','Valor','Origem']) +
+        methodPanel() +
         donutChart('Distribuição de qualidade', projectQualityRows()) +
         chart('Força técnica dos projetos', projectQualityRows().slice(0,8).map(r => ({ name:r.Projeto, value:r.Índice })), 'number', 'blue') +
       '</div></section>';
     }
     function leiDoBem() {
       const m = DATA().metrics || {};
-      return '<section id="lei" class="view"><div class="section-title"><div><h2>Lei do Bem</h2><p>Leitura fiscal e técnica do recorte selecionado.</p></div><span class="pill">Governança fiscal</span></div><div class="grid-2"><div class="panel"><div class="panel-head"><h2>Resumo fiscal</h2></div><ul class="list"><li>Base PD&I conciliada: <b>'+money(m.base_total || 0)+'</b></li><li>Exclusão adicional: <b>'+money(m.exclusion_total || 0)+'</b></li><li>Economia fiscal: <b>'+money(m.estimated_savings || 0)+'</b></li><li>Risco central: manter vínculo entre incerteza tecnológica, execução e valor.</li></ul></div>'+agentAssessment()+'</div></section>';
+      return '<section id="lei" class="view"><div class="section-title"><div><h2>Lei do Bem</h2><p>Leitura fiscal e técnica do recorte selecionado.</p></div><span class="pill">Governança fiscal</span></div><div class="grid-2"><div class="panel"><div class="panel-head"><h2>Resumo fiscal</h2></div><ul class="list"><li>Base PD&I conciliada: <b>'+money(m.base_total || 0)+'</b></li><li>Exclusão adicional: <b>'+money(m.exclusion_total || 0)+'</b></li><li>Economia fiscal: <b>'+money(m.estimated_savings || 0)+'</b></li><li>Risco central: manter vínculo entre incerteza tecnológica, execução e valor.</li></ul></div>'+agentAssessment()+quarterlyPanel()+methodPanel()+'</div></section>';
     }
     function tecnoparque() {
       return '<section id="tecnoparque" class="view"><div class="section-title"><div><h2>Tecnoparque</h2><p>Oportunidades comerciais e de melhoria do programa.</p></div><span class="pill warn">Suporte recorrente</span></div><div class="panel"><p>Área para consolidar oportunidades de parceria, infraestrutura, ecossistema de inovação, ICTs, laboratórios, projetos de continuidade e suporte técnico recorrente.</p><ul class="list"><li>Mapear projetos com potencial de laboratório, validação, prototipagem ou ensaio.</li><li>Relacionar maturidade técnica com necessidade de suporte mensal.</li><li>Transformar lacunas documentais em plano de horas e renovação contratual.</li></ul></div></section>';
@@ -839,6 +918,8 @@ def render_intranet_site(
         stackedBarChart('RH, materiais e serviços por ano', annual) +
         chart('Benefício fiscal por ano', annual.map(r => ({ name:String(r.Ano), value:r.Beneficio_val })), 'money', 'blue') +
         chart('Serviços/terceiros por ano', annual.map(r => ({ name:String(r.Ano), value:r.Servicos_val })), 'money', 'amber') +
+        quarterlyPanel() +
+        table('Top fornecedores/projetos por valor', topSpendRows(), ['Ano','Item','Valor','Origem']) +
         donutChart('Qualidade da carteira filtrada', quality) +
         chart(activityItems.length ? 'Atividades por horas' : 'Atividades/projetos históricos do ano', activityItems.length ? activityItems : annualActivityItems(annual), 'number', 'blue') +
         chart(expenseItems.length ? 'Despesas por natureza' : 'Composição financeira do ano', expenseItems.length ? expenseItems : annualExpenseItems(annual), 'money', 'amber') +

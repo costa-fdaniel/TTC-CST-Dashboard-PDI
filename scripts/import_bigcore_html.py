@@ -106,6 +106,17 @@ def extract_bigcore(text: str, source: str) -> tuple[dict[str, Any], dict[str, l
                 "eligible_hours": 0.0,
                 "top_projects": top_projects[:20],
                 "third_party_full_total": third_full_total,
+                "quarterly": [
+                    {
+                        "name": f"T{idx}",
+                        "base": round(row.get("total", 0.0), 2),
+                        "investment": round(row.get("third", 0.0), 2),
+                        "rh": round(row.get("rhp", 0.0), 2),
+                        "exclusion": round(row.get("excl", 0.0), 2),
+                        "savings": round(row.get("eco", 0.0), 2),
+                    }
+                    for idx, row in enumerate(quarters, start=1)
+                ],
                 "source_refs": [source],
             }
         )
