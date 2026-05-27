@@ -445,9 +445,25 @@ def render_intranet_site(
         '<ul class="list"><li><b>Projeto:</b> '+esc(p?.title || 'Carteira')+'</li><li><b>Índice técnico:</b> '+num(q.score)+'/100, risco '+esc(q.risk)+'.</li><li><b>Tese técnica:</b> '+esc(short(q.desc || q.element || 'Sem tese técnica suficiente na base filtrada.', 380))+'</li><li><b>Incerteza/barreira:</b> '+esc(short(q.barrier || 'Não localizada de forma explícita.', 300))+'</li><li><b>Execução:</b> '+num(sum(q.accepted, ['Horas decimais','Horas']))+' horas aceitas em '+num(q.accepted.length)+' linhas.</li><li><b>Valores:</b> '+money(sum(q.inv, ['Valor Incentivado','Valor']))+' em investimentos filtrados.</li><li><b>Histórico:</b> '+num(q.hist.length)+' narrativa(s) conectada(s).</li></ul></div>';
     }
     function table(title, data, cols) {
-      const visible = (data || []).filter(row => cols.some(c => {
+      const isZeroLike = value => {
+        const text = String(value ?? '').trim().toLowerCase();
+        if (!text || ['nan','undefined','null','-'].includes(text)) return true;
+        const numeric = text.replace(/r[$]/g,'').replace(/%/g,'').replace(/\\s/g,'').replace(/[.]/g,'').replace(',','.');
+        return /^-?0+([.]0+)?$/.test(numeric);
+      };
+      const hasMaterialText = row => ['Fornecedor','Natureza','Descrição','Projeto','Código','Evidência','Diagnóstico','Recomendação','Atividade'].some(key => {
+        const value = String(row[key] ?? '').trim();
+        return value && !isZeroLike(value);
+      });
+      const hasPositiveNumber = row => cols.some(c => {
+        const value = String(row[c] ?? '').replace(/R[$]/g,'').replace(/%/g,'').trim();
+        const normalized = value.includes(',') ? value.replace(/[.]/g,'').replace(',','.') : value;
+        const number = Number(normalized);
+        return Number.isFinite(number) && Math.abs(number) > 0;
+      });
+      const visible = (data || []).filter(row => (hasMaterialText(row) || hasPositiveNumber(row)) && cols.some(c => {
         const value = String(row[c] ?? '').trim();
-        return value && !['0','0,00','R$ 0,00','nan','undefined','null'].includes(value);
+        return value && !['nan','undefined','null'].includes(value.toLowerCase());
       }));
       if (!visible.length) return '<div class="panel"><div class="panel-head"><h2>'+esc(title)+'</h2></div><p>Sem linhas relevantes para exibir no recorte atual.</p></div>';
       const body = visible.slice(0,500).map(row => '<tr>'+cols.map(c => '<td>'+esc(row[c] ?? '')+'</td>').join('')+'</tr>').join('');
@@ -496,7 +512,7 @@ def render_intranet_site(
         chart('Despesas por natureza', group(ctx.inv, ['Natureza','Tipo de despesa'], ['Valor Incentivado','Valor'], 10), 'money', 'amber') +
         table('Ranking técnico dos projetos', quality.map(r => ({ Projeto:r.Projeto, Índice:num(r.Índice), Diagnóstico:r.Diagnóstico, Risco:r.Risco, Evidência:short(r.Evidência, 260) })), ['Projeto','Índice','Diagnóstico','Risco','Evidência']) +
         table('Projetos filtrados', filteredProjects().map(p => ({ Projeto:p.title, Código:p.code, Origem:p.source, Ano:p.year || '', Status: boolCell(p.row,['Incentivado?']) ? 'Incentivado' : 'Revisar', Descrição: short(cell(p.row,['Descrição']), 220) })), ['Projeto','Código','Origem','Ano','Status','Descrição']) +
-        table('Investimentos filtrados', ctx.inv.map(row => ({ Fornecedor:cell(row,['Fornecedor']), Natureza:cell(row,['Natureza']), Valor:money(numCell(row,['Valor Incentivado','Valor'])), Descrição:short(cell(row,['Descrição','Objetivo do gasto']), 180) })), ['Fornecedor','Natureza','Valor','Descrição']) +
+        table('Investimentos filtrados', ctx.inv.map(row => ({ Fornecedor:cell(row,['Fornecedor']), Natureza:cell(row,['Natureza']), Valor:money(numCell(row,['Valor Incentivado','Valor'])), Valor_num:numCell(row,['Valor Incentivado','Valor']), Descrição:short(cell(row,['Descrição','Objetivo do gasto']), 180) })).filter(row => row.Valor_num > 0 || row.Fornecedor || row.Natureza || row.Descrição).map(row => ({ Fornecedor:row.Fornecedor, Natureza:row.Natureza, Valor:row.Valor, Descrição:row.Descrição })), ['Fornecedor','Natureza','Valor','Descrição']) +
       '</div></section>';
     }
     function evaluation() {
