@@ -33,7 +33,7 @@ def render_intranet_site(
     body { margin:0; background:var(--bg); color:var(--ink); font:14px/1.5 Arial, Helvetica, sans-serif; }
     .shell { display:grid; grid-template-columns:270px minmax(0,1fr); min-height:100vh; }
     aside { position:sticky; top:0; height:100vh; padding:18px; border-right:1px solid var(--line); background:#fff; overflow:auto; }
-    main { padding:20px; }
+    main { padding:22px; max-width:1480px; width:100%; }
     .client-area { color:var(--muted); font-weight:800; font-size:12px; text-transform:uppercase; }
     h1 { margin:6px 0 14px; font-size:22px; line-height:1.15; }
     h2 { margin:0; font-size:17px; }
@@ -45,8 +45,21 @@ def render_intranet_site(
     textarea { min-height:96px; resize:vertical; }
     button, .button { border:1px solid var(--line); border-radius:8px; padding:10px 12px; background:white; color:var(--ink); font-weight:850; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; justify-content:center; }
     button.primary, .button.primary { background:var(--teal); border-color:var(--teal); color:white; }
-    .filters { display:grid; grid-template-columns:1.3fr 1fr 1.1fr 1fr; gap:10px; margin:0 0 16px; }
-    section { margin-bottom:18px; scroll-margin-top:16px; }
+    .filters {
+      position:sticky; top:0; z-index:5; display:grid; grid-template-columns:1.2fr 1fr 1fr 1.2fr;
+      gap:10px; margin:0 0 18px; padding:12px; border:1px solid var(--line); border-radius:10px;
+      background:rgba(255,255,255,.96); box-shadow:var(--shadow);
+    }
+    .filters label { display:grid; gap:5px; color:var(--muted); font-size:11px; font-weight:850; text-transform:uppercase; }
+    section { margin-bottom:22px; scroll-margin-top:84px; }
+    .report-hero { background:#fff; border:1px solid var(--line); border-radius:12px; padding:18px; box-shadow:var(--shadow); margin-bottom:18px; }
+    .report-hero .eyebrow { color:var(--muted); font-size:12px; font-weight:850; text-transform:uppercase; }
+    .report-hero h2 { font-size:26px; margin:4px 0 8px; }
+    .report-hero p { margin:0; color:var(--muted); max-width:980px; }
+    .section-title { display:flex; align-items:end; justify-content:space-between; gap:12px; margin:0 0 10px; }
+    .section-title h2 { font-size:20px; }
+    .section-title p { margin:4px 0 0; color:var(--muted); }
+    .section-body { display:grid; gap:14px; }
     .panel { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:15px; box-shadow:var(--shadow); }
     .panel-head { display:flex; justify-content:space-between; gap:12px; align-items:start; margin-bottom:12px; }
     .grid-2 { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:14px; }
@@ -80,7 +93,7 @@ def render_intranet_site(
     @media (max-width: 1050px) {
       .shell { grid-template-columns:1fr; }
       aside { position:static; height:auto; }
-      .filters, .grid-2, .grid-3 { grid-template-columns:1fr; }
+      .filters, .grid-2, .grid-3 { grid-template-columns:1fr; position:static; }
       .bar { grid-template-columns:1fr; }
       .chat-form { grid-template-columns:1fr; }
     }
@@ -107,10 +120,10 @@ def render_intranet_site(
     </aside>
     <main>
       <div class="filters">
-        <select id="yearSelect" onchange="setFilter('year', this.value)" aria-label="Ano"></select>
-        <select id="projectSelect" onchange="setFilter('project', this.value)" aria-label="Projeto"></select>
-        <select id="expenseSelect" onchange="setFilter('expense', this.value)" aria-label="Tipo de despesa"></select>
-        <input id="searchInput" oninput="setFilter('q', this.value)" placeholder="Buscar na memória, projeto ou atividade">
+        <label>Ano<select id="yearSelect" onchange="setFilter('year', this.value)" aria-label="Ano"></select></label>
+        <label>Projeto<select id="projectSelect" onchange="setFilter('project', this.value)" aria-label="Projeto"></select></label>
+        <label>Despesa<select id="expenseSelect" onchange="setFilter('expense', this.value)" aria-label="Tipo de despesa"></select></label>
+        <label>Busca<input id="searchInput" oninput="setFilter('q', this.value)" placeholder="Projeto, atividade, evidência ou fornecedor"></label>
       </div>
       <div id="app"></div>
     </main>
@@ -151,29 +164,72 @@ def render_intranet_site(
       return String(cell(row, ['Attach']) || cell(row, ['Projeto']) || '').trim();
     }
     function projects() {
-      return rows('projetos').map((row, i) => {
+      const current = rows('projetos').map((row, i) => {
         const title = String(cell(row, ['Projeto']) || 'Projeto ' + (i+1)).trim();
-        return { id:'p'+i, title, code:projectCode(row), row };
+        return { id:'p'+i, title, code:projectCode(row), row, source:'Atual', year:DATA().year || '' };
       });
+      const history = (DATA().history?.projects || []).map((item, i) => ({
+        id:'h'+i,
+        title:item.name || item.summary || 'Projeto histórico ' + (i+1),
+        code:'',
+        row:{ Projeto:item.name || '', Descrição:item.summary || '', Incentivado:item.status || '' },
+        source:'Histórico',
+        year:item.year || '',
+        history:item
+      }));
+      const seen = new Set();
+      return [...current, ...history].filter(p => {
+        const key = norm((p.code || '') + '|' + p.title + '|' + p.year);
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+    }
+    function selectedProject() {
+      return state.project === 'all' ? null : projects().find(p => p.id === state.project);
+    }
+    function rowYear(row) {
+      const explicit = cell(row, ['Ano', 'Year']);
+      if (explicit) {
+        const match = String(explicit).match(/20\\d{2}/);
+        return match ? match[0] : String(explicit);
+      }
+      const text = Object.values(row || {}).join(' ');
+      const match = text.match(/20\\d{2}/);
+      return match ? match[0] : '';
+    }
+    function matchYear(row) {
+      if (state.year === 'all') return true;
+      const y = rowYear(row);
+      if (y) return String(y) === String(state.year);
+      return String(DATA().year || '') === String(state.year);
+    }
+    function matchProject(row, p = selectedProject()) {
+      if (!p) return true;
+      const text = norm(JSON.stringify(row || {}));
+      const code = norm(p.code);
+      const title = norm(p.title);
+      return (code && text.includes(code)) || (title.length > 10 && text.includes(title.slice(0,80)));
+    }
+    function matchQuery(row) {
+      return !state.q || norm(JSON.stringify(row || {})).includes(norm(state.q));
     }
     function filteredProjects() {
       const q = norm(state.q);
       return projects().filter(p => {
+        if (state.year !== 'all' && p.year && String(p.year) !== String(state.year)) return false;
         if (state.project !== 'all' && p.id !== state.project) return false;
         if (q && !norm([p.title, p.code, cell(p.row,['Descrição'])].join(' ')).includes(q)) return false;
         return true;
       });
     }
+    function availableProjectsForControl() {
+      return projects().filter(p => state.year === 'all' || !p.year || String(p.year) === String(state.year));
+    }
     function activeProject() { return filteredProjects()[0] || projects()[0]; }
     function projectRows(key, p=activeProject()) {
-      const q = norm(state.q);
-      if (!p || state.project === 'all') return rows(key).filter(row => !q || norm(JSON.stringify(row)).includes(q));
-      const code = norm(p.code);
-      const title = norm(p.title);
-      return rows(key).filter(row => {
-        const text = norm(JSON.stringify(row));
-        return (!q || text.includes(q)) && ((code && text.includes(code)) || (title.length > 12 && text.includes(title.slice(0,80))));
-      });
+      const selected = state.project === 'all' ? null : p;
+      return rows(key).filter(row => matchYear(row) && matchQuery(row) && matchProject(row, selected));
     }
     function expenses() {
       const set = new Set(['all']);
@@ -182,6 +238,25 @@ def render_intranet_site(
     }
     function filteredInvestments() {
       return projectRows('investimentos').filter(row => state.expense === 'all' || norm(cell(row, ['Natureza', 'Tipo de despesa'])) === norm(state.expense));
+    }
+    function filteredHistoryYears() {
+      return (DATA().history?.years || []).filter(row => state.year === 'all' || String(row.year) === String(state.year));
+    }
+    function filteredHistoryProjects() {
+      const p = selectedProject();
+      return (DATA().history?.projects || []).filter(item => {
+        const row = { Ano:item.year, Projeto:item.name, Descrição:item.summary, Atividades:(item.activities || []).join(' ') };
+        return matchYear(row) && matchQuery(row) && matchProject(row, p);
+      });
+    }
+    function filteredContext() {
+      const work = projectRows('trabalho');
+      const people = projectRows('pessoal');
+      const inv = filteredInvestments();
+      const histYears = filteredHistoryYears();
+      const histProjects = filteredHistoryProjects();
+      const accepted = work.filter(row => boolCell(row, ['Projeto incentivado?']) && boolCell(row, ['Atividade incentivada?']));
+      return { work, people, inv, histYears, histProjects, accepted, p:selectedProject() };
     }
     function sum(rows, names) { return rows.reduce((acc,row)=>acc+numCell(row,names),0); }
     function group(rows, keyNames, valueNames, limit=10) {
@@ -217,19 +292,21 @@ def render_intranet_site(
     function scoreBand(score) { return score >= 82 ? 'Programa maduro' : score >= 65 ? 'Bom, com oportunidades' : score >= 45 ? 'Em estruturação' : 'Requer plano de ação'; }
     function strengths() {
       const m = DATA().metrics || {};
+      const ctx = filteredContext();
       const out = [];
       if (Number(m.base_total||0)>0) out.push('Base econômica de PD&I quantificada e pronta para narrativa executiva.');
-      if (Number(m.projects_incentivized||0)>0) out.push('Carteira com projetos incentivados identificados.');
-      if (Number(m.eligible_hours||0)>0) out.push('Timesheet técnico com horas elegíveis para sustentar execução.');
-      if ((DATA().history?.years || []).length) out.push('Memória histórica disponível para demonstrar evolução e continuidade.');
+      if (filteredProjects().some(p => boolCell(p.row, ['Incentivado?']))) out.push('Carteira filtrada com projetos incentivados identificados.');
+      if (ctx.accepted.length) out.push('Timesheet técnico filtrado com horas elegíveis para sustentar execução.');
+      if (ctx.histYears.length || ctx.histProjects.length) out.push('Memória histórica filtrada disponível para demonstrar evolução e continuidade.');
       return out.length ? out : ['Há dados carregados para iniciar estruturação do programa de PD&I.'];
     }
     function improvements() {
       const m = DATA().metrics || {};
+      const ctx = filteredContext();
       const out = [];
-      if (!Number(m.eligible_hours||0)) out.push('Padronizar timesheet técnico com atividade, etapa, evidência e critério de incentivo.');
-      if (!Number(m.investment_incentivized||0)) out.push('Reconciliar investimentos por projeto, natureza, fornecedor e justificativa técnica.');
-      if (!(DATA().history?.projects || []).length) out.push('Criar memória anual de projetos com objetivo, incerteza, testes, resultados e valores.');
+      if (!ctx.accepted.length) out.push('Padronizar timesheet técnico com atividade, etapa, evidência e critério de incentivo para o recorte filtrado.');
+      if (!ctx.inv.length) out.push('Reconciliar investimentos por projeto, natureza, fornecedor e justificativa técnica.');
+      if (!ctx.histProjects.length) out.push('Criar memória anual de projetos com objetivo, incerteza, testes, resultados e valores.');
       out.push('Usar rotina mensal de revisão para reduzir risco de glosa e vender suporte técnico recorrente.');
       return out;
     }
@@ -251,48 +328,49 @@ def render_intranet_site(
     }
     function summary() {
       const m = DATA().metrics || {};
-      const inv = filteredInvestments();
-      const people = projectRows('pessoal');
-      const historyYears = DATA().history?.years || [];
-      return '<section id="resumo"><div class="grid-3">' +
-        kpi('Base PD&I', money(m.base_total || (m.people_pdi_total||0)+(m.investment_incentivized||0)), 'Lei do Bem') +
-        kpi('Economia estimada', money(m.estimated_savings || 0), 'IRPJ/CSLL') +
-        kpi('Anos de memória', num(historyYears.length), 'Histórico carregado') +
-        kpi('Projetos', num(m.projects_total || projects().length), num(m.projects_incentivized || 0)+' incentivados') +
-        kpi('Investimentos filtrados', money(sum(inv, ['Valor Incentivado','Valor'])), state.expense === 'all' ? 'Todos os tipos' : state.expense) +
-        kpi('RH filtrado', money(sum(people, ['Total PD&I','Total PDI'])), 'Projeto/filtro atual') +
+      const ctx = filteredContext();
+      const histBase = ctx.histYears.reduce((a,row)=>a+Number(row.base_total||0),0);
+      const base = state.year === 'all' ? (m.base_total || (m.people_pdi_total||0)+(m.investment_incentivized||0)) : (histBase || sum(ctx.people, ['Total PD&I','Total PDI']) + sum(ctx.inv, ['Valor Incentivado','Valor']));
+      return '<section id="resumo">' +
+        '<div class="report-hero"><div class="eyebrow">'+esc(DATA().company || '')+' · '+(state.year === 'all' ? 'Todos os anos' : esc(state.year))+'</div><h2>Relatório de PD&I para renovação e suporte</h2><p>Visão executiva com os filtros aplicados em todas as seções: projeto, ano, despesa e busca textual alimentam o mesmo recorte de dados.</p></div>' +
+        '<div class="grid-3">' +
+        kpi('Base PD&I', money(base), 'Recorte filtrado') +
+        kpi('Economia estimada', money(state.year === 'all' ? (m.estimated_savings || 0) : ctx.histYears.reduce((a,row)=>a+Number(row.estimated_savings||0),0)), 'Lei do Bem') +
+        kpi('Anos no recorte', num(ctx.histYears.length || (state.year === 'all' ? (DATA().history?.years || []).length : 1)), 'Memória filtrada') +
+        kpi('Projetos filtrados', num(filteredProjects().length), 'Seleção atual') +
+        kpi('Investimentos', money(sum(ctx.inv, ['Valor Incentivado','Valor'])), state.expense === 'all' ? 'Todas as despesas' : state.expense) +
+        kpi('RH filtrado', money(sum(ctx.people, ['Total PD&I','Total PDI'])), 'Projeto/ano atual') +
       '</div></section>';
     }
     function leiDoBem() {
       const m = DATA().metrics || {};
-      return '<section id="lei" class="grid-2"><div class="panel"><div class="panel-head"><h2>Lei do Bem</h2></div><ul class="list"><li>Base PD&I conciliada: <b>'+money(m.base_total || 0)+'</b></li><li>Exclusão adicional: <b>'+money(m.exclusion_total || 0)+'</b></li><li>Economia fiscal: <b>'+money(m.estimated_savings || 0)+'</b></li><li>Risco central: manter vínculo entre incerteza tecnológica, execução e valor.</li></ul></div>'+agentAssessment()+'</section>';
+      return '<section id="lei"><div class="section-title"><div><h2>Lei do Bem</h2><p>Leitura fiscal e técnica do recorte selecionado.</p></div><span class="pill">Governança fiscal</span></div><div class="grid-2"><div class="panel"><div class="panel-head"><h2>Resumo fiscal</h2></div><ul class="list"><li>Base PD&I conciliada: <b>'+money(m.base_total || 0)+'</b></li><li>Exclusão adicional: <b>'+money(m.exclusion_total || 0)+'</b></li><li>Economia fiscal: <b>'+money(m.estimated_savings || 0)+'</b></li><li>Risco central: manter vínculo entre incerteza tecnológica, execução e valor.</li></ul></div>'+agentAssessment()+'</div></section>';
     }
     function tecnoparque() {
-      return '<section id="tecnoparque" class="panel"><div class="panel-head"><h2>Tecnoparque</h2><span class="pill warn">Módulo comercial</span></div><p>Área para consolidar oportunidades de parceria, infraestrutura, ecossistema de inovação, ICTs, laboratórios, projetos de continuidade e suporte técnico recorrente.</p><ul class="list"><li>Mapear projetos com potencial de laboratório, validação, prototipagem ou ensaio.</li><li>Relacionar maturidade técnica com necessidade de suporte mensal.</li><li>Transformar lacunas documentais em plano de horas e renovação contratual.</li></ul></section>';
+      return '<section id="tecnoparque"><div class="section-title"><div><h2>Tecnoparque</h2><p>Oportunidades comerciais e de melhoria do programa.</p></div><span class="pill warn">Suporte recorrente</span></div><div class="panel"><p>Área para consolidar oportunidades de parceria, infraestrutura, ecossistema de inovação, ICTs, laboratórios, projetos de continuidade e suporte técnico recorrente.</p><ul class="list"><li>Mapear projetos com potencial de laboratório, validação, prototipagem ou ensaio.</li><li>Relacionar maturidade técnica com necessidade de suporte mensal.</li><li>Transformar lacunas documentais em plano de horas e renovação contratual.</li></ul></div></section>';
     }
     function analytics() {
-      const work = projectRows('trabalho');
-      const inv = filteredInvestments();
-      return '<section id="analiticos" class="grid-2">' +
-        chart('Atividades por horas', group(work, ['Atividade realizada','Atividade'], ['Horas decimais','Horas'], 10), 'number', 'blue') +
-        chart('Despesas por natureza', group(inv, ['Natureza','Tipo de despesa'], ['Valor Incentivado','Valor'], 10), 'money', 'amber') +
-        table('Projetos filtrados', filteredProjects().map(p => ({ Projeto:p.title, Código:p.code, Status: boolCell(p.row,['Incentivado?']) ? 'Incentivado' : 'Revisar', Descrição: short(cell(p.row,['Descrição']), 220) })), ['Projeto','Código','Status','Descrição']) +
-        table('Investimentos filtrados', inv.map(row => ({ Fornecedor:cell(row,['Fornecedor']), Natureza:cell(row,['Natureza']), Valor:money(numCell(row,['Valor Incentivado','Valor'])), Descrição:short(cell(row,['Descrição','Objetivo do gasto']), 180) })), ['Fornecedor','Natureza','Valor','Descrição']) +
-      '</section>';
+      const ctx = filteredContext();
+      return '<section id="analiticos"><div class="section-title"><div><h2>Dados analíticos</h2><p>Tabelas e gráficos abaixo usam exatamente os filtros do topo.</p></div><span class="pill">'+num(ctx.work.length + ctx.inv.length + ctx.people.length)+' registros</span></div><div class="section-body grid-2">' +
+        chart('Atividades por horas', group(ctx.work, ['Atividade realizada','Atividade'], ['Horas decimais','Horas'], 10), 'number', 'blue') +
+        chart('Despesas por natureza', group(ctx.inv, ['Natureza','Tipo de despesa'], ['Valor Incentivado','Valor'], 10), 'money', 'amber') +
+        table('Projetos filtrados', filteredProjects().map(p => ({ Projeto:p.title, Código:p.code, Origem:p.source, Ano:p.year || '', Status: boolCell(p.row,['Incentivado?']) ? 'Incentivado' : 'Revisar', Descrição: short(cell(p.row,['Descrição']), 220) })), ['Projeto','Código','Origem','Ano','Status','Descrição']) +
+        table('Investimentos filtrados', ctx.inv.map(row => ({ Fornecedor:cell(row,['Fornecedor']), Natureza:cell(row,['Natureza']), Valor:money(numCell(row,['Valor Incentivado','Valor'])), Descrição:short(cell(row,['Descrição','Objetivo do gasto']), 180) })), ['Fornecedor','Natureza','Valor','Descrição']) +
+      '</div></section>';
     }
     function evaluation() {
-      return '<section id="avaliacao" class="grid-2">' +
+      return '<section id="avaliacao"><div class="section-title"><div><h2>Nossa avaliação do programa</h2><p>Diagnóstico comercial e técnico para renovar contrato e orientar suporte.</p></div></div><div class="grid-2">' +
         '<div class="panel"><div class="panel-head"><h2>Pontos fortes</h2></div><ul class="list">'+strengths().map(item=>'<li>'+esc(item)+'</li>').join('')+'</ul></div>' +
         '<div class="panel"><div class="panel-head"><h2>Melhorias recomendadas</h2></div><ul class="list">'+improvements().map(item=>'<li>'+esc(item)+'</li>').join('')+'</ul></div>' +
-      '</section>';
+      '</div></section>';
     }
     function indexSection() {
-      const rows = (DATA().history?.years || []).map(row => ({ Ano:row.year, Índice:programScoreForYear(row), Diagnóstico:scoreBand(programScoreForYear(row)), Base:money(row.base_total || 0), Economia:money(row.estimated_savings || 0), Foco: programScoreForYear(row) < 65 ? 'Plano de ação e evidências' : 'Escalar suporte e governança' }));
+      const rows = filteredHistoryYears().map(row => ({ Ano:row.year, Índice:programScoreForYear(row), Diagnóstico:scoreBand(programScoreForYear(row)), Base:money(row.base_total || 0), Economia:money(row.estimated_savings || 0), Foco: programScoreForYear(row) < 65 ? 'Plano de ação e evidências' : 'Escalar suporte e governança' }));
       const current = rows.length ? rows : [{ Ano:DATA().year || 'Atual', Índice:programScoreForYear({base_total:DATA().metrics?.base_total, estimated_savings:DATA().metrics?.estimated_savings}), Diagnóstico:'Ano corrente', Base:money(DATA().metrics?.base_total || 0), Economia:money(DATA().metrics?.estimated_savings || 0), Foco:'Consolidar governança' }];
-      return '<section id="indice">' + chart('Índice PD&I ano a ano', current.map(r => ({ name:String(r.Ano), value:r.Índice })), 'number') + table('Índice e recomendação anual', current, ['Ano','Índice','Diagnóstico','Base','Economia','Foco']) + '</section>';
+      return '<section id="indice"><div class="section-title"><div><h2>Índice PD&I ano a ano</h2><p>Pontuação calculada com base, RH, dispêndios, horas, economia e evidências históricas.</p></div></div><div class="section-body">' + chart('Índice PD&I ano a ano', current.map(r => ({ name:String(r.Ano), value:r.Índice })), 'number') + table('Índice e recomendação anual', current, ['Ano','Índice','Diagnóstico','Base','Economia','Foco']) + '</div></section>';
     }
     function agents() {
-      return '<section id="agentes" class="grid-2"><div class="panel"><div class="panel-head"><h2>Chatbot de projetos</h2><span class="pill">Escopo limitado</span></div><div class="messages" id="botMessages"></div><form class="chat-form" onsubmit="askBot(event)"><input id="botInput" placeholder="Pergunte sobre projetos, anos, descrição, valores ou riscos"><button class="primary">Enviar</button></form></div><div class="panel"><div class="panel-head"><h2>Falar com especialista</h2></div><form onsubmit="openTicket(event)"><input id="ticketSubject" placeholder="Assunto da ordem de serviço"><textarea id="ticketBody" placeholder="Descreva a dúvida, projeto, ano e urgência"></textarea><div class="actions"><button class="primary">Abrir ordem por e-mail</button><a class="button" href="mailto:inovacao@taticcaconsulting.com">Enviar e-mail direto</a></div></form></div></section>';
+      return '<section id="agentes"><div class="section-title"><div><h2>Agentes e suporte</h2><p>IA limitada ao recorte filtrado e canal humano para abrir demanda.</p></div></div><div class="grid-2"><div class="panel"><div class="panel-head"><h2>Chatbot de projetos</h2><span class="pill">Escopo limitado</span></div><div class="messages" id="botMessages"></div><form class="chat-form" onsubmit="askBot(event)"><input id="botInput" placeholder="Pergunte sobre projetos, anos, descrição, valores ou riscos"><button class="primary">Enviar</button></form></div><div class="panel"><div class="panel-head"><h2>Falar com especialista</h2></div><form onsubmit="openTicket(event)"><input id="ticketSubject" placeholder="Assunto da ordem de serviço"><textarea id="ticketBody" placeholder="Descreva a dúvida, projeto, ano e urgência"></textarea><div class="actions"><button class="primary">Abrir ordem por e-mail</button><a class="button" href="mailto:inovacao@taticcaconsulting.com">Enviar e-mail direto</a></div></form></div></div></section>';
     }
     function downloads() {
       const sheets = PORTAL.sheets_url ? '<a class="button" target="_blank" rel="noopener" href="'+esc(PORTAL.sheets_url)+'">Abrir Google Sheets</a>' : '<span class="pill warn">Google Sheets restrito: informar URL no gerador</span>';
@@ -303,12 +381,13 @@ def render_intranet_site(
       $('companySelect').value = String(state.company);
       $('yearSelect').innerHTML = '<option value="all">Todos os anos</option>' + years().map(y=>'<option value="'+esc(y)+'">'+esc(y)+'</option>').join('');
       $('yearSelect').value = state.year;
-      const ps = projects();
+      const ps = availableProjectsForControl();
       $('projectSelect').innerHTML = '<option value="all">Todos os projetos</option>' + ps.map(p=>'<option value="'+esc(p.id)+'">'+esc((p.code || 'Projeto')+' · '+short(p.title,80))+'</option>').join('');
       $('projectSelect').value = ps.some(p=>p.id===state.project) ? state.project : 'all';
       state.project = $('projectSelect').value;
       $('expenseSelect').innerHTML = expenses().map(v=>'<option value="'+esc(v)+'">'+esc(v === 'all' ? 'Todas as despesas' : v)+'</option>').join('');
-      $('expenseSelect').value = state.expense;
+      $('expenseSelect').value = expenses().includes(state.expense) ? state.expense : 'all';
+      state.expense = $('expenseSelect').value;
       $('searchInput').value = state.q;
     }
     function render() {
@@ -317,7 +396,7 @@ def render_intranet_site(
       renderBot();
     }
     function setCompany(value) { state.company=Number(value||0); state.year='all'; state.project='all'; state.expense='all'; state.q=''; render(); }
-    function setFilter(key, value) { state[key]=value || 'all'; render(); }
+    function setFilter(key, value) { state[key] = key === 'q' ? (value || '') : (value || 'all'); render(); }
     function botAnswer(q) {
       const p = activeProject();
       if (!p) return 'Selecione um projeto para limitar o escopo da resposta.';
