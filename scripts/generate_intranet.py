@@ -32,6 +32,7 @@ def main() -> int:
     parser.add_argument("--csv-root", default=None)
     parser.add_argument("--title", default="TTC CST Intranet PD&I")
     parser.add_argument("--sheets-url", default="")
+    parser.add_argument("--support-endpoint", default="")
     args = parser.parse_args()
 
     config_path = Path(args.config)
@@ -64,6 +65,7 @@ def main() -> int:
             analyses,
             title=args.title or config.get("intranet_title", "Intranet PD&I"),
             sheets_url=args.sheets_url or config.get("sheets_url", ""),
+            support_endpoint=args.support_endpoint or config.get("support_endpoint", ""),
         ),
         encoding="utf-8",
     )
