@@ -67,14 +67,19 @@ def _load_csv_folder(path: Path) -> SheetMap:
 def _read_csv(path: Path) -> pd.DataFrame:
     encoding_candidates = ["utf-8-sig", "utf-8", "cp1252", "latin1"]
     sample = path.read_bytes()[:8192]
-    delimiter = _sniff_delimiter(sample)
+    delimiter = _sniff_delimiter(sample) or ";"
 
     for encoding in encoding_candidates:
         try:
             return _strip_empty(pd.read_csv(path, dtype=str, header=None, sep=delimiter, encoding=encoding))
+        except pd.errors.EmptyDataError:
+            return pd.DataFrame()
         except UnicodeDecodeError:
             continue
-    return _strip_empty(pd.read_csv(path, dtype=str, header=None, sep=delimiter, encoding="latin1"))
+    try:
+        return _strip_empty(pd.read_csv(path, dtype=str, header=None, sep=delimiter, encoding="latin1"))
+    except pd.errors.EmptyDataError:
+        return pd.DataFrame()
 
 
 def _sniff_delimiter(sample: bytes) -> str | None:
@@ -124,6 +129,7 @@ def canonical_sheet_name(name: str) -> str:
         "encargos folha": "encargos",
         "salarios": "salarios",
         "verificacao rh": "verificacao_rh",
+        "riscos e oportunidades": "riscos_oportunidades", # Nova aba
     }
     aliases["riscos"] = "riscos"
     return aliases.get(cleaned, cleaned.replace(" ", "_"))
