@@ -16,14 +16,18 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>__TITLE__</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.min.css">
+  <script src="https://cdn.datatables.net/2.0.0/js/dataTables.min.js"></script>
   <style>
     :root {
-      --bg: #f5f7f7;
+      --bg: #f8fafc; /* Mais claro */
       --panel: #ffffff;
-      --panel-2: #fbfcfc;
-      --ink: #17201f;
-      --muted: #66726f;
-      --line: #dfe5e3;
+      --panel-2: #fefefe; /* Quase branco */
+      --ink: #1e293b; /* Azul escuro */
+      --muted: #64748b; /* Cinza azulado */
+      --line: #e2e8f0; /* Cinza claro */
       --teal: #0f766e;
       --blue: #3867a6;
       --amber: #c47b2b;
@@ -31,14 +35,14 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       --green: #16805b;
       --shadow: 0 18px 42px rgba(25, 38, 35, .08);
     }
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
     body {
       margin: 0;
       background:
-        linear-gradient(180deg, #eef4f3 0, #f5f7f7 320px),
+        linear-gradient(180deg, #f0f4f8 0, #f8fafc 320px), /* Gradiente mais suave */
         var(--bg);
       color: var(--ink);
-      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+      font-family: 'Inter', sans-serif; /* Preferência por Inter */
       font-size: 14px;
       line-height: 1.35;
     }
@@ -50,11 +54,11 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       min-height: 100vh;
     }
     aside {
-      position: sticky;
+      position: -webkit-sticky; /* For Safari */
+      position: sticky; /* Fixa a sidebar */
       top: 0;
       height: 100vh;
       padding: 22px 16px;
-      background: #17201f;
       color: white;
       display: flex;
       flex-direction: column;
@@ -62,7 +66,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     }
     .brand {
       padding: 4px 8px 16px;
-      border-bottom: 1px solid rgba(255,255,255,.12);
+      border-bottom: 1px solid rgba(255,255,255,.15); /* Borda mais visível */
     }
     .brand h1 {
       margin: 0;
@@ -71,7 +75,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     }
     .brand small {
       display: block;
-      margin-top: 6px;
+      margin-top: 4px;
       color: rgba(255,255,255,.62);
     }
     nav {
@@ -82,14 +86,14 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       border: 0;
       border-radius: 8px;
       padding: 11px 12px;
-      text-align: left;
+      text-align: left; /* Alinhamento à esquerda */
       color: rgba(255,255,255,.76);
       background: transparent;
       font-weight: 750;
     }
     nav button.active {
       color: white;
-      background: rgba(255,255,255,.12);
+      background: rgba(255,255,255,.18); /* Fundo mais escuro para ativo */
       box-shadow: inset 3px 0 0 var(--amber);
     }
     .side-note {
@@ -103,11 +107,12 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     main {
       min-width: 0;
       padding: 20px 24px 38px;
+      background: var(--bg); /* Garante que o main tenha o fundo correto */
     }
     .topbar {
       display: grid;
-      grid-template-columns: minmax(180px, 280px) minmax(150px, 240px) minmax(120px, 180px) minmax(120px, 180px) minmax(220px, 1fr);
-      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* Mais flexível */
+      gap: 12px;
       align-items: center;
       margin-bottom: 20px;
     }
@@ -121,19 +126,19 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       padding: 9px 12px;
       outline: none;
     }
-    select:focus, input:focus {
+    select:focus, input:focus, textarea:focus { /* Adicionado textarea */
       border-color: var(--teal);
       box-shadow: 0 0 0 3px rgba(15,118,110,.14);
     }
     .hero {
       display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(320px, .8fr);
+      grid-template-columns: minmax(0, 1.5fr) minmax(320px, .7fr); /* Ajuste de proporção */
       gap: 16px;
       margin-bottom: 16px;
     }
     .hero-main, .panel, details.panel {
       background: rgba(255,255,255,.92);
-      border: 1px solid var(--line);
+      border: 1px solid var(--line); /* Borda mais suave */
       border-radius: 12px;
       box-shadow: var(--shadow);
     }
@@ -142,18 +147,12 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       min-height: 230px;
       display: grid;
       align-content: space-between;
-      overflow: hidden;
-      position: relative;
+      background: linear-gradient(135deg, var(--panel) 0%, #f0f4f8 100%); /* Gradiente sutil */
     }
-    .hero-main::after {
-      content: "";
-      position: absolute;
-      right: -120px;
-      top: -120px;
-      width: 310px;
-      height: 310px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(15,118,110,.18), rgba(15,118,110,0) 67%);
+    .hero-main .eyebrow {
+      color: var(--blue); /* Cor mais distinta */
+      font-size: 13px; /* Um pouco maior */
+      letter-spacing: .05em;
     }
     .eyebrow {
       color: var(--teal);
@@ -164,7 +163,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     }
     .hero-title {
       margin: 8px 0 6px;
-      font-size: clamp(24px, 3vw, 38px);
+      font-size: clamp(26px, 3vw, 42px); /* Título maior */
       line-height: 1.02;
       letter-spacing: 0;
     }
@@ -190,7 +189,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     .metric span {
       color: var(--muted);
       font-size: 11px;
-      font-weight: 850;
+      font-weight: 700; /* Menos negrito */
       text-transform: uppercase;
     }
     .metric b {
@@ -219,7 +218,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       align-items: start;
       justify-content: space-between;
       gap: 14px;
-      margin-bottom: 14px;
+      margin-bottom: 16px; /* Margem maior */
     }
     .hint {
       color: var(--muted);
@@ -227,7 +226,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     }
     .grid-2 {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(330px, .72fr);
+      grid-template-columns: minmax(0, 1fr) minmax(360px, .8fr); /* Ajuste de proporção */
       gap: 16px;
       align-items: start;
     }
@@ -238,7 +237,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     }
     .calc-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* Mais flexível */
       gap: 10px;
     }
     .calc-card {
@@ -250,7 +249,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     .calc-card span {
       display: block;
       color: var(--muted);
-      font-size: 10px;
+      font-size: 11px; /* Um pouco maior */
       font-weight: 850;
       text-transform: uppercase;
     }
@@ -266,7 +265,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     }
     .sim-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Mais flexível */
       gap: 10px;
       margin-top: 12px;
     }
@@ -275,8 +274,8 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       padding: 12px;
       border-radius: 10px;
       background: #e7f2f0;
-      border: 1px solid #bfdbd7;
-      font-weight: 850;
+      border: 1px solid #bfdbd7; /* Borda mais suave */
+      font-weight: 700; /* Menos negrito */
     }
     .stack {
       height: 18px;
@@ -295,7 +294,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       list-style: none;
     }
     .legend li, .summary li {
-      display: flex;
+      display: flex; /* Flexbox para alinhamento */
       justify-content: space-between;
       gap: 12px;
       padding-bottom: 9px;
@@ -312,7 +311,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     }
     .chart {
       display: grid;
-      gap: 10px;
+      gap: 12px; /* Espaçamento maior */
     }
     .history-grid {
       display: grid;
@@ -323,7 +322,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     .history-year {
       border: 1px solid var(--line);
       border-radius: 10px;
-      background: white;
+      background: var(--panel-2); /* Fundo mais claro */
       padding: 12px;
     }
     .history-year h3 {
@@ -332,7 +331,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     }
     .bar {
       display: grid;
-      grid-template-columns: minmax(110px, 230px) 1fr auto;
+      grid-template-columns: minmax(120px, 260px) 1fr auto; /* Ajuste de largura */
       align-items: center;
       gap: 10px;
       font-size: 13px;
@@ -346,7 +345,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     .track {
       height: 12px;
       border-radius: 99px;
-      background: #e9eeed;
+      background: var(--line); /* Cor de fundo da trilha */
       overflow: hidden;
     }
     .fill {
@@ -354,11 +353,11 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       height: 100%;
       border-radius: 99px;
       background: linear-gradient(90deg, var(--teal), #2e9d8f);
-    }
-    .fill.blue { background: linear-gradient(90deg, var(--blue), #6d91c3); }
-    .fill.amber { background: linear-gradient(90deg, var(--amber), #d69a55); }
+    } /* Cores de gradiente mais suaves */
+    .fill.blue { background: linear-gradient(90deg, #5c85d6, #3867a6); }
+    .fill.amber { background: linear-gradient(90deg, #e0a35b, #c47b2b); }
     .pill {
-      display: inline-flex;
+      display: inline-flex; /* Flexbox para alinhamento */
       align-items: center;
       border-radius: 999px;
       padding: 4px 9px;
@@ -368,9 +367,9 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       color: var(--muted);
       white-space: nowrap;
     }
-    .pill.ok { color: var(--green); background: #e6f4ee; }
-    .pill.no { color: var(--red); background: #f8e9e6; }
-    .project-list {
+    .pill.ok { color: var(--green); background: #dcfce7; } /* Fundo mais claro */
+    .pill.no { color: var(--red); background: #fee2e2; } /* Fundo mais claro */
+    .project-list { /* Espaçamento maior */
       display: grid;
       gap: 10px;
     }
@@ -378,17 +377,17 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       border: 1px solid var(--line);
       background: white;
       border-radius: 12px;
-      padding: 14px;
+      padding: 16px; /* Padding maior */
       transition: border-color .14s ease, transform .14s ease, box-shadow .14s ease;
     }
     .project-card:hover {
-      border-color: rgba(15,118,110,.42);
+      border-color: var(--teal); /* Borda teal no hover */
       transform: translateY(-1px);
-      box-shadow: 0 12px 28px rgba(25, 38, 35, .08);
+      box-shadow: 0 8px 20px rgba(25, 38, 35, .06); /* Sombra mais suave */
     }
     .project-card.selected {
       border-color: var(--teal);
-      box-shadow: 0 0 0 3px rgba(15,118,110,.12);
+      box-shadow: 0 0 0 3px rgba(15,118,110,.18); /* Sombra mais forte para selecionado */
     }
     .project-card button {
       all: unset;
@@ -400,7 +399,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       display: flex;
       justify-content: space-between;
       align-items: start;
-      gap: 12px;
+      gap: 14px; /* Espaçamento maior */
       margin-bottom: 8px;
     }
     .project-top strong {
@@ -418,7 +417,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     }
     .mini-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Mais flexível */
       gap: 8px;
       margin-top: 12px;
     }
@@ -431,7 +430,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     .mini span {
       display: block;
       font-size: 10px;
-      color: var(--muted);
+      color: var(--muted); /* Cor mais suave */
       text-transform: uppercase;
       font-weight: 850;
     }
@@ -446,7 +445,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     }
     .text-panels article {
       background: var(--panel-2);
-      border: 1px solid var(--line);
+      border: 1px solid var(--line); /* Borda mais suave */
       border-radius: 10px;
       padding: 12px;
     }
@@ -461,7 +460,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       margin: 0;
       font-size: 13px;
     }
-    section { display: none; }
+    section { display: none; min-height: 50vh; } /* Adicionado min-height */
     section.active { display: block; }
     details.panel summary {
       cursor: pointer;
@@ -471,7 +470,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     details.panel summary::after {
       content: "+";
       float: right;
-      color: var(--teal);
+      color: var(--blue); /* Cor diferente para o ícone */
       font-size: 22px;
     }
     details.panel[open] summary {
@@ -488,7 +487,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     }
     .table-tools input { max-width: 340px; }
     .table-wrap {
-      max-height: 58vh;
+      max-height: 58vh; /* Altura máxima ajustada */
       overflow: auto;
       border: 1px solid var(--line);
       border-radius: 10px;
@@ -497,7 +496,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 760px;
+      min-width: 800px; /* Largura mínima maior */
       font-size: 12px;
     }
     th, td {
@@ -510,7 +509,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     th {
       position: sticky;
       top: 0;
-      background: #f2f5f4;
+      background: #eef2f6; /* Fundo mais claro */
       color: #34403d;
       font-size: 11px;
       text-transform: uppercase;
@@ -522,7 +521,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     }
     .chat-layout {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 320px;
+      grid-template-columns: minmax(0, 1fr) 340px; /* Largura maior para o painel lateral */
       gap: 16px;
     }
     .chat-box {
@@ -533,7 +532,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       overflow: hidden;
     }
     .messages {
-      min-height: 430px;
+      min-height: 400px; /* Altura mínima ajustada */
       max-height: 62vh;
       overflow: auto;
       padding: 16px;
@@ -546,12 +545,12 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       border: 1px solid var(--line);
       border-radius: 10px;
       padding: 11px 12px;
-      background: var(--panel-2);
+      background: var(--panel-2); /* Fundo mais claro */
       white-space: pre-wrap;
     }
     .msg.user {
       margin-left: auto;
-      background: #e7f2f0;
+      background: #e0f2f7; /* Fundo azul claro para usuário */
       border-color: #bfdbd7;
     }
     .msg ul { margin: 8px 0 0; padding-left: 18px; }
@@ -561,7 +560,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       gap: 10px;
       padding: 12px;
       border-top: 1px solid var(--line);
-      background: var(--panel-2);
+      background: var(--panel-2); /* Fundo mais claro */
     }
     .primary {
       border: 0;
@@ -569,7 +568,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       padding: 0 16px;
       background: var(--teal);
       color: white;
-      font-weight: 850;
+      font-weight: 700; /* Menos negrito */
     }
     .quick {
       display: grid;
@@ -579,7 +578,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       border: 1px solid var(--line);
       border-radius: 8px;
       padding: 10px 12px;
-      text-align: left;
+      text-align: left; /* Alinhamento à esquerda */
       background: white;
       color: var(--ink);
       font-weight: 750;
@@ -594,7 +593,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       border: 1px solid var(--line);
       border-radius: 8px;
       padding: 9px 11px;
-      background: white;
+      background: var(--panel-2); /* Fundo mais claro */
       color: var(--ink);
       font-weight: 850;
       text-decoration: none;
@@ -605,7 +604,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       aside {
         position: static;
         height: auto;
-        padding: 14px 16px;
+        padding: 16px; /* Padding ajustado */
       }
       nav {
         display: flex;
@@ -616,7 +615,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       .topbar { grid-template-columns: 1fr 1fr; }
       .hero, .grid-2, .chat-layout { grid-template-columns: 1fr; }
     }
-    @media (max-width: 720px) {
+    @media (max-width: 768px) { /* Breakpoint ajustado */
       .topbar, .metric-strip, .grid-3, .mini-grid, .calc-grid, .sim-grid { grid-template-columns: 1fr; }
       .bar { grid-template-columns: 1fr; }
       .hero-main { padding: 18px; }
@@ -630,7 +629,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     <aside>
       <div class="brand">
         <h1>__TITLE__</h1>
-        <small>Dashboard interativo de PD&I e Lei do Bem</small>
+        <small>Relatórios de PD&I e Lei do Bem</small>
       </div>
       <nav id="tabs"></nav>
       <div class="side-note">Use os filtros para cruzar projeto, status, atividades, RH e investimentos. As bases ficam recolhidas na aba Auditoria.</div>
@@ -638,6 +637,10 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     <main>
       <div class="topbar">
         <select id="companySelect" aria-label="Empresa" onchange="setCompany(this.value)"></select>
+        <select id="yearFilterSelect" aria-label="Ano" onchange="setYearFilter(this.value)">
+          <option value="all">Todos os anos</option>
+          <!-- Opções preenchidas via JS -->
+        </select>
         <select id="projectSelect" aria-label="Projeto" onchange="setProject(this.value)"></select>
         <select id="departmentSelect" aria-label="Departamento" onchange="setDepartment(this.value)"></select>
         <select id="statusSelect" aria-label="Status" onchange="setStatus(this.value)">
@@ -655,13 +658,14 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     const PORTFOLIO = JSON.parse(document.getElementById('data').textContent);
     const COMPANIES = PORTFOLIO.companies || [];
     const fmtMoney = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
-    const fmtNum = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2 });
-    const state = { company: 0, project: 'all', status: 'all', q: '', department: 'all', tab: 'overview' };
+    const fmtNum = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2, minimumFractionDigits: 0 });
+    const state = { company: 0, project: 'all', status: 'all', q: '', department: 'all', tab: 'overview', impact: 'all', yearFilter: 'all' }; // Novos estados
     const chatState = {};
-    let searchTimer = 0;
+    let searchTimer = null;
     let DATA = COMPANIES[0] || {};
     window.TABLES = {};
-
+    const PIE_COLORS = ['#0f766e', '#3867a6', '#c47b2b', '#b84c3d', '#16805b', '#66726f', '#a63867', '#2b8c8c', '#8c2b8c', '#8c8c2b'];
+    window.CHART_CONFIGS = {};
     const tabs = [
       ['overview', 'Resumo'],
       ['projects', 'Projetos'],
@@ -669,12 +673,14 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       ['finance', 'Valores'],
       ['people', 'Pessoas'],
       ['history', 'Histórico'],
-      ['risks', 'Riscos'],
+      ['avaliacao', 'Avaliação PD&I'], # Renamed from 'risks'
+      ['risks_opportunities', 'Riscos e Oportunidades'], // Nova aba
+      ['tecnoparque', 'Tecnoparque'], // Nova aba Tecnoparque
       ['chat', 'Chatbot'],
       ['audit', 'Auditoria']
     ];
 
-    const $ = id => document.getElementById(id);
+    const $ = id => document.getElementById(id); // Helper function
     const norm = v => String(v || '').normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').toLowerCase().trim();
     const money = v => fmtMoney.format(Number(v || 0));
     const num = v => fmtNum.format(Number(v || 0));
@@ -696,7 +702,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       return Number.isFinite(value) ? value : 0;
     }
     function boolCell(row, names) {
-      return ['true', 'verdadeiro', 'sim', 'yes', '1'].includes(norm(cell(row, names)));
+      return ['true', 'verdadeiro', 'sim', 'yes', '1', 'x'].includes(norm(cell(row, names))); // Adicionado 'x' para booleanos
     }
     function codeKey(v) {
       const match = String(v || '').toUpperCase().match(/(INOV|NRD)0*(\\d{1,7})/);
@@ -774,6 +780,12 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     }
     function matchSearch(row) {
       return !state.q || norm(Object.values(row || {}).join(' ')).includes(norm(state.q));
+    }
+    function matchImpact(row) {
+      return state.impact === 'all' || norm(cell(row, ['Impacto'])) === norm(state.impact);
+    }
+    function matchYearFilter(row) {
+      return state.yearFilter === 'all' || norm(cell(row, ['Ano', 'Year'])) === norm(state.yearFilter);
     }
     function sum(rows, names) {
       return rows.reduce((acc, row) => acc + numCell(row, names), 0);
@@ -873,7 +885,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     function activeRows(key) {
       const selected = state.project === 'all' ? null : allProjects().find(p => p.uid === state.project);
       let rows = cleanRows(DATA.tables?.[key] || []).filter(row => matchProject(row, selected)).filter(matchSearch);
-      if (key === 'pessoal') rows = rows.filter(matchDepartment);
+      if (key === 'pessoal' || key === 'trabalho' || key === 'investimentos' || key === 'riscos_oportunidades') rows = rows.filter(matchDepartment).filter(matchYearFilter); // Aplica filtro de ano e departamento
       return rows;
     }
     function kpi(label, value, sub = '') {
@@ -885,17 +897,53 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       const legend = parts.map(p => '<li><span><em style="--c:' + p.color + '"></em>' + esc(p.label) + '</span><b>' + money(p.value) + '</b></li>').join('');
       return '<div class="stack">' + stack + '</div><ul class="legend">' + legend + '</ul>';
     }
-    function chart(title, rows, kind = 'number', tone = '') {
+    function chart(title, rows, kind = 'number', tone = '', chartType = 'bar') { // Adiciona chartType
+      const chartId = 'chart-' + Math.random().toString(36).substr(2, 9);
       const clean = (rows || []).filter(r => Number(r.value || 0) > 0);
       if (!clean.length) return '<div class="panel"><div class="panel-head"><h2>' + esc(title) + '</h2></div><div class="empty">Sem dados suficientes para exibir.</div></div>';
-      const max = Math.max(...clean.map(r => Number(r.value || 0)), 1);
-      const body = clean.map(r => {
-        const width = Math.max(3, Number(r.value || 0) / max * 100);
-        const value = kind === 'money' ? money(r.value) : num(r.value);
-        return '<div class="bar"><label title="' + esc(r.name) + '">' + esc(r.name) + '</label><div class="track"><div class="fill ' + tone + '" style="--w:' + width + '%"></div></div><strong>' + value + '</strong></div>';
-      }).join('');
-      return '<div class="panel"><div class="panel-head"><h2>' + esc(title) + '</h2><span class="hint">' + clean.length + ' itens</span></div><div class="chart">' + body + '</div></div>';
+
+      const labels = clean.map(r => r.name);
+      const values = clean.map(r => r.value);
+
+      let backgroundColor;
+      if (chartType === 'pie') {
+        backgroundColor = labels.map((_, i) => PIE_COLORS[i % PIE_COLORS.length]);
+      } else { // Cores para gráfico de barras
+        backgroundColor = {
+          '': 'rgba(15, 118, 110, 0.8)', // teal
+          'blue': 'rgba(56, 103, 166, 0.8)', // Adicionado para oportunidades
+          'amber': 'rgba(196, 123, 43, 0.8)',
+          'green': 'rgba(22, 128, 91, 0.8)' // Adicionado para oportunidades
+        }[tone];
+      }
+
+      window.CHART_CONFIGS[chartId] = {
+        type: chartType, // Usa o novo parâmetro chartType
+        data: {
+          labels: labels,
+          datasets: [{
+            data: values,
+            backgroundColor: backgroundColor,
+            borderColor: '#fff', // Borda branca para fatias do pizza
+            borderWidth: chartType === 'pie' ? 1 : 0, // Borda para pizza
+          }]
+        },
+        options: chartType === 'pie' ? {
+          responsive: true, maintainAspectRatio: false, plugins: { legend: { display: true, position: 'right' } }
+        } : { // Opções para gráfico de barras
+          responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } },
+          scales: {
+            x: {
+              beginAtZero: true,
+              ticks: { callback: function(value) { return kind === 'money' ? money(value) : num(value); } }
+            }
+          }
+        }
+      };
+      const chartHeight = chartType === 'pie' ? '300px' : Math.min(400, clean.length * 40 + 60) + 'px'; // Altura ajustada para pizza
+      return '<div class="panel"><div class="panel-head"><h2>' + esc(title) + '</h2><span class="hint">' + clean.length + ' itens</span></div><div class="chart" style="height: ' + chartHeight + ';"><canvas id="' + chartId + '"></canvas></div></div>';
     }
+
     function quarterRows() {
       return (DATA.metrics?.quarterly || []).filter(q => ['base', 'investment', 'rh', 'exclusion', 'savings', 'commission'].some(k => Number(q[k] || 0)));
     }
@@ -908,7 +956,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       const net = savings - commission;
       const rate = base ? savings / base * 100 : 0;
       return '<div class="panel"><div class="panel-head"><h2>Aproveitamento estimado</h2><span class="hint">Base x exclusão x IRPJ/CSLL</span></div><div class="calc-grid">' +
-        calcCard('Base PD&I', money(base), 'RH e investimentos elegíveis') +
+        calcCard('Base PD&I', money(base), 'RH e investimentos elegíveis') + // Ajustado para usar money()
         calcCard('Exclusão adicional', money(exclusion), 'Parcela dedutível estimada') +
         calcCard('Economia fiscal', money(savings), num(rate) + '% da base PD&I') +
         calcCard('Líquido após comissão', money(net), 'Economia menos comissão') +
@@ -943,38 +991,70 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       const savings = exclusion * taxRate;
       target.innerHTML = 'Com essas premissas: exclusão de ' + money(exclusion) + ' e economia de ' + money(savings) + '.';
     }
+    let dataTablesInstances = {};
     function tablePanel(title, rows, columns, open = false) {
       const id = norm(title).replace(/[^a-z0-9]+/g, '-');
       const filtered = cleanRows(rows).filter(matchSearch);
       window.TABLES[id] = { rows: filtered, columns };
-      setTimeout(() => drawTable(id), 0);
-      return '<details class="panel" ' + (open ? 'open' : '') + '><summary>' + esc(title) + ' <span class="hint">' + num(filtered.length) + ' linhas</span></summary><div class="table-tools"><input placeholder="Filtrar tabela" oninput="drawTable(\\'' + id + '\\', this.value)"><span class="hint">HTML otimizado: bases completas ficam nos CSVs exportados.</span></div><div class="table-wrap" id="table-' + id + '"></div></details>';
+      // DataTables will handle its own search, so we remove the custom input.
+      return '<details class="panel" ' + (open ? 'open' : '') + '><summary>' + esc(title) + ' <span class="hint">' + num(filtered.length) + ' linhas</span></summary><div class="table-wrap"><table id="dt-' + id + '" class="display" style="width:100%"></table></div></details>';
     }
-    function drawTable(id, filter = '') {
-      const target = $('table-' + id);
+    function initDataTable(id) {
+      if (dataTablesInstances[id]) {
+        dataTablesInstances[id].destroy(); // Destroy previous instance if it exists
+      }
+      const target = $('#dt-' + id);
+      if (!target.length) return; // Ensure the table element exists
+
       const cfg = window.TABLES[id] || {};
       const rows = cfg.rows || [];
-      if (!target) return;
+      const cols = (cfg.columns?.length ? cfg.columns : Object.keys(rows[0] || {})).filter(c => rows.some(row => String(row[c] || '').trim()));
+
       if (!rows.length) {
-        target.innerHTML = '<div class="empty">Sem linhas para exibir.</div>';
+        target.parent().html('<div class="empty">Sem linhas para exibir.</div>');
         return;
       }
-      const q = norm(filter);
-      const filtered = q ? rows.filter(row => norm(JSON.stringify(row)).includes(q)) : rows;
-      const cols = (cfg.columns?.length ? cfg.columns : Object.keys(filtered[0] || rows[0])).filter(c => filtered.some(row => String(row[c] || '').trim())).slice(0, 12);
-      const body = filtered.slice(0, 500).map(row => '<tr>' + cols.map(c => '<td>' + esc(row[c] ?? '') + '</td>').join('') + '</tr>').join('');
-      target.innerHTML = '<table><thead><tr>' + cols.map(c => '<th>' + esc(c) + '</th>').join('') + '</tr></thead><tbody>' + body + '</tbody></table>';
+
+      const dtColumns = cols.map(colName => ({
+        data: colName,
+        title: esc(colName),
+        defaultContent: '' // Handle undefined/null values gracefully
+      }));
+
+      dataTablesInstances[id] = target.DataTable({
+        data: rows,
+        columns: dtColumns,
+        paging: true,
+        searching: true,
+        ordering: true,
+        info: true,
+        responsive: false, // Desativado para evitar problemas de layout com min-width
+        pageLength: 10, // Default number of rows per page
+        lengthMenu: [ [10, 25, 50, -1], [10, 25, 50, "Todos"] ],
+        language: {
+          url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json' // Portuguese localization
+        }
+      });
     }
+
     function hero() {
+      // Helper to render a metric card
+      const renderMetric = (label, value, sub = '') => {
+        return `<div class="metric"><span>${esc(label)}</span><b>${value}</b><small>${esc(sub)}</small></div>`;
+      };
+
+      // Helper for composition (already exists, but good to keep in mind)
+
       const m = DATA.metrics || {};
       const base = Number(m.base_total || 0) || Number(m.people_pdi_total || 0) + Number(m.investment_incentivized || 0);
       const economy = Number(m.estimated_savings || 0) || base * .6 * .34;
       const selected = activeProject();
       return '<div class="hero"><div class="hero-main"><div><div class="eyebrow">' + esc(DATA.year || '') + ' · ' + esc(DATA.company || '') + '</div><div class="hero-title">' + money(base) + '</div><div class="source">Base de PD&I conciliada com o resumo. Fonte: ' + esc(DATA.source || '') + '</div></div><div class="metric-strip">' +
-        kpi('Economia estimada', money(economy), 'Benefício calculado') +
-        kpi('RH PD&I', money(m.people_pdi_total), 'Equipe técnica') +
-        kpi('Investimentos', money(m.investment_incentivized), 'Materiais, serviços e terceiros') +
-        kpi('Horas elegíveis', num(m.eligible_hours), 'Atividades aceitas') +
+        renderMetric('Maturidade média', num(m.average_project_maturity || 0) + '%', 'Projetos') + // Nova métrica
+        renderMetric('Economia estimada', money(economy), 'Benefício calculado') +
+        renderMetric('RH PD&I', money(m.people_pdi_total), 'Equipe técnica') +
+        renderMetric('Investimentos', money(m.investment_incentivized), 'Materiais, serviços e terceiros') +
+        renderMetric('Horas elegíveis', num(m.eligible_hours), 'Atividades aceitas') +
       '</div></div><div class="panel"><div class="panel-head"><h2>Composição da base</h2><span class="hint">RH x investimentos</span></div>' +
         composition([{ label: 'RH PD&I', value: m.people_pdi_total || 0, color: 'var(--teal)' }, { label: 'Investimentos', value: m.investment_incentivized || 0, color: 'var(--amber)' }, { label: 'Outros ajustes', value: Math.max(base - Number(m.people_pdi_total || 0) - Number(m.investment_incentivized || 0), 0), color: 'var(--blue)' }]) +
         '<ul class="legend" style="margin-top:14px"><li><span>Projeto em foco</span><b>' + esc(selected?.code || 'Todos') + '</b></li><li><span>Projetos incentivados</span><b>' + num(m.projects_incentivized || 0) + ' / ' + num(m.projects_total || 0) + '</b></li></ul></div></div>';
@@ -982,9 +1062,9 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     function overview() {
       const m = DATA.metrics || {};
       return '<section id="overview">' + hero() + fiscalSummaryPanel() + '<div class="grid-2"><div>' +
-        quarterPanel() +
+        quarterPanel() + // Painel de trimestres
         chart('Projetos por base identificada', m.top_projects || [], 'money') +
-        chart('Atividades elegíveis por horas', m.hours_by_activity || [], 'number', 'blue') +
+        chart('Atividades elegíveis por horas', m.hours_by_activity || [], 'number', 'blue') + // Adicionado para oportunidades
       '</div><div>' +
         simulatorPanel() +
         chart('Investimentos por natureza', m.investment_by_nature || [], 'money', 'amber') +
@@ -992,7 +1072,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       '</div></div></section>';
     }
     function projectCard(p) {
-      const selected = state.project === p.uid || (state.project === 'all' && activeProject()?.uid === p.uid);
+      const selected = state.project === p.uid || (state.project === 'all' && activeProject()?.uid === p.uid); // Seleção de projeto
       return '<div class="project-card ' + (selected ? 'selected' : '') + '"><button type="button" onclick="setProject(\\'' + esc(p.uid) + '\\')"><div class="project-top"><div><strong>' + esc(short(p.title, 88)) + '</strong><span class="hint">' + esc(p.code || p.attach || p.nature) + '</span></div><span class="pill ' + (p.ok ? 'ok' : 'no') + '">' + (p.ok ? 'Incentivado' : 'Fora') + '</span></div><div class="project-desc">' + esc(p.desc || p.nature) + '</div><div class="mini-grid"><div class="mini"><span>Base</span><b>' + money(p.base) + '</b></div><div class="mini"><span>Horas</span><b>' + num(p.hours) + '</b></div><div class="mini"><span>Natureza</span><b>' + esc(short(p.nature, 18)) + '</b></div></div></button></div>';
     }
     function projectDetail(p) {
@@ -1007,7 +1087,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     }
     function activities() {
       const rows = activeRows('trabalho');
-      const accepted = rows.filter(r => boolCell(r, ['Projeto incentivado?']) && boolCell(r, ['Atividade incentivada?']));
+      const accepted = rows.filter(r => boolCell(r, ['Projeto incentivado?', 'Incentivado?']) && boolCell(r, ['Atividade incentivada?']));
       const rejected = rows.filter(r => !boolCell(r, ['Projeto incentivado?']) || !boolCell(r, ['Atividade incentivada?']));
       return '<section id="activities">' + hero() + '<div class="grid-3">' + kpi('Horas aceitas', num(sum(accepted, ['Horas decimais', 'Horas'])), 'Elegíveis') + kpi('Horas fora do filtro', num(sum(rejected, ['Horas decimais', 'Horas'])), 'Revisão') + kpi('Linhas no HTML', num(rows.length), 'Amostra otimizada') + '</div><div class="grid-2" style="margin-top:16px"><div>' + chart('Atividades aceitas', group(accepted, ['Atividade realizada', 'Atividade'], ['Horas decimais', 'Horas']), 'number') + chart('Atividades fora do filtro', group(rejected, ['Atividade realizada', 'Atividade'], ['Horas decimais', 'Horas'], 8), 'number', 'amber') + '</div><div>' + tablePanel('Descrições aceitas', accepted, ['Projeto', 'Funcionário', 'Atividade realizada', 'Descrição da atividade', 'Horas decimais'], true) + '</div></div>' + tablePanel('Amostra do timesheet', rows, ['Projeto', 'Funcionário', 'Mês', 'Etapa', 'Atividade realizada', 'Descrição da atividade', 'Horas', 'Horas decimais', 'Projeto incentivado?', 'Atividade incentivada?']) + '</section>';
     }
@@ -1015,7 +1095,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       const inv = activeRows('investimentos');
       const selected = activeProject();
       const token = state.project === 'all' ? 'all' : (selected?.code || selected?.attach || 'all');
-      const totalInv = sumInvestments(inv, token);
+      const totalInv = sumInvestments(inv, token); // Total de investimentos
       const people = activeRows('pessoal');
       const totalRh = sum(people, ['Total PD&I', 'Total PDI']);
       return '<section id="finance">' + hero() + '<div class="grid-3">' + kpi('Investimentos filtrados', money(totalInv), 'Após filtros') + kpi('RH filtrado', money(totalRh), 'Após filtros') + kpi('Fornecedores', num(groupInvestments(inv, ['Fornecedor'], token, 500).length), 'Com lançamentos') + '</div><div class="grid-2" style="margin-top:16px"><div>' + chart('Investimentos por fornecedor', groupInvestments(inv, ['Fornecedor'], token, 12), 'money') + chart('Investimentos por natureza', groupInvestments(inv, ['Natureza'], token, 12), 'money', 'amber') + '</div><div><div class="panel"><div class="panel-head"><h2>Composição filtrada</h2></div>' + composition([{ label: 'RH filtrado', value: totalRh, color: 'var(--teal)' }, { label: 'Investimentos filtrados', value: totalInv, color: 'var(--amber)' }]) + '</div>' + chart('RH por colaborador', group(people, ['Funcionário', 'Funcionario'], ['Total PD&I', 'Total PDI'], 8), 'money', 'blue') + '</div></div>' + tablePanel('Investimentos detalhados', inv, ['Fornecedor', 'CNPJ', 'Descrição', 'NF/ND', 'Valor', 'Valor Incentivado', 'Data', 'Natureza', 'Objetivo do gasto', 'Projeto e eventual info de rateio', 'Inovação?']) + '</section>';
@@ -1027,7 +1107,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     function historyRows() {
       return (DATA.history?.years || []).slice().sort((a, b) => Number(a.year || 0) - Number(b.year || 0));
     }
-    function history() {
+    function history() { // Histórico
       const rows = historyRows();
       if (!rows.length) {
         return '<section id="history">' + hero() + '<div class="panel"><div class="panel-head"><h2>Histórico</h2></div><div class="empty">Ainda não há histórico extraído para esta empresa.</div></div></section>';
@@ -1035,7 +1115,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       const totalBase = rows.reduce((acc, row) => acc + Number(row.base_total || 0), 0);
       const totalSavings = rows.reduce((acc, row) => acc + Number(row.estimated_savings || 0), 0);
       const top = rows.slice().sort((a, b) => Number(b.base_total || 0) - Number(a.base_total || 0))[0] || {};
-      const cards = rows.map(row => '<article class="history-year"><h3>' + esc(row.year) + '</h3>' +
+      const cards = rows.map(row => '<article class="history-year"><h3>' + esc(row.year) + '</h3>' + // Cards de ano
         '<ul class="legend">' +
         '<li><span>Base total</span><b>' + money(row.base_total || 0) + '</b></li>' +
         '<li><span>RH</span><b>' + money(row.rh_total || 0) + '</b></li>' +
@@ -1089,7 +1169,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     function fiscalAnswer() {
       const m = DATA.metrics || {};
       const base = Number(m.base_total || 0) || Number(m.people_pdi_total || 0) + Number(m.investment_incentivized || 0);
-      const exclusion = Number(m.exclusion_total || 0) || base * .6;
+      const exclusion = Number(m.exclusion_total || 0) || base * .6; // Exclusão
       const savings = Number(m.estimated_savings || 0) || exclusion * .34;
       const commission = Number(m.commission || 0);
       return '<strong>Aproveitamento estimado de ' + esc(DATA.company) + '</strong><ul><li>Base PD&I conciliada: ' + money(base) + '</li><li>Exclusão adicional estimada: ' + money(exclusion) + '</li><li>Economia fiscal estimada: ' + money(savings) + '</li><li>Comissão: ' + money(commission) + '</li><li>Líquido após comissão: ' + money(savings - commission) + '</li></ul>';
@@ -1102,7 +1182,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     function activitiesAnswer() {
       const p = activeProject();
       const rows = p?.accepted?.length ? group(p.accepted, ['Atividade realizada', 'Atividade'], ['Horas decimais', 'Horas'], 8) : (DATA.metrics?.hours_by_activity || []);
-      if (!rows.length) return 'Não encontrei atividades aceitas suficientes para listar com os filtros atuais.';
+      if (!rows.length) return 'Não encontrei atividades aceitas suficientes para listar com os filtros atuais.'; // Atividades aceitas
       return '<strong>Atividades aceitas' + (p?.code ? ' no projeto ' + esc(p.code) : '') + '</strong><ul>' + rows.slice(0, 8).map(r => '<li>' + esc(short(r.name, 110)) + ': ' + num(r.value) + ' h</li>').join('') + '</ul>';
     }
     function investmentAnswer() {
@@ -1110,7 +1190,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       const selected = activeProject();
       const token = state.project === 'all' ? 'all' : (selected?.code || selected?.attach || 'all');
       const bySupplier = groupInvestments(inv, ['Fornecedor'], token, 6);
-      const byNature = groupInvestments(inv, ['Natureza'], token, 6);
+      const byNature = groupInvestments(inv, ['Natureza'], token, 6); // Por natureza
       const total = sumInvestments(inv, token);
       return '<strong>Investimentos filtrados</strong><ul><li>Total: ' + money(total) + '</li><li>Principais fornecedores: ' + (bySupplier.map(r => esc(short(r.name, 42)) + ' (' + money(r.value) + ')').join('; ') || 'sem dados') + '</li><li>Naturezas: ' + (byNature.map(r => esc(short(r.name, 42)) + ' (' + money(r.value) + ')').join('; ') || 'sem dados') + '</li></ul>';
     }
@@ -1123,7 +1203,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     function projectAnswer(p) {
       if (!p) return 'Selecione um projeto no filtro superior ou pergunte por um código INOV/NRD específico.';
       const element = cell(p.row, ['Elemento tecnologicamente novo ou inovador', 'Elemento inovador']) || 'Não informado.';
-      const barrier = cell(p.row, ['Barreira ou desafio tecnológico a superar', 'Risco tecnológico']) || 'Não informado.';
+      const barrier = cell(p.row, ['Barreira ou desafio tecnológico a superar', 'Risco tecnológico']) || 'Não informado.'; // Barreira tecnológica
       const decision = eligibilityDecision(p);
       return '<strong>' + esc(p.title) + '</strong><ul><li>Status técnico: ' + esc(decision.status) + '</li><li>Base: ' + money(p.base) + ' | RH: ' + money(p.rh) + ' | Investimentos: ' + money(p.investment) + '</li><li>Horas aceitas: ' + num(p.hours) + '</li><li>Por quê: ' + esc(decision.reason) + '</li><li>Elemento inovador: ' + esc(short(element, 240)) + '</li><li>Barreira tecnológica: ' + esc(short(barrier, 240)) + '</li></ul>';
     }
@@ -1153,7 +1233,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       });
       return out.slice(0, limit);
     }
-    function projectTimelineRows(p) {
+    function projectTimelineRows(p) { // Linha do tempo do projeto
       const history = projectHistoryMatches(p);
       if (!history.length) {
         return [{
@@ -1183,7 +1263,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
         };
       });
     }
-    function maturityProfile(p) {
+    function maturityProfile(p) { // Perfil de maturidade
       const history = projectHistoryMatches(p);
       let score = 0;
       if (p?.desc) score += 12;
@@ -1198,7 +1278,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       const next = score >= 82 ? 'Manter trilha de evidências, impactos e memória técnica por ano.' : score >= 62 ? 'Amarrar resultados, testes, gastos e decisões técnicas ao ganho inovador.' : score >= 42 ? 'Reforçar barreira tecnológica, critérios de aceite e documentação de execução.' : 'Consolidar objetivo técnico, incertezas, atividades e vínculo financeiro.';
       return { score, stage, next, history };
     }
-    function riskRowsForProject(p) {
+    function riskRowsForProject(p) { // Riscos do projeto
       const explicit = cleanRows(DATA.tables?.riscos || []).filter(row => matchProject(row, p));
       const profile = maturityProfile(p);
       const rows = explicit.map(row => ({
@@ -1216,7 +1296,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       if (!Number(p.investment || 0) && !Number(p.rh || 0)) rows.push({ Risco: 'Projeto sem base financeira filtrada', Categoria: 'Conciliação', Impacto: 'Médio', Probabilidade: 'Média', Mitigação: 'Verificar vínculo entre RH, investimentos, projeto e resumo fiscal.' });
       if (profile.score < 42) rows.push({ Risco: 'Baixa maturidade documental', Categoria: 'Maturidade', Impacto: 'Médio', Probabilidade: 'Média', Mitigação: profile.next });
       return rows;
-    }
+    } // Critérios de elegibilidade
     function eligibilityCriteriaRows(p) {
       if (!p) return [];
       const element = cell(p.row, ['Elemento tecnologicamente novo ou inovador', 'Elemento inovador']);
@@ -1295,7 +1375,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       const decision = eligibilityDecision(p);
       const profile = maturityProfile(p);
       const element = cell(p.row, ['Elemento tecnologicamente novo ou inovador', 'Elemento inovador']);
-      const barrier = cell(p.row, ['Barreira ou desafio tecnológico a superar', 'Risco tecnológico']);
+      const barrier = cell(p.row, ['Barreira ou desafio tecnológico a superar', 'Risco tecnológico']); // Barreira tecnológica
       const description = cell(p.row, ['Descrição', 'Descricao']);
       const activities = topEvidenceTexts(p.accepted || [], ['Descrição da atividade', 'Atividade realizada', 'Atividade'], 5);
       const investments = topEvidenceTexts(p.inv || [], ['Objetivo do gasto', 'Descrição', 'Descricao', 'Natureza'], 4);
@@ -1313,7 +1393,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
         '<li><b>Faltas para defesa:</b> ' + (gaps.length ? gaps.map(row => esc(row.Critério + ' - ' + row.Leitura)).join('; ') : 'não identifiquei falta crítica nos critérios carregados') + '</li>' +
         '</ul>';
     }
-    function riskAnswer() {
+    function riskAnswer() { // Resposta de risco
       const p = activeProject();
       const profile = maturityProfile(p);
       const risks = riskRowsForProject(p).slice(0, 6);
@@ -1321,7 +1401,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       return technicalScientificAnswer(p) + '<strong>Riscos e maturidade</strong><ul><li>Nível de maturidade: ' + esc(profile.stage) + ' (' + num(profile.score) + '/100)</li><li>Próximo passo: ' + esc(profile.next) + '</li><li>Principais riscos: ' + (risks.map(r => esc(r.Categoria + ': ' + r.Risco)).join('; ') || 'sem riscos mapeados na base filtrada') + '</li></ul>';
     }
     function sectorRows() {
-      const rows = COMPANIES.map(company => {
+      const rows = COMPANIES.map(company => { // Linhas do setor
         const m = company.metrics || {};
         const base = Number(m.base_total || 0) || Number(m.people_pdi_total || 0) + Number(m.investment_incentivized || 0);
         const projects = Number(m.projects_total || 0);
@@ -1342,7 +1422,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       return '<strong>Comparativo disponível</strong><ul><li>Este HTML compara internamente as empresas carregadas no portfólio.</li><li>Para benchmark externo do setor, é preciso conectar pesquisa web/API com fontes públicas e data de consulta.</li><li>Empresas na base: ' + rows.map(r => esc(r.Empresa)).join('; ') + '</li></ul>';
     }
     function answer(question) {
-      const q = norm(question);
+      const q = norm(question); // Resposta do chatbot
       const code = codeFrom(question);
       if (code) {
         const p = allProjects().find(x => x.code === code);
@@ -1359,9 +1439,9 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       if (q.includes('compar') || q.includes('benchmark') || q.includes('setor') || q.includes('mercado')) return sectorAnswer();
       if (q.includes('lei do bem') || q.includes('criterio') || q.includes('elegivel')) return '<strong>Lei do Bem:</strong> em termos práticos, o projeto precisa demonstrar incerteza tecnológica, método técnico, tentativa de superação de desafio e evidências. Neste painel, o enquadramento usa projeto incentivado, atividade incentivada, descritivos aceitos e conciliação financeira da aba RESUMO.';
       return 'Posso responder sobre aproveitamento fiscal, trimestres, projetos INOV/NRD, motivo do enquadramento, atividades aceitas, RH e investimentos.';
-    }
+    }    
     function chat() {
-      return '<section id="chat">' + hero() + '<div class="chat-layout"><div class="chat-box"><div class="messages" id="messages"></div><form class="chat-form" onsubmit="askChat(event)"><input id="chatInput" placeholder="Pergunte sobre aproveitamento, riscos, maturidade, projeto, atividades ou Lei do Bem"><button class="primary" type="submit">Enviar</button></form></div><div class="panel"><div class="panel-head"><h2>Perguntas rápidas</h2></div><div class="quick"><button onclick="quick(\\'Quanto será aproveitado e qual o líquido após comissão?\\')">Aproveitamento estimado</button><button onclick="quick(\\'Qual o aproveitamento por trimestre?\\')">Por trimestre</button><button onclick="quick(\\'Por que o projeto selecionado é incentivado?\\')">Projeto selecionado</button><button onclick="quick(\\'Quais riscos e maturidade do projeto selecionado?\\')">Riscos e maturidade</button><button onclick="quick(\\'Quais atividades foram aceitas?\\')">Atividades aceitas</button><button onclick="quick(\\'Compare a empresa com a base interna e o setor\\')">Comparativo</button><button onclick="quick(\\'Explique a Lei do Bem e os critérios\\')">Critérios da Lei do Bem</button></div></div></div></section>';
+      return '<section id="chat">' + hero() + '<div class="chat-layout"><div class="chat-box"><div class="messages" id="messages"></div><form class="chat-form" onsubmit="askChat(event)"><input id="chatInput" placeholder="Pergunte sobre aproveitamento, riscos, maturidade, projeto, atividades ou Lei do Bem"><button class="primary" type="submit">Enviar</button></form></div><div class="panel"><div class="panel-head"><h2>Perguntas rápidas</h2></div><div class="quick"><button onclick="quick(\\'Quanto será aproveitado e qual o líquido após comissão?\\')">Aproveitamento estimado</button><button onclick="quick(\\'Qual o aproveitamento por trimestre?\\')">Por trimestre</button><button onclick="quick(\\'Por que o projeto selecionado é incentivado?\\')">Projeto selecionado</button><button onclick="quick(\\'Quais riscos e maturidade do projeto selecionado?\\')">Riscos e maturidade</button><button onclick="quick(\\'Quais atividades foram aceitas?\\')">Atividades aceitas</button><button onclick="quick(\\'Compare a empresa com a base interna e o setor\\')">Comparativo</button><button onclick="quick(\\'Explique a Lei do Bem e os critérios\\')">Critérios da Lei do Bem</button></div><div class="panel-head" style="margin-top: 20px;"><h2>Ações</h2></div><div class="quick"><button onclick="sendToHumanChat()">Falar com um humano</button><button onclick="downloadPdfReport()">Baixar PDF do Relatório</button><button onclick="downloadHtmlData()">Baixar HTML dos Dados</button></div></div></div></section>'; // Chatbot
     }
     function renderChat() {
       const box = $('messages');
@@ -1383,7 +1463,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       input.value = '';
       renderChat();
     }
-    function quick(question) {
+    function quick(question) { // Perguntas rápidas
       if (question.includes('selecionado')) {
         const p = activeProject();
         question = p?.code ? 'Fale do projeto ' + p.code : 'Fale do projeto selecionado';
@@ -1391,7 +1471,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       $('chatInput').value = question;
       askChat();
     }
-    function riskAgentAnswer(question) {
+    function riskAgentAnswer(question) { // Resposta do agente de risco
       const q = norm(question || '');
       const p = activeProject();
       if (!p) return 'Selecione um projeto para o agente ler a base técnica.';
@@ -1409,6 +1489,49 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       if (q.includes('compar') || q.includes('setor') || q.includes('benchmark')) return sectorAnswer();
       return technicalScientificAnswer(p);
     }
+    function avaliacaoAgentAnswer(question) { // Resposta do agente de avaliação
+      const q = norm(question || '');
+      const p = activeProject();
+      if (!p) return 'Selecione um projeto para o agente ler a base técnica.';
+      if (!q || q.includes('resumo') || q.includes('diagnostico') || q.includes('diagnóstico') || q.includes('analise') || q.includes('análise')) return riskAnswer();
+      if (q.includes('criterio') || q.includes('critério') || q.includes('incentivado') || q.includes('glosa')) {
+        return technicalScientificAnswer(p) + '<strong>Matriz técnica de enquadramento</strong><ul>' + eligibilityCriteriaRows(p).map(row => '<li><b>' + esc(row.Critério) + ':</b> ' + esc(row.Status) + ' - ' + esc(short(row.Leitura, 180)) + '</li>').join('') + '</ul>';
+      }
+      if (q.includes('valor') || q.includes('base') || q.includes('rh') || q.includes('invest')) return investmentAnswer() + peopleAnswer();
+      if (q.includes('atividade') || q.includes('inovador') || q.includes('barreira')) return projectAnswer(p) + activitiesAnswer();
+      if (q.includes('historico') || q.includes('histórico') || q.includes('ano') || q.includes('maturidade') || q.includes('evolucao') || q.includes('evolução')) {
+        const rows = projectTimelineRows(p);
+        return '<strong>Evolução histórica e maturidade</strong><ul>' + rows.map(row => '<li><b>' + esc(row.Ano || 'Ano atual') + ':</b> ' + esc(row.Maturidade) + ' - ' + esc(short(row.Evidências, 220)) + (row.Faltas ? ' | Faltas: ' + esc(row.Faltas) : '') + '</li>').join('') + '</ul>';
+      }
+      if (q.includes('risco')) return riskAnswer();
+      if (q.includes('pontos fortes') || q.includes('forcas')) {
+        const decision = eligibilityDecision(p);
+        const profile = maturityProfile(p);
+        const strengths = [];
+        if (decision.status === 'Tecnicamente incentivável') strengths.push('O projeto é tecnicamente incentivável, com boa aderência aos critérios da Lei do Bem.');
+        if (profile.score >= 82) strengths.push('Alta maturidade documental e de evidências (' + num(profile.score) + '/100).');
+        if (cell(p.row, ['Elemento tecnologicamente novo ou inovador', 'Elemento inovador'])) strengths.push('Elemento inovador bem descrito.');
+        if (cell(p.row, ['Barreira ou desafio tecnológico a superar', 'Risco tecnológico'])) strengths.push('Barreira tecnológica clara, fundamental para o enquadramento.');
+        if (p.accepted?.length) strengths.push('Atividades técnicas bem registradas e com horas aceitas.');
+        if (Number(p.rh || 0) > 0 && Number(p.investment || 0) > 0) strengths.push('Boa conciliação de RH e investimentos.');
+        if (projectHistoryMatches(p).length) strengths.push('Histórico e memória técnica conectados.');
+        return '<strong>Pontos fortes do projeto ' + esc(p.title) + '</strong><ul>' + (strengths.length ? strengths.map(s => '<li>' + esc(s) + '</li>').join('') : '<li>Não identifiquei pontos fortes específicos na análise atual.</li>') + '</ul>';
+      }
+      if (q.includes('melhorias') || q.includes('pontos de melhoria')) {
+        const gaps = eligibilityCriteriaRows(p).filter(row => ['Pendente', 'Não atendido', 'Revisar', 'Não localizado'].includes(row.Status));
+        const profile = maturityProfile(p);
+        const improvements = [];
+        if (gaps.length) improvements.push('Resolver as pendências nos critérios de elegibilidade: ' + gaps.map(row => row.Critério).join(', ') + '.');
+        if (profile.score < 82) improvements.push('Aumentar a maturidade documental e de evidências. Próximo passo: ' + esc(profile.next) + '.');
+        if (!cell(p.row, ['Elemento tecnologicamente novo ou inovador', 'Elemento inovador'])) improvements.push('Descrever o elemento inovador com mais clareza.');
+        if (!cell(p.row, ['Barreira ou desafio tecnológico a superar', 'Risco tecnológico'])) improvements.push('Detalhar a incerteza tecnológica e como ela foi superada.');
+        if (!p.accepted?.length) improvements.push('Garantir o registro de atividades técnicas elegíveis.');
+        if (!Number(p.rh || 0) && !Number(p.investment || 0)) improvements.push('Vincular RH e investimentos de forma mais explícita ao projeto.');
+        if (!projectHistoryMatches(p).length) improvements.push('Conectar o projeto a narrativas históricas para demonstrar evolução.');
+        return '<strong>Melhorias recomendadas para o projeto ' + esc(p.title) + '</strong><ul>' + (improvements.length ? improvements.map(s => '<li>' + esc(s) + '</li>').join('') : '<li>Não identifiquei melhorias críticas na análise atual.</li>') + '</ul>';
+      }
+      return technicalScientificAnswer(p);
+    }
     function renderRiskAgent() {
       const box = $('riskAgentMessages');
       if (!box) return;
@@ -1424,12 +1547,12 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       if (!question) return;
       const key = 'risk:' + (DATA.company || 'empresa') + '|' + (state.project || 'all') + '|' + (state.department || 'all');
       chatState[key] = chatState[key] || [];
-      chatState[key].push({ role: 'user', text: esc(question) });
+      chatState[key].push({ role: 'user', text: esc(question) }); // Renamed from askRiskAgent
       chatState[key].push({ role: 'bot', text: riskAgentAnswer(question) });
       input.value = '';
       renderRiskAgent();
     }
-    function quickRisk(question) {
+    function quickRisk(question) { // Perguntas rápidas do agente de risco
       const input = $('riskAgentInput');
       if (!input) return;
       input.value = question;
@@ -1441,7 +1564,7 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       const sheets = Object.entries(DATA.sheets || {}).map(([key, sheet]) => ({ Aba: sheet.original_name, Chave: key, Linhas: sheet.rows_table, Colunas: sheet.cols_table, Colunas_lidas: (sheet.columns || []).join(', ') }));
       return '<section id="audit">' + hero() + '<div class="panel"><div class="panel-head"><h2>Validações</h2></div><div class="table-wrap"><table><thead><tr><th>Item</th><th>Status</th><th>Detalhe</th></tr></thead><tbody>' + checks + '</tbody></table></div></div>' + tablePanel('Abas lidas', sheets, ['Aba', 'Chave', 'Linhas', 'Colunas'], true) + tablePanel('Resumo original', DATA.tables?.resumo || [], ['Natureza', 'Projetos', '1', '2', '3', '4', 'TOTAL', 'Total']) + tablePanel('Amostra de trabalho no HTML', DATA.tables?.trabalho || [], ['Projeto', 'Funcionário', 'Mês', 'Etapa', 'Atividade realizada', 'Descrição da atividade', 'Horas decimais', 'Projeto incentivado?', 'Atividade incentivada?']) + '</section>';
     }
-    function risks() {
+    function avaliacao() { // Renamed from risks
       const p = activeProject();
       const profile = maturityProfile(p);
       const riskRows = riskRowsForProject(p).filter(row => matchSearch(row));
@@ -1473,13 +1596,13 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
       ];
       const agentPanel = '<div class="panel"><div class="panel-head"><h2>Agente Benner integrado</h2><span class="hint">Lê os filtros atuais</span></div><div class="messages" id="riskAgentMessages" style="min-height:260px;max-height:420px"></div><form class="chat-form" onsubmit="askRiskAgent(event)"><input id="riskAgentInput" placeholder="Pergunte por que incentivou, riscos, valores, maturidade ou evidências"><button class="primary" type="submit">Enviar</button></form><div class="agent-actions"><button onclick="quickRisk(\\'Mostre os critérios técnicos de incentivo e risco de glosa\\')">Critérios técnicos</button><button onclick="quickRisk(\\'Explique quais valores sustentam esse projeto\\')">Valores usados</button><button onclick="quickRisk(\\'O que foi inovador e quais atividades provam isso?\\')">Inovação</button><a href="https://chatgpt.com/g/g-By7xjfnhK-benner" target="_blank" rel="noopener">Abrir GPT Benner</a></div></div>';
       const externalNote = '<div class="panel"><div class="panel-head"><h2>Benchmark externo</h2><span class="hint">Pronto para API</span></div><p class="source">O HTML compara internamente as empresas carregadas. Para pesquisa automática de empresas do setor com fontes públicas atuais, conecte um backend/API; não é seguro embutir chave de IA ou pesquisa diretamente neste arquivo.</p></div>';
-      return '<section id="risks">' + hero() +
+      return '<section id="avaliacao">' + hero() + // Renamed from risks
         '<div class="grid-3">' +
         kpi('Decisão técnica', esc(decision.status), p?.code || 'Projeto filtrado') +
         kpi('Maturidade', esc(profile.stage), num(profile.score) + '/100') +
         kpi('Riscos mapeados', num(riskRows.length), p?.code || 'Carteira filtrada') +
         '</div><div class="grid-2" style="margin-top:16px"><div>' +
-        chart('Maturidade por evidência', maturityRows, 'number', 'blue') +
+        chart('Maturidade por evidência', maturityRows, 'number', 'blue') + // Gráfico de maturidade
         chart('Riscos por categoria', countBy(riskRows, ['Categoria', 'Tipo'], 10), 'number', 'amber') +
         '</div><div>' +
         '<div class="panel"><div class="panel-head"><h2>Leitura do projeto</h2><span class="pill ' + (p?.ok ? 'ok' : 'no') + '">' + esc(decision.status) + '</span></div><div class="text-panels"><article><h3>Por que entrou ou não entrou</h3><p>' + esc(decision.reason) + '</p></article><article><h3>Próximo passo</h3><p>' + esc(profile.next) + '</p></article><article><h3>Elemento inovador</h3><p>' + esc(short(cell(p?.row || {}, ['Elemento tecnologicamente novo ou inovador', 'Elemento inovador']) || 'Não informado na base filtrada.', 360)) + '</p></article></div></div>' +
@@ -1494,8 +1617,37 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
         tablePanel('Comparativo interno do portfólio', sectorRows(), ['Empresa', 'Base', 'Projetos', 'Incentivados', '% incentivado', 'Economia estimada'], true) +
         '</section>';
     }
+    function risks_opportunities() {
+      const m = DATA.metrics || {};
+      const allRisksOpportunities = cleanRows(DATA.tables?.riscos_oportunidades || []);
+      const risks = allRisksOpportunities.filter(r => norm(cell(r, ['Tipo'])) === 'risco');
+      const opportunities = allRisksOpportunities.filter(r => norm(cell(r, ['Tipo'])) === 'oportunidade');
+
+      const risksByCategory = m.risks_by_category_new || []; // Riscos por categoria
+      const opportunitiesByCategory = m.opportunities_by_category || [];
+      const risksByImpact = m.risks_by_impact || []; // Nova métrica
+
+      return '<section id="risks_opportunities">' + hero() +
+        '<div class="grid-3">' +
+        kpi('Total de Riscos', num(risks.length), 'Itens mapeados') +
+        kpi('Total de Oportunidades', num(opportunities.length), 'Itens mapeados') +
+        kpi('Categorias de Riscos', num(risksByCategory.length), 'Distintas') +
+        '</div>' +
+        '<div class="grid-2" style="margin-top:16px"><div>' +
+        chart('Riscos por Categoria', risksByCategory, 'number', 'amber') +
+        chart('Oportunidades por Categoria', opportunitiesByCategory, 'number', 'green') + // Mantém como barra
+        chart('Riscos por Impacto', risksByImpact, 'number', '', 'pie') + // Novo gráfico de pizza
+        '</div><div>' +
+        '<div class="panel"><div class="panel-head"><h2>Visão Geral</h2></div><div class="text-panels">' +
+        '<article><h3>Riscos</h3><p>' + (risks.length ? 'Foram identificados ' + risks.length + ' riscos, distribuídos em ' + risksByCategory.length + ' categorias. Os principais riscos estão relacionados a ' + (risksByCategory[0]?.name || 'não informado') + '.' : 'Nenhum risco mapeado nesta base.') + '</p></article>' +
+        '<article><h3>Oportunidades</h3><p>' + (opportunities.length ? 'Foram identificadas ' + opportunities.length + ' oportunidades, distribuídas em ' + opportunitiesByCategory.length + ' categorias. As principais oportunidades estão em ' + (opportunitiesByCategory[0]?.name || 'não informado') + '.' : 'Nenhuma oportunidade mapeada nesta base.') + '</p></article>' +
+        '</div></div>' +
+        '</div></div>' +
+        tablePanel('Detalhes de Riscos e Oportunidades', allRisksOpportunities, ['Tipo', 'Categoria', 'Descrição', 'Impacto', 'Probabilidade', 'Ação'], true) +
+        '</section>';
+    }
     function populateControls() {
-      $('companySelect').innerHTML = COMPANIES.map((c, i) => '<option value="' + i + '">' + esc(c.company) + '</option>').join('');
+      $('companySelect').innerHTML = COMPANIES.map((c, i) => '<option value="' + i + '">' + esc(c.company) + ' - ' + esc(c.year) + '</option>').join('');
       $('companySelect').value = String(state.company);
       const departments = allDepartments();
       if (state.department !== 'all' && !departments.some(item => norm(item) === norm(state.department))) state.department = 'all';
@@ -1510,11 +1662,13 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     }
     function render() {
       DATA = COMPANIES[state.company] || {};
-      populateControls();
-      $('app').innerHTML = [overview(), projects(), activities(), finance(), people(), history(), chat(), audit(), risks()].join('');
+      populateControls(); // Removed yearFilterSelect population
+      $('app').innerHTML = [overview(), projects(), activities(), finance(), people(), history(), avaliacao(), risks_opportunities(), tecnoparque(), chat(), audit()].join(''); // Updated tabs
       activate(state.tab);
       setTimeout(renderChat, 0);
       setTimeout(renderRiskAgent, 0);
+      setTimeout(initAllDataTables, 0); // Initialize DataTables instances after DOM is updated
+      setTimeout(initCharts, 0); // Initialize Chart.js instances after DOM is updated
       setTimeout(updateSimulator, 0);
     }
     function activate(tab) {
@@ -1558,6 +1712,9 @@ def render_portfolio(analyses: list[dict], title: str = "Painel Executivo PD&I")
     window.askChat = askChat;
     window.askRiskAgent = askRiskAgent;
     window.quick = quick;
+    window.sendToHumanChat = sendToHumanChat;
+    window.downloadPdfReport = downloadPdfReport;
+    window.downloadHtmlData = downloadHtmlData;
     window.quickRisk = quickRisk;
     window.updateSimulator = updateSimulator;
     $('tabs').innerHTML = tabs.map(([id, label]) => '<button data-tab="' + id + '" onclick="activate(\\'' + id + '\\')" class="' + (id === state.tab ? 'active' : '') + '">' + label + '</button>').join('');
@@ -1606,6 +1763,16 @@ def slim_analysis(analysis: dict) -> dict:
             "Lei do Bem?",
             "Total investido",
             "Total Help Desk",
+            # New columns for Tecnoparque
+            "Tipo de Programa",
+            "Programa", # Alternative for Tipo de Programa
+            "Status", # For Tecnoparque projects status
+            "Área Tecnológica", # For Tecnoparque projects tech area
+            "Setor", # Alternative for Área Tecnológica
+            "Investimento Total", # For Tecnoparque project investment
+            "Total Investido", # Alternative for Investimento Total
+            "Benefício Tecnoparque", # For Tecnoparque specific benefit
+            "Beneficio Fiscal", # Alternative for Benefício Tecnoparque
         ],
     )
     out["tables"]["trabalho"] = slim_work_rows(tables.get("trabalho", []))
@@ -1615,6 +1782,7 @@ def slim_analysis(analysis: dict) -> dict:
     )
     out["tables"]["investimentos"] = slim_investment_rows(tables.get("investimentos", []))
     out["tables"]["riscos"] = project_columns(tables.get("riscos", []), ["Risco", "Categoria", "Tipo", "Impacto", "Probabilidade", "Mitigação"])
+    out["tables"]["riscos_oportunidades"] = project_columns(tables.get("riscos_oportunidades", []), ["Tipo", "Categoria", "Descrição", "Impacto", "Probabilidade", "Ação"]) # Nova tabela
     return out
 
 

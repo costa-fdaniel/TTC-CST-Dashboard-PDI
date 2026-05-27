@@ -5,8 +5,8 @@ import json
 from pathlib import Path
 
 from .analyzer import analyze_workbook
-from .history import load_history_for_company
 from .html import render_dashboard, render_portfolio
+from .history import load_history_for_company # Importa load_history_for_company
 from .loader import export_sheets_to_csv, load_workbook
 
 
@@ -19,13 +19,16 @@ def build(args: argparse.Namespace) -> int:
         csv_dir = Path(args.csv_dir) if args.csv_dir else Path("exports") / "csv" / safe_name(input_path.stem or input_path.name)
         export_sheets_to_csv(sheets, csv_dir)
 
+    # Carrega dados históricos para a empresa
+    history_data = load_history_for_company(company=args.company, slug=safe_name(args.company))
+
     analysis = analyze_workbook(
         sheets,
         company=args.company,
         year=args.year,
         source=str(input_path),
+        history_data=history_data, # Passa history_data
     )
-    analysis["history"] = load_history_for_company(args.company)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(render_dashboard(analysis), encoding="utf-8")
@@ -55,10 +58,10 @@ def portfolio(args: argparse.Namespace) -> int:
 
         sheets = load_workbook(input_path)
         export_sheets_to_csv(sheets, csv_dir)
-        analysis = analyze_workbook(sheets, company=name, year=year, source=str(input_path))
+        history_data = load_history_for_company(company=name, slug=company.get("slug")) # Carrega histórico para cada empresa
+        analysis = analyze_workbook(sheets, company=name, year=year, source=str(input_path), history_data=history_data) # Passa history_data
         analysis["slug"] = company.get("slug") or safe_name(name)
         analysis["csv_dir"] = str(csv_dir)
-        analysis["history"] = load_history_for_company(name, analysis["slug"])
         analyses.append(analysis)
         print(f"{name}: {len(sheets)} abas lidas, CSVs em {csv_dir.resolve()}")
 

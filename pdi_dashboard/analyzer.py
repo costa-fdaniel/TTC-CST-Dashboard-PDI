@@ -19,6 +19,7 @@ class Analysis:
     metrics: dict[str, Any]
     validations: list[dict[str, Any]]
     tables: dict[str, Any]
+    history: dict[str, Any] # Adiciona o campo history ao dataclass
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -30,6 +31,7 @@ def analyze_workbook(
     company: str,
     year: int | None,
     source: str,
+    history_data: dict[str, Any] | None = None, # Adiciona o parâmetro history_data
 ) -> dict[str, Any]:
     sheets: dict[str, dict[str, Any]] = {}
     tables: dict[str, list[dict[str, Any]]] = {}
@@ -48,9 +50,10 @@ def analyze_workbook(
             "columns": list(map(str, table.columns)) if not table.empty else [],
         }
 
-    metrics = collect_metrics(tables)
+    metrics = collect_metrics(tables, history_data or {}) # Passa history_data para collect_metrics
     validations = collect_validations(metrics)
-    return Analysis(company, year, source, sheets, metrics, validations, tables).to_dict()
+    # Passa history_data para o construtor de Analysis
+    return Analysis(company, year, source, sheets, metrics, validations, tables, history_data or {}).to_dict()
 
 
 def unique_key(key: str, original_name: str, used: dict[str, int]) -> str:
@@ -153,7 +156,7 @@ def record_has_content(record: dict[str, Any]) -> bool:
     return False
 
 
-def collect_metrics(tables: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
+def collect_metrics(tables: dict[str, list[dict[str, Any]]], history_data: dict[str, Any]) -> dict[str, Any]:
     resumo = tables.get("resumo", [])
     projects = tables.get("projetos", [])
     work = tables.get("trabalho", [])
@@ -194,6 +197,11 @@ def collect_metrics(tables: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
     metrics["top_projects"] = top_projects(projects, investments, people, resumo)
     metrics["hours_by_activity"] = group_sum(work, ["Atividade realizada", "Atividade"], ["Horas decimais", "Horas"], eligible_only=True)
     metrics["rh_by_employee"] = group_sum(people, ["Funcionário", "Funcionario"], ["Total PD&I", "Total PDI"])
+    # Alterado para group_count, assumindo que a intenção é contar riscos/oportunidades por categoria
+    metrics["risks_by_category_new"] = group_count(tables.get("riscos_oportunidades", []), ["Categoria"], filter_key="Tipo", filter_value="Risco")
+    metrics["opportunities_by_category"] = group_count(tables.get("riscos_oportunidades", []), ["Categoria"], filter_key="Tipo", filter_value="Oportunidade")
+    metrics["risks_by_impact"] = group_count(tables.get("riscos_oportunidades", []), ["Impacto"], filter_key="Tipo", filter_value="Risco") # Nova métrica
+    metrics["average_project_maturity"] = calculate_average_project_maturity(projects, tables, history_data) # Nova métrica
     metrics["investment_by_supplier"] = investment_metrics["by_supplier"]
     return metrics
 
@@ -406,6 +414,121 @@ def top_projects_from_resumo(rows: list[dict[str, Any]]) -> list[dict[str, Any]]
         if value:
             totals[label] = totals.get(label, 0.0) + value
     return [{"name": k, "value": round(v, 2)} for k, v in sorted(totals.items(), key=lambda item: item[1], reverse=True)[:12]]
+
+
+def group_count(rows: list[dict[str, Any]], key_candidates: list[str], filter_key: str | None = None, filter_value: str | None = None) -> list[dict[str, Any]]:
+    """Agrupa linhas por uma chave e conta as ocorrências, opcionalmente filtrando."""
+    grouped: dict[str, int] = {}
+    for row in rows:
+        if filter_key and filter_value:
+            if _norm(get_value(row, [filter_key])) != _norm(filter_value):
+                continue
+        key = str(get_value(row, key_candidates)).strip() or "Nao informado"
+        if key:
+            grouped[key] = grouped.get(key, 0) + 1
+    return [{"name": k, "value": v} for k, v in sorted(grouped.items(), key=lambda item: item[1], reverse=True)[:12]]
+
+
+def _norm_project_identifier(value: Any) -> str:
+    """Normaliza um identificador de projeto (código ou título) para correspondência."""
+    text = str(value or "").upper().strip()
+    match = re.match(r"(INOV|NRD)0*(\d{1,7})", text)
+    if match:
+        return match.group(1) + str(int(match.group(2)))  # Ex: INOV123
+    return _norm(value)  # Fallback para normalização geral se não for um código INOV/NRD
+
+
+def _filter_rows_by_project(rows: list[dict[str, Any]], project_identifier: str) -> list[dict[str, Any]]:
+    """Filtra linhas de uma tabela que correspondem a um determinado identificador de projeto."""
+    norm_target = _norm_project_identifier(project_identifier)
+    if not norm_target:
+        return []
+
+    filtered = []
+    for row in rows:
+        # Verifica várias colunas comuns de identificador de projeto
+        row_project_id_val = get_value(row, ["Projeto", "Attach", "Projeto e eventual info de rateio", "Código", "Codigo"])
+        row_project_id_norm = _norm_project_identifier(row_project_id_val)
+        
+        if row_project_id_norm == norm_target:
+            filtered.append(row)
+    return filtered
+
+
+def _get_project_details_for_maturity(project_row: dict[str, Any], tables: dict[str, list[dict[str, Any]]]) -> dict[str, Any]:
+    """Extrai detalhes relevantes para um único projeto para cálculo de maturidade."""
+    project_code = get_value(project_row, ["Attach", "Projeto"])
+    project_title = get_value(project_row, ["Projeto"])
+    
+    # Usa o identificador mais específico para filtrar outras tabelas
+    identifier_for_filtering = project_code or project_title
+
+    desc = get_value(project_row, ["Descrição"])
+    element_inovador = get_value(project_row, ["Elemento tecnologicamente novo ou inovador", "Elemento inovador"])
+    barrier_tecnologico = get_value(project_row, ["Barreira ou desafio tecnológico a superar", "Risco tecnológico"])
+
+    # Filtra a tabela 'trabalho'
+    work_rows_for_project = _filter_rows_by_project(tables.get("trabalho", []), identifier_for_filtering)
+    accepted_work_rows = [
+        r for r in work_rows_for_project
+        if parse_bool(get_value(r, ["Projeto incentivado?", "Incentivado?"])) and parse_bool(get_value(r, ["Atividade incentivada?"]))
+    ]
+    hours = sum_if_hours(accepted_work_rows, ["Horas decimais", "Horas"], require_true=[])
+
+    # Filtra a tabela 'investimentos'
+    investment_rows_for_project = _filter_rows_by_project(tables.get("investimentos", []), identifier_for_filtering)
+    investment = sum_numeric_col(investment_rows_for_project, ["Valor Incentivado", "Valor"])
+
+    # Filtra a tabela 'pessoal'
+    people_rows_for_project = _filter_rows_by_project(tables.get("pessoal", []), identifier_for_filtering)
+    rh = sum_numeric_col(people_rows_for_project, ["Total PD&I", "Total PDI"])
+
+    return {
+        "code": project_code,
+        "title": project_title,
+        "desc": desc,
+        "element_inovador": element_inovador,
+        "barrier_tecnologico": barrier_tecnologico,
+        "accepted_activities_count": len(accepted_work_rows),
+        "hours": hours,
+        "investment": investment,
+        "rh": rh,
+    }
+
+
+def _calculate_project_maturity_score(project_details: dict[str, Any], history_projects: list[dict[str, Any]]) -> int:
+    """Calcula uma pontuação de maturidade para um único projeto com base em seus detalhes e dados históricos."""
+    score = 0
+    if project_details["desc"]: score += 12
+    if project_details["element_inovador"]: score += 18
+    if project_details["barrier_tecnologico"]: score += 18
+    if project_details["accepted_activities_count"] > 0: score += 18
+    if project_details["hours"] > 40: score += 12
+    if project_details["investment"] > 0 or project_details["rh"] > 0: score += 10
+    
+    # Parte do histórico - correspondência simplificada para o analisador
+    project_identifier_norm = _norm_project_identifier(project_details["code"] or project_details["title"])
+    history_matches = [
+        item for item in history_projects
+        if project_identifier_norm and (_norm_project_identifier(item.get("name", "")) == project_identifier_norm)
+    ]
+    if history_matches: score += min(18, 8 + len(history_matches) * 2)
+    
+    return min(score, 100)
+
+
+def calculate_average_project_maturity(projects: list[dict[str, Any]], tables: dict[str, list[dict[str, Any]]], history_data: dict[str, Any]) -> float:
+    """Calcula a pontuação média de maturidade em todos os projetos."""
+    all_project_maturity_scores = []
+    history_projects_data = history_data.get("projects", [])
+
+    for project_row in projects:
+        details = _get_project_details_for_maturity(project_row, tables)
+        if details["code"] or details["title"]: # Considera apenas projetos com um identificador válido
+            score = _calculate_project_maturity_score(details, history_projects_data)
+            all_project_maturity_scores.append(score)
+
+    return round(sum(all_project_maturity_scores) / len(all_project_maturity_scores), 2) if all_project_maturity_scores else 0.0
 
 
 def parse_bool(value: Any) -> bool:
